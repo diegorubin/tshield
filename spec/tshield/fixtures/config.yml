@@ -1,0 +1,7 @@
+domains:
+  'example.org':
+    - '/api/one'
+    - '/api/two'
+  'example.com':
+    - '/api/three'
+  
