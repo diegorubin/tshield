@@ -1,26 +1,10 @@
-require 'httparty'
-require 'json'
-
-require 'tshield/configuration'
-
 module TShield
-
   class Response
+    attr_accessor :body, :headers
 
-    def initialize(path, options = {})
-      @path = path
-      @options = options 
-      @configuration = TShield::Configuration.singleton
+    def initialize(body, headers)
+      @body = body
+      @headers = headers
     end
-
-    def request
-    end
-
-    def send_response
-      @content
-    end
-
   end
-
 end
-

@@ -1,6 +1,6 @@
 require 'sinatra'
 
-require 'tshield/response'
+require 'tshield/request'
 
 module TShield
   class Server < Sinatra::Base
@@ -47,7 +47,8 @@ module TShield
         "method=#{method} path=#{path} content-type=#{request_content_type}")
 
       set_content_type content_type
-      TShield::Response.new(path, options).send_response
+      response = TShield::Request.new(path, options).response
+      response.body
     end
 
     def set_content_type(request_content_type)
