@@ -15,7 +15,7 @@ module TShield
 
     def get_domain_for(path)
       domains.each do |url, paths|
-        return url if paths.include?(path)
+        paths.each { |p| return url if path =~ Regexp.new(p)  }
       end
       nil
     end
