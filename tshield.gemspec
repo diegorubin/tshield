@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.licenses    = ["MIT"]
   s.summary     = "Proxy for mocks API responses"
   s.email       = "rubin.diego@gmail.com"
-  s.homepage    = "https://github.com:diegorubin/tshield.git"
+  s.homepage    = "https://github.com/diegorubin/tshield"
   s.description = "Proxy for mocks API responses"
   s.authors     = ['Diego Rubin']
 
