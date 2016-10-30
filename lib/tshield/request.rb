@@ -3,16 +3,20 @@ require 'json'
 require 'digest/sha1'
 
 require 'tshield/configuration'
+require 'tshield/counter'
 require 'tshield/response'
 
 module TShield
 
   class Request
 
+    attr_reader :response
+
     def initialize(path, options = {})
       @path = path
       @options = options 
       @configuration = TShield::Configuration.singleton
+      @counter = TShield::Counter.singleton
       request
     end
 
@@ -20,14 +24,12 @@ module TShield
       @url = "#{@configuration.get_domain_for(@path)}/#{@path}"
 
       if exists
+        @response = get_current_response  
       else
-        @response = HTTParty.send("#{method}", @url)
-        save
+        raw = HTTParty.send("#{method}", @url, @options)
+        save(raw)
+        @response = TShield::Response.new(raw.body, raw.header)
       end
-    end
-
-    def response
-      TShield::Response.new(@response.body, @response.header)
     end
 
     private
@@ -35,22 +37,33 @@ module TShield
       @options[:method].downcase
     end
 
-    def save
-      content = []
-      if exists
-        content = JSON.parse(File.open(destiny))
-      end
-
-      puts @response.header
-
-      content << {body: @response.body, header: @response.header}
+    def save(raw_response)
+      content << {body: raw_response.body}
       write(content)
 
       content
     end
 
+    def content
+      return @content if @content
+      @content = []
+      if exists
+        @content = JSON.parse(File.open(destiny).read)
+      end
+      @content
+    end
+
     def exists
-      File.exists?(destiny)
+      File.exists?(destiny) && include_current_response?
+    end
+
+    def include_current_response?
+      true
+    end
+
+    def get_current_response
+      current = content[0]
+      TShield::Response.new(current['body'], current['header']) 
     end
 
     def key

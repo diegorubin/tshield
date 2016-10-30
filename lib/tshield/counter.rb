@@ -1,7 +1,18 @@
 module TShield
   class Counter
 
-    attr_accessor :count
+    attr_reader :sessions
+
+    def initialize
+      @sessions = {}
+    end
+
+    def add(from, key)
+      requests = @sessions.fetch(from, {})
+      requests[key] ||= 0
+      requests[key] += 1
+      @sessions[from] = requests
+    end
 
     def self.singleton
       @@counter ||= init
@@ -9,7 +20,8 @@ module TShield
 
     private
     def self.init
-      Counter.new
+      counter = Counter.new
+      counter
     end
 
   end
