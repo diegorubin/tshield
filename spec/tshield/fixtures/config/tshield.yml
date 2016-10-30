@@ -1,7 +1,9 @@
 domains:
   'example.org':
-    - '/api/one'
-    - '/api/two'
+    paths:
+      - '/api/one'
+      - '/api/two'
   'example.com':
-    - '/api/three'
+    paths:
+      - '/api/three'
   

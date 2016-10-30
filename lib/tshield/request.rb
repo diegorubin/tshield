@@ -21,7 +21,11 @@ module TShield
     end
 
     def request
-      @url = "#{@configuration.get_domain_for(@path)}/#{@path}"
+      if not (@options[:raw_query].nil? or @options[:raw_query].empty?)
+        @path = "#{@path}?#{@options[:raw_query]}"
+      end
+
+      @url = "#{domain}#{@path}"
 
       if exists
         @response = get_current_response  
@@ -33,6 +37,10 @@ module TShield
     end
 
     private
+    def domain
+      @domain ||= @configuration.get_domain_for(@path)
+    end
+
     def method
       @options[:method].downcase
     end
@@ -71,9 +79,21 @@ module TShield
     end
 
     def destiny
-      destiny_path = File.join('requests')
-      Dir.mkdir('requests') unless File.exists?(destiny_path)
-      File.join(destiny_path, key)
+      return @destiny_path if @destiny_path
+
+      request_path = File.join('requests')
+      Dir.mkdir(request_path) unless File.exists?(request_path)
+
+      domain_path = File.join(request_path, domain.gsub(/.*:\/\//, ''))
+      Dir.mkdir(domain_path) unless File.exists?(domain_path)
+
+      path_path = File.join(domain_path, @path.gsub(/\//, '-'))
+      Dir.mkdir(path_path) unless File.exists?(path_path)
+
+      method_path = File.join(path_path, method)
+      Dir.mkdir(method_path) unless File.exists?(method_path)
+
+      @destiny_path = File.join(method_path, 'requests.json')
     end
 
     def write(content)

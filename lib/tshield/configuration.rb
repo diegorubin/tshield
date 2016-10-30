@@ -14,10 +14,14 @@ module TShield
     end
 
     def get_domain_for(path)
-      domains.each do |url, paths|
-        paths.each { |p| return url if path =~ Regexp.new(p)  }
+      domains.each do |url, config|
+        config['paths'].each { |p| return url if path =~ Regexp.new(p)  }
       end
       nil
+    end
+
+    def get_headers(domain)
+      domains[domain]['headers'] || {}
     end
 
     private

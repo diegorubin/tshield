@@ -9,7 +9,7 @@ describe TShield::Configuration do
 
   describe 'load configurations from yaml' do
     it 'recover domains' do
-      expect(@configuration.domains['example.org']).to(
+      expect(@configuration.domains['example.org']['paths']).to(
         include('/api/one', '/api/two'))
     end
   end
