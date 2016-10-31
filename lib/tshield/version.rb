@@ -1,9 +1,9 @@
 module TShield
   class Version
     MAJOR = 0
-    MINOR = 0
-    PATCH = 1
-    PRE = 1
+    MINOR = 1
+    PATCH = 0
+    PRE = 0
 
     class << self
       def to_s
