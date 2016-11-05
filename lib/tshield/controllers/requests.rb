@@ -58,7 +58,8 @@ module TShield
           options = {
             method: method,
             headers: headers,
-            raw_query: request.env['QUERY_STRING']
+            raw_query: request.env['QUERY_STRING'],
+            ip: request.ip
           }
 
           if ['POST', 'PUT', 'PATCH'].include? method

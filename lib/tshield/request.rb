@@ -3,9 +3,9 @@ require 'json'
 require 'byebug'
 
 require 'tshield/configuration'
-require 'tshield/counter'
 require 'tshield/options'
 require 'tshield/response'
+require 'tshield/sessions'
 
 module TShield
 
@@ -17,7 +17,6 @@ module TShield
       @path = path
       @options = options 
       @configuration = TShield::Configuration.singleton
-      @counter = TShield::Counter.singleton
       request
     end
 
@@ -37,6 +36,7 @@ module TShield
         @response = TShield::Response.new(raw.body, raw.header)
         @response.original = true
       end
+      current_session[:counter].add(@path, method)
       debugger if TShield::Options.instance.break?(path: @path, moment: :after)
       @response
     end
@@ -53,29 +53,33 @@ module TShield
     def save(raw_response)
       content << {body: raw_response.body}
       write(content)
-
       content
     end
 
+    def current_session
+      TShield::Sessions.current(@options[:ip])
+    end
+
     def content
-      return @content if @content
-      @content = []
-      if exists
-        @content = JSON.parse(File.open(destiny).read)
-      end
-      @content
+      @content ||= file_exists ? JSON.parse(File.open(destiny).read) : []
+    end
+
+    def file_exists
+      File.exists?(destiny)
     end
 
     def exists
-      File.exists?(destiny) && include_current_response?
+      file_exists  && include_current_response?
     end
 
     def include_current_response?
-      true
+      session = current_session
+      @content_idx = session ? session[:counter].current(@path, method) : 0
+      not content[@content_idx].nil?
     end
 
     def get_current_response
-      current = content[0]
+      current = content[@content_idx || 0]
       TShield::Response.new(current['body'], current['header']) 
     end
 
@@ -88,6 +92,11 @@ module TShield
 
       request_path = File.join('requests')
       Dir.mkdir(request_path) unless File.exists?(request_path)
+
+      if session = current_session
+        request_path = File.join(request_path, session[:name])
+        Dir.mkdir(request_path) unless File.exists?(request_path)
+      end
 
       domain_path = File.join(request_path, domain.gsub(/.*:\/\//, ''))
       Dir.mkdir(domain_path) unless File.exists?(domain_path)

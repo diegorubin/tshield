@@ -1,27 +1,24 @@
 module TShield
   class Counter
 
-    attr_reader :sessions
-
     def initialize
-      @sessions = {}
+      @requests = {}
     end
 
-    def add(from, key)
-      requests = @sessions.fetch(from, {})
-      requests[key] ||= 0
-      requests[key] += 1
-      @sessions[from] = requests
+    def add(path, method)
+      requests_to_path = @requests.fetch(path, {})
+      requests_to_method = requests_to_path.fetch(method, 0)
+
+      requests_to_path[method] = requests_to_method += 1
+      @requests[path] = requests_to_path
     end
 
-    def self.singleton
-      @@counter ||= init
+    def current(path, method)
+      @requests.fetch(path, {}).fetch(method, 0)
     end
 
-    private
-    def self.init
-      counter = Counter.new
-      counter
+    def to_json(options = {})
+      @requests.to_json
     end
 
   end
