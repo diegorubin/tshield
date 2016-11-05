@@ -1,7 +1,10 @@
+require 'yaml'
+
 module TShield
   class Configuration
 
     attr_accessor :domains
+    attr_writer :session_path
 
     def initialize(attributes)
       attributes.each do |key, value|
@@ -22,6 +25,10 @@ module TShield
 
     def get_headers(domain)
       domains[domain]['headers'] || {}
+    end
+
+    def session_path
+      @session_path ||= '/sessions'
     end
 
     private
