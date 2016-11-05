@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency("httparty", "~> 0.14", ">= 0.14.0")
   s.add_dependency("sinatra", "~> 1.4", ">= 1.4.0")
   s.add_dependency("json", "~> 2.0", ">= 2.0")
+  s.add_dependency("byebug", "~> 9.0", ">= 9.0.0")
   s.add_development_dependency("rspec", "~> 3.5", ">= 3.5.0")
   s.add_development_dependency("webmock", "~> 2.1", ">= 2.1.0")
   s.add_development_dependency("simplecov", "~> 0.12", ">= 0.12.0")

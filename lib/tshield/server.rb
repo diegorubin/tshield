@@ -2,6 +2,9 @@
 
 require 'sinatra'
 
+require 'byebug'
+
+require 'tshield/options'
 require 'tshield/configuration'
 require 'tshield/request'
 
@@ -36,10 +39,12 @@ module TShield
 
     private
     def treat(params, request)
+      path = params.fetch('captures', [])[0]
+
+      debugger if TShield::Options.instance.break?(path: path, moment: :before)
 
       method = request.request_method
       request_content_type = request.content_type
-      path = params.fetch('captures', [])[0]
 
       headers = {
         'Content-Type' => request.content_type || 'application/json'
@@ -62,11 +67,13 @@ module TShield
         options[:body] = result
       end
 
-      logger.info(
-        "method=#{method} path=#{path} content-type=#{request_content_type}")
-
       set_content_type content_type
+
       response = TShield::Request.new(path, options).response
+
+      logger.info(
+        "original=#{response.original} method=#{method} path=#{path} content-type=#{request_content_type}")
+
       response.body
     end
 

@@ -1,9 +1,10 @@
 require 'httparty'
 require 'json'
-require 'digest/sha1'
+require 'byebug'
 
 require 'tshield/configuration'
 require 'tshield/counter'
+require 'tshield/options'
 require 'tshield/response'
 
 module TShield
@@ -29,11 +30,15 @@ module TShield
 
       if exists
         @response = get_current_response  
+        @response.original = false
       else
         raw = HTTParty.send("#{method}", @url, @options)
         save(raw)
         @response = TShield::Response.new(raw.body, raw.header)
+        @response.original = true
       end
+      debugger if TShield::Options.instance.break?(path: @path, moment: :after)
+      @response
     end
 
     private
@@ -87,7 +92,7 @@ module TShield
       domain_path = File.join(request_path, domain.gsub(/.*:\/\//, ''))
       Dir.mkdir(domain_path) unless File.exists?(domain_path)
 
-      path_path = File.join(domain_path, @path.gsub(/\//, '-'))
+      path_path = File.join(domain_path, @path.gsub(/\//, '-').gsub(/^-/, ''))
       Dir.mkdir(path_path) unless File.exists?(path_path)
 
       method_path = File.join(path_path, method)
