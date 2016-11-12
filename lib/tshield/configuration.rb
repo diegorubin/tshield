@@ -27,6 +27,10 @@ module TShield
       domains[domain]['headers'] || {}
     end
 
+    def get_excluded_headers(domain)
+      domains[domain]['excluded_headers'] || []
+    end
+
     def session_path
       @session_path ||= '/sessions'
     end

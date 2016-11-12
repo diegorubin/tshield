@@ -1,10 +1,11 @@
 module TShield
   class Response
-    attr_accessor :body, :headers, :original
+    attr_accessor :body, :headers, :status, :original
 
-    def initialize(body, headers)
+    def initialize(body, headers, status)
       @body = body
       @headers = headers
+      @status = status
     end
   end
 end

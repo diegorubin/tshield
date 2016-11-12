@@ -7,41 +7,41 @@ require 'byebug'
 require 'tshield/options'
 require 'tshield/configuration'
 require 'tshield/request'
+require 'tshield/sessions'
 
 module TShield
   module Controllers
     module Requests
-      PATHP = /([a-zA-Z\/\.-_]+)/
+      PATHP = /([a-zA-Z\/\._-]+)/
 
       def self.registered(app)
         app.configure :production, :development do
           app.enable :logging
         end
-
         
         app.get (PATHP) do
-          treat(params, request)
+          treat(params, request, response)
         end
 
         app.post (PATHP) do
-          treat(params, request)
+          treat(params, request, response)
         end
 
         app.put (PATHP) do
-          treat(params, request)
+          treat(params, request, response)
         end
 
         app.patch (PATHP) do
-          treat(params, request)
+          treat(params, request, response)
         end
 
         app.head (PATHP) do
-          treat(params, request)
+          treat(params, request, response)
         end
       end
 
       module Helpers
-        def treat(params, request)
+        def treat(params, request, response)
           path = params.fetch('captures', [])[0]
 
           debugger if TShield::Options.instance.break?(path: path, moment: :before)
@@ -73,24 +73,37 @@ module TShield
 
           set_content_type content_type
 
-          response = TShield::Request.new(path, options).response
+          api_response = TShield::Request.new(path, options).response
 
           logger.info(
-            "original=#{response.original} method=#{method} path=#{path} content-type=#{request_content_type}")
+            "original=#{api_response.original} method=#{method} path=#{path} content-type=#{request_content_type} session=#{current_session_name(request)}")
 
-          response.body
+          status api_response.status
+          headers api_response.headers.reject { |k,v| configuration.get_excluded_headers(domain(path)).include?(k) }
+          body api_response.body
         end
 
         def set_content_type(request_content_type)
           content_type :json
         end
 
+        def current_session_name(request)
+          session = TShield::Sessions.current(request.ip)
+          session ? session[:name] : 'no-session'
+        end
+
         def add_headers(headers, path)
-          @configuration ||= TShield::Configuration.singleton
-          domain = @configuration.get_domain_for(path)
-          @configuration.get_headers(domain).each do |source, destiny| 
+          configuration.get_headers(domain(path)).each do |source, destiny| 
             headers[destiny] = request.env[source] unless request.env[source].nil?
           end
+        end
+
+        def configuration
+          @configuration ||= TShield::Configuration.singleton
+        end
+
+        def domain(path)
+          @domain ||= configuration.get_domain_for(path)
         end
       end
     end

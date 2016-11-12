@@ -32,8 +32,7 @@ module TShield
         @response.original = false
       else
         raw = HTTParty.send("#{method}", @url, @options)
-        save(raw)
-        @response = TShield::Response.new(raw.body, raw.header)
+        @response = save(raw)
         @response.original = true
       end
       current_session[:counter].add(@path, method) if current_session
@@ -51,9 +50,18 @@ module TShield
     end
 
     def save(raw_response)
-      content << {body: raw_response.body}
+      headers = {}
+      raw_response.headers.each {|k,v| headers[k] = v}
+
+      content << {
+        body: raw_response.body, 
+        status: raw_response.code,
+        headers: headers
+      }
+
       write(content)
-      content
+
+      TShield::Response.new(raw_response.body, headers, raw_response.code)
     end
 
     def current_session
@@ -69,7 +77,7 @@ module TShield
     end
 
     def exists
-      file_exists  && include_current_response?
+      file_exists && include_current_response?
     end
 
     def include_current_response?
@@ -80,7 +88,7 @@ module TShield
 
     def get_current_response
       current = content[@content_idx || 0]
-      TShield::Response.new(current['body'], current['header']) 
+      TShield::Response.new(current['body'], current['headers'] || [], current['status'] || 200) 
     end
 
     def key
