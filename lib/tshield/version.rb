@@ -2,7 +2,7 @@ module TShield
   class Version
     MAJOR = 0
     MINOR = 3
-    PATCH = 2
+    PATCH = 3
     PRE = 0
 
     class << self

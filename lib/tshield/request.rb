@@ -112,7 +112,6 @@ module TShield
       Dir.mkdir(domain_path) unless File.exists?(domain_path)
 
       path_path = File.join(domain_path, safe_dir(@path))
-      debugger
       Dir.mkdir(path_path) unless File.exists?(path_path)
 
       method_path = File.join(path_path, method)
