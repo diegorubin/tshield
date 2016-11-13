@@ -2,6 +2,8 @@ require 'httparty'
 require 'json'
 require 'byebug'
 
+require 'digest/sha1'
+
 require 'tshield/configuration'
 require 'tshield/options'
 require 'tshield/response'
@@ -109,7 +111,8 @@ module TShield
       domain_path = File.join(request_path, domain.gsub(/.*:\/\//, ''))
       Dir.mkdir(domain_path) unless File.exists?(domain_path)
 
-      path_path = File.join(domain_path, @path.gsub(/\//, '-').gsub(/^-/, ''))
+      path_path = File.join(domain_path, safe_dir(@path))
+      debugger
       Dir.mkdir(path_path) unless File.exists?(path_path)
 
       method_path = File.join(path_path, method)
@@ -122,6 +125,16 @@ module TShield
       f = File.open(destiny, 'w')
       f.write(content.to_json)
       f.close
+    end
+
+    def safe_dir(url)
+      if url.size > 225
+        path = url.gsub(/(\?.*)/, '')
+        params = Digest::SHA1.hexdigest $1
+        "#{path.gsub(/\//, '-').gsub(/^-/, '')}?#{params}"
+      else
+        url.gsub(/\//, '-').gsub(/^-/, '')
+      end
     end
 
   end
