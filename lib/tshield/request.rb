@@ -55,7 +55,7 @@ module TShield
       headers = {}
       raw_response.headers.each {|k,v| headers[k] = v}
 
-      content << {
+      content = {
         body: raw_response.body, 
         status: raw_response.code,
         headers: headers
@@ -71,21 +71,16 @@ module TShield
     end
 
     def content
-      @content ||= file_exists ? JSON.parse(File.open(destiny).read) : []
+      JSON.parse(File.open(destiny).read)
     end
 
     def file_exists
+      @content_idx = session ? session[:counter].current(@path, method) : 0
       File.exists?(destiny)
     end
 
     def exists
-      file_exists && include_current_response?
-    end
-
-    def include_current_response?
-      session = current_session
-      @content_idx = session ? session[:counter].current(@path, method) : 0
-      not content[@content_idx].nil?
+      file_exists
     end
 
     def get_current_response
@@ -117,7 +112,7 @@ module TShield
       method_path = File.join(path_path, method)
       Dir.mkdir(method_path) unless File.exists?(method_path)
 
-      @destiny_path = File.join(method_path, 'requests.json')
+      @destiny_path = File.join(method_path, "#{@content_idx}.json")
     end
 
     def write(content)

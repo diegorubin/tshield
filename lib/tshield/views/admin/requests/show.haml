@@ -1,0 +1,25 @@
+%h1
+  #{@session} - #{@domain} - Requests
+
+- @requests.each do |request|
+  .request-details
+    %h2
+      = request['title']
+      %span.method{class: request['method']}= request['method']
+      %span.position= request['position']
+    .request-content
+      %p.content.status
+        %label
+          Status
+        %input{type: 'text', value: request['status']}
+      %p.content.body
+        %label
+          Body
+        %textarea
+          = request['body']
+      %p.content.headers
+        %label
+          Headers
+        %textarea
+          = request['headers']
+

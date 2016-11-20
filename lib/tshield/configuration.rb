@@ -31,8 +31,19 @@ module TShield
       domains[domain]['excluded_headers'] || []
     end
 
+    def options(path)
+    end
+
     def session_path
-      @session_path ||= '/sessions'
+      @session_path || '/sessions'
+    end
+
+    def admin_session_path
+      @admin_session_path || '/admin/sessions'
+    end
+
+    def admin_request_path
+      @admin_request_path || '/admin/requests'
     end
 
     private

@@ -1,0 +1,6 @@
+%h1
+  #{@session} - Domains
+
+- @domains.each do |domain|
+  %a.session-button{href: admin_domain_requests_path(@session, domain)}
+    = domain
