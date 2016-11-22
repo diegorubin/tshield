@@ -12,7 +12,7 @@ require 'tshield/sessions'
 module TShield
   module Controllers
     module Requests
-      PATHP = /([a-zA-Z\/\._-]+)/
+      PATHP = /([a-zA-Z0-9\/\._-]+)/
 
       def self.registered(app)
         app.configure :production, :development do

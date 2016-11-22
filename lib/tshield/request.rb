@@ -71,10 +71,11 @@ module TShield
     end
 
     def content
-      JSON.parse(File.open(destiny).read)
+      @content ||= JSON.parse(File.open(destiny).read)
     end
 
     def file_exists
+      session = current_session
       @content_idx = session ? session[:counter].current(@path, method) : 0
       File.exists?(destiny)
     end
@@ -84,8 +85,7 @@ module TShield
     end
 
     def get_current_response
-      current = content[@content_idx || 0]
-      TShield::Response.new(current['body'], current['headers'] || [], current['status'] || 200) 
+      TShield::Response.new(content['body'], content['headers'] || [], content['status'] || 200) 
     end
 
     def key
