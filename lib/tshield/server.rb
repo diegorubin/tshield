@@ -14,6 +14,18 @@ module TShield
     include TShield::Controllers::Admin::Sessions::Helpers
     include TShield::Controllers::Admin::Requests::Helpers
 
+    if File.exists?('controllers')
+      Dir.entries('controllers').each do |entry|
+        next if entry =~ /^\.\.?$/
+        entry.gsub!('.rb', '')
+        require File.join('.', 'controllers', entry)
+        controller_name = entry.split('_').collect(&:capitalize).join
+        include Module.const_get("#{controller_name}::Actions")
+        register Module.const_get(controller_name)
+      end
+    end
+
+    set :protection, :except => [:json_csrf]
     set :public_dir, File.join(File.dirname(__FILE__), 'assets')
     set :views, File.join(File.dirname(__FILE__), 'views')
 
