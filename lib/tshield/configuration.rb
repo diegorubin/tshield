@@ -3,6 +3,7 @@ require 'yaml'
 module TShield
   class Configuration
 
+    attr_accessor :request
     attr_accessor :domains
     attr_writer :session_path
 
@@ -25,6 +26,10 @@ module TShield
 
     def get_headers(domain)
       domains[domain]['headers'] || {}
+    end
+
+    def get_name(domain)
+      domains[domain]['name'] || domain.gsub(/.*:\/\//, '')
     end
 
     def get_excluded_headers(domain)

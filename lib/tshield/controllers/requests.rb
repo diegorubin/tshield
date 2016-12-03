@@ -38,6 +38,10 @@ module TShield
         app.head (PATHP) do
           treat(params, request, response)
         end
+
+        app.delete (PATHP) do
+          treat(params, request, response)
+        end
       end
 
       module Helpers

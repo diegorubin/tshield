@@ -19,6 +19,7 @@ module TShield
       @path = path
       @options = options 
       @configuration = TShield::Configuration.singleton
+      @options[:timeout] =  @configuration.request['timeout']
       request
     end
 
@@ -45,6 +46,10 @@ module TShield
     private
     def domain
       @domain ||= @configuration.get_domain_for(@path)
+    end
+
+    def name
+      @name ||= @configuration.get_name(domain)
     end
 
     def method
@@ -103,10 +108,10 @@ module TShield
         Dir.mkdir(request_path) unless File.exists?(request_path)
       end
 
-      domain_path = File.join(request_path, domain.gsub(/.*:\/\//, ''))
-      Dir.mkdir(domain_path) unless File.exists?(domain_path)
+      name_path = File.join(request_path, name)
+      Dir.mkdir(name_path) unless File.exists?(name_path)
 
-      path_path = File.join(domain_path, safe_dir(@path))
+      path_path = File.join(name_path, safe_dir(@path))
       Dir.mkdir(path_path) unless File.exists?(path_path)
 
       method_path = File.join(path_path, method)
