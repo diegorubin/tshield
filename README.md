@@ -16,42 +16,45 @@ To run server execute this command
 Before run `tshield` command is necessary to create config file.
 This is an example of `config/tshield.yml`
 
-    request:
-      # wait time for real service
-      timeout: 8
+```yaml
+request:
+  # wait time for real service
+  timeout: 8
 
-    # list of domains that will be used
-    domains:
-      # Base URI of service
-      'https://service.com':
-        # name to identify the domain in the generated files
-        name: 'service'
+# list of domains that will be used
+domains:
+  # Base URI of service
+  'https://service.com':
+    # name to identify the domain in the generated files
+    name: 'service'
 
-        # paths list of all services that will be called
-        paths:
-          - /users
+    # paths list of all services that will be called
+    paths:
+      - /users
+```
 
-### Custom controlelrs
+### Custom controllers
 
 All custom controller should be created in `controllers` directory.
 
 Example of controller file called `controllers/foo_controller.rb`
 
-    require 'json'
-    require 'tshield/controller'
-    
-    module FooController
-      include TShield::Controller
-      action :tracking, methods: [:post], path: '/foo'
-    
-      module Actions
-        def tracking(params, request)
-          status 201
-          headers 'Content-Type' => 'application/json'
-          {message: 'foo'}.to_json
-        end
-      end
-    end
+```ruby
+require 'json'
+require 'tshield/controller'
 
+module FooController
+  include TShield::Controller
+  action :tracking, methods: [:post], path: '/foo'
+
+  module Actions
+    def tracking(params, request)
+      status 201
+      headers 'Content-Type' => 'application/json'
+      {message: 'foo'}.to_json
+    end
+  end
+end
+```
 
 
