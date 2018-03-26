@@ -5,6 +5,7 @@ module TShield
 
     attr_accessor :request
     attr_accessor :domains
+    attr_accessor :tcp_servers
     attr_writer :session_path
 
     def initialize(attributes)
@@ -34,9 +35,6 @@ module TShield
 
     def get_excluded_headers(domain)
       domains[domain]['excluded_headers'] || []
-    end
-
-    def options(path)
     end
 
     def session_path
