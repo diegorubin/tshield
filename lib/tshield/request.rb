@@ -20,6 +20,7 @@ module TShield
       @options = options 
       @configuration = TShield::Configuration.singleton
       @options[:timeout] =  @configuration.request['timeout']
+      @options[:verify] =  @configuration.request['verify_ssl'] == 'true'
       request
     end
 
