@@ -1,5 +1,8 @@
 require 'yaml'
 
+require 'tshield/after_filter'
+require 'tshield/before_filter'
+
 module TShield
   class Configuration
 
@@ -12,6 +15,15 @@ module TShield
       attributes.each do |key, value|
         send("#{key}=", value)
       end
+
+      if File.exists?('filters')
+        Dir.entries('filters').each do |entry|
+          next if entry =~ /^\.\.?$/
+          puts "loading filter #{entry}"
+          entry.gsub!('.rb', '')
+          require File.join('.', 'filters', entry)
+        end
+      end
     end
 
     def self.singleton
@@ -20,7 +32,7 @@ module TShield
 
     def get_domain_for(path)
       domains.each do |url, config|
-        config['paths'].each { |p| return url if path =~ Regexp.new(p)  }
+        config['paths'].each { |p| return url if path =~ Regexp.new(p) }
       end
       nil
     end
@@ -31,6 +43,26 @@ module TShield
 
     def get_name(domain)
       domains[domain]['name'] || domain.gsub(/.*:\/\//, '')
+    end
+
+    def get_before_filters(domain)
+      get_filters(domain)
+        .select { |k| k.ancestors.include?(TShield::BeforeFilter) }
+    end
+
+    def get_after_filters(domain)
+      get_filters(domain)
+        .select { |k| k.ancestors.include?(TShield::AfterFilter) }
+    end
+
+    def cache_request?(domain)
+      return true unless domains[domain].include?('cache_request')
+      domains[domain]['cache_request']
+    end
+
+    def get_filters(domain)
+      (domains[domain]['filters'] || [])
+        .collect { |f| Class.const_get(f) }
     end
 
     def get_excluded_headers(domain)

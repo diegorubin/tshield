@@ -20,7 +20,7 @@ module TShield
       @options = options 
       @configuration = TShield::Configuration.singleton
       @options[:timeout] =  @configuration.request['timeout']
-      @options[:verify] =  @configuration.request['verify_ssl'] == 'true'
+      @options[:verify] =  @configuration.request['verify_ssl']
       request
     end
 
@@ -35,8 +35,19 @@ module TShield
         @response = get_current_response  
         @response.original = false
       else
-        raw = HTTParty.send("#{method}", @url, @options)
+        @method = method
+        @configuration.get_before_filters(domain).each do |filter|
+          @method, @url, @options = filter.new.filter(@method, @url, @options)
+        end
+
+        raw = HTTParty.send("#{@method}", @url, @options)
+
+        @configuration.get_after_filters(domain).each do |filter|
+          raw = filter.new.filter(raw)
+        end
+
         @response = save(raw)
+
         @response.original = true
       end
       current_session[:counter].add(@path, method) if current_session
@@ -87,7 +98,7 @@ module TShield
     end
 
     def exists
-      file_exists
+      file_exists && @configuration.cache_request?(domain)
     end
 
     def get_current_response
