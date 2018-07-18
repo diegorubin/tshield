@@ -28,6 +28,7 @@ module TShield
     set :protection, :except => [:json_csrf]
     set :public_dir, File.join(File.dirname(__FILE__), 'assets')
     set :views, File.join(File.dirname(__FILE__), 'views')
+    set :bind, '0.0.0.0'
 
     register TShield::Controllers::Admin::Sessions
     register TShield::Controllers::Admin::Requests

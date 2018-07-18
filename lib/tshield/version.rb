@@ -3,7 +3,7 @@ module TShield
     MAJOR = 0
     MINOR = 6
     PATCH = 1
-    PRE = 0
+    PRE = 1
 
     class << self
       def to_s
