@@ -70,7 +70,11 @@ module TShield
 
     def save(raw_response)
       headers = {}
-      raw_response.headers.each {|k,v| headers[k] = v}
+      raw_response.headers.each do |k,v| 
+        if !@configuration.not_save_headers(domain).include? k
+          headers[k] = v
+        end
+      end
 
       content = {
         body: raw_response.body, 
