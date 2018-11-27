@@ -88,7 +88,11 @@ module TShield
     end
 
     def content
-      @content ||= JSON.parse(File.open(destiny).read)
+      return @content if @content
+
+      @content = JSON.parse(File.open(destiny).read)
+      @content['body'] = File.open(destiny(true)).read
+      @content
     end
 
     def file_exists
@@ -109,9 +113,7 @@ module TShield
       @key ||= Digest::SHA1.hexdigest "#{@url}|#{method}"
     end
 
-    def destiny
-      return @destiny_path if @destiny_path
-
+    def destiny(iscontent = false)
       request_path = File.join('requests')
       Dir.mkdir(request_path) unless File.exists?(request_path)
 
@@ -128,14 +130,23 @@ module TShield
 
       method_path = File.join(path_path, method)
       Dir.mkdir(method_path) unless File.exists?(method_path)
-
-      @destiny_path = File.join(method_path, "#{@content_idx}.json")
+      
+      destiny_name = iscontent ? "#{@content_idx}.content" : "#{@content_idx}.json"
+      File.join(method_path, destiny_name)
     end
 
     def write(content)
-      f = File.open(destiny, 'w')
-      f.write(content.to_json)
+      f = File.open(destiny(true), 'w')
+      f.write(content[:body])
       f.close
+
+      body = content.delete :body
+
+      f = File.open(destiny, 'w')
+      f.write(JSON.pretty_generate(content))
+      f.close
+
+      content[:body] = body
     end
 
     def safe_dir(url)
