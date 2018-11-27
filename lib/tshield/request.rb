@@ -91,7 +91,7 @@ module TShield
       return @content if @content
 
       @content = JSON.parse(File.open(destiny).read)
-      @content['body'] = File.open(destiny(true)).read
+      @content['body'] = File.open(destiny(true)).read unless @content['body']
       @content
     end
 
