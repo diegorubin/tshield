@@ -48,6 +48,7 @@ domains:
 #### Admin UI
 
 **[WIP]**
+
 http://localhost:4567/admin/sessions
 
 ## Config options
@@ -93,37 +94,48 @@ domains:
       - /users
 ```
 **request**
-* timeout: wait time for real service in seconds
-* verify_ssl: <<some_description>>
+* **timeout**: wait time for real service in seconds
+* **verify_ssl**: <<some_description>>
 
 **domain**
 * Define Base URI of service
-* name: Name to identify the domain in the generated files
-* headers: <<some_description>>
-* not_save_headers: <<some_description>>
-* cache_request: <<some_description>>
-* filters: <<some_description>>
-* excluded_headers: <<some_description>>
-* paths: paths list of all services that will be called
+* **name**: Name to identify the domain in the generated files
+* **headers**: <<some_description>>
+* **not_save_headers**: <<some_description>>
+* **cache_request**: <<some_description>>
+* **filters**: <<some_description>>
+* **excluded_headers**: <<some_description>>
+* **paths**: Paths list of all services that will be called. Used to filter what domain will "receive the request"
 
 ## Manage Sessions
-**[WIP]**
 
 You can use TShield sessions to separate multiple scenarios for your mocks
 
-TShield use <<folder_name>> as default session
+By default TShield save request/response into 
+
+    requests/<<domain_name>>/<<resource_with_param>>/<<http_verb>>/<<index_based.content and json>>
+    
+If you start a session a folder with de **session_name** will be placed between **"requests/"** and **"<<domain_name>>"**
 
 ### Start TShield session
-Start new or existing session
+**Start new or existing session**
 
-POST to http://localhost:4567/sessions with payload 
+_POST_ to http://localhost:4567/sessions?name=<<same_name>>
 
-{ name: <<<same_name>> }
+```
+curl -X POST \
+  'http://localhost:4567/sessions?name=my_valid'
+```
 
 ### Stop TShield session
-Stop current session
+**Stop current session**
 
-DELETE to http://localhost:4567/sessions
+_DELETE_ to http://localhost:4567/sessions
+
+```
+curl -X DELETE \
+  http://localhost:4567/sessions
+```
 
 ## Custom controllers
 
