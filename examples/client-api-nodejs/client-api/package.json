@@ -1,0 +1,14 @@
+{
+  "name": "client-api",
+  "version": "1.0.0",
+  "description": "Example Client API for Tenor",
+  "main": "application.js",
+  "scripts": {
+    "start": "node application.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
