@@ -163,7 +163,7 @@ end
 
 ## Samples
 #### Basic sample for a client app requesting a server API
-**[WIP]**
+[examples/client-api-nodejs](examples/client-api-nodejs)
 #### Basic sample for componente/integration test
 **[WIP]**
 
