@@ -1,8 +1,8 @@
-const getGifByCharacter = require('../../usecases/getGifByCharacter');
+const getCharacterGif = require('../../usecases/getCharacterGif');
 
 const marvelControler = {
   marvelGif(req, res) {
-    getGifByCharacter(req.query.name).then((response) => {
+    getCharacterGif(req.query.name).then((response) => {
       res.send(response);
     }).catch((error) => {
       res.send(error);
