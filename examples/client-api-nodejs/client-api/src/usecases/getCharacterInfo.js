@@ -24,7 +24,7 @@ module.exports = (characterName) => new Promise((resolve, reject) => {
   }).catch((error) => {
     console.error(error);
     reject({
-      status: 'nok',
+      status: 'error',
       error,
     })
   });
