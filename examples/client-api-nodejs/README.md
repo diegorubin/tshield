@@ -1,87 +1,87 @@
-# Project Title
+# Client API example with Node.js
 
-One Paragraph of project description goes here
+Example using tshield as offline api mock
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+This example use Node.js and Ruby
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+#### Mock server project (mock-server)
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+##### Install bundler
+To get started, install the bundler:
 
 ```
-until finished
+  gem install bundler
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+##### Project Installation
+Then you should be able to run the following command to prepare your environment:
 
 ```
-Give an example
+  bundle install
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
+##### Start tshield
+Now run tshield to start mock server
 
 ```
-Give an example
+  tshield
 ```
 
-## Deployment
+#### Client API project (client-api)
 
-Add additional notes about how to deploy this on a live system
+##### Project Installation
+Run the following command to prepare your environment:
 
-## Built With
+```
+  npm i
+```
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+##### Start application
+To run with tshield mock server run the following command
 
-## Contributing
+```
+  npm run start-mock
+```
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+To run without mock run the following command
 
-## Versioning
+```
+  npm run start
+```
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+##### Testing requests
 
-## Authors
+After start mock-server and client-api access swagger interface for testing requests:
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+http://localhost:8080/api-docs
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+For this example the valid filters are:
 
-## License
+- hulk
+- spider-man
+- spider man
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+For other filters you need to config Marvel and Tenor API keys for valid authorization.
 
-## Acknowledgments
+After get valid API keys start application with this env vars:
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+- MARVEL_API_PRIVATE_KEY
+- MARVEL_API_PUBLIC_KEY
+- TENOR_API_KEY
+
+**Example**:
+
+```
+MARVEL_API=http://localhost:4567 \
+TENOR_API=http://localhost:4567 \
+MARVEL_API_PRIVATE_KEY=<<private-key>> \
+MARVEL_API_PUBLIC_KEY=<<pubic-key>> \
+TENOR_API_KEY=<<key>> \
+npm run start
+```
