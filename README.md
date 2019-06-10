@@ -1,5 +1,8 @@
 TShield
 =======
+
+[![Build Status](https://travis-ci.org/diegorubin/tshield.svg)](https://travis-ci.org/diegorubin/tshield)
+
 ## API mocks for development and testing
 TShield is an open source proxy for mocks API responses.
 
