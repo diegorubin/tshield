@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 2.1
+
+notifications:
+  email:
+    - rubin.diego@gmail.com
+
+gemfile:
+  - Gemfile
+
+script: bundle exec rspec
