@@ -15,7 +15,7 @@ engines:
   eslint:
     enabled: true
   csslint:
-    enabled: true
+    enabled: false
   rubocop:
     enabled: true
   duplication:
