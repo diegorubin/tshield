@@ -2,6 +2,7 @@ TShield
 =======
 
 [![Build Status](https://travis-ci.org/diegorubin/tshield.svg)](https://travis-ci.org/diegorubin/tshield)
+[![Ebert](https://ebertapp.io/github/diegorubin/tshield.svg)](https://ebertapp.io/github/diegorubin/tshield)
 
 ## API mocks for development and testing
 TShield is an open source proxy for mocks API responses.
