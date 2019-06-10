@@ -6,3 +6,5 @@ coverage
 config
 requests
 .idea
+node_modules
+local-run.sh
