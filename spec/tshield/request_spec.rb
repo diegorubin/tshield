@@ -2,6 +2,8 @@
 
 require 'spec_helper'
 
+require 'tshield/request'
+
 describe TShield::Request do
   describe 'when save response' do
     it '' do
