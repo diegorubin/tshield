@@ -1,33 +1,34 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 require 'tshield/after_filter'
 require 'tshield/before_filter'
 
 module TShield
+  # Class for read configuration file
   class Configuration
-
     attr_accessor :request
     attr_accessor :domains
     attr_accessor :tcp_servers
     attr_writer :session_path
 
     def initialize(attributes)
-      attributes.each do |key, value|
-        send("#{key}=", value)
-      end
+      attributes.each { |key, value| send("#{key}=", value) }
 
-      if File.exists?('filters')
-        Dir.entries('filters').each do |entry|
-          next if entry =~ /^\.\.?$/
-          puts "loading filter #{entry}"
-          entry.gsub!('.rb', '')
-          require File.join('.', 'filters', entry)
-        end
+      return unless File.exist?('filters')
+
+      Dir.entries('filters').each do |entry|
+        next if entry =~ /^\.\.?$/
+
+        puts "loading filter #{entry}"
+        entry.gsub!('.rb', '')
+        require File.join('.', 'filters', entry)
       end
     end
 
     def self.singleton
-      @@configuration ||= load_configuration
+      @singleton ||= load_configuration
     end
 
     def get_domain_for(path)
@@ -42,7 +43,7 @@ module TShield
     end
 
     def get_name(domain)
-      domains[domain]['name'] || domain.gsub(/.*:\/\//, '')
+      domains[domain]['name'] || domain.gsub(%r{.*://}, '')
     end
 
     def get_before_filters(domain)
@@ -57,6 +58,7 @@ module TShield
 
     def cache_request?(domain)
       return true unless domains[domain].include?('cache_request')
+
       domains[domain]['cache_request']
     end
 
@@ -85,14 +87,11 @@ module TShield
       @admin_request_path || '/admin/requests'
     end
 
-    private
     def self.load_configuration
       config_path = File.join('config', 'tshield.yml')
       file = File.open(config_path)
-      configs = YAML::load(file.read)
+      configs = YAML.safe_load(file.read)
       Configuration.new(configs)
     end
-
   end
 end
-

@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
+require 'tshield/configuration'
 require 'spec_helper'
 
 describe TShield::Configuration do
   before :each do
-    allow(File).to(
-      receive(:join).and_return('spec/tshield/fixtures/config/tshield.yml')
-    )
     @configuration = TShield::Configuration.singleton
   end
 
