@@ -8,3 +8,4 @@ requests
 .idea
 node_modules
 local-run.sh
+*.iml
