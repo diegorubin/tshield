@@ -1,9 +1,13 @@
+request:
+  timeout: 0
 domains:
   'example.org':
+    name: 'example.org'
     paths:
       - '/api/one'
       - '/api/two'
   'example.com':
+    name: 'example.com'
     paths:
       - '/api/three'
   
