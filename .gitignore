@@ -9,3 +9,6 @@ requests
 node_modules
 local-run.sh
 *.iml
+
+!examples/**/config
+!examples/**/requests

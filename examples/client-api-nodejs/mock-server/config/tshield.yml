@@ -1,0 +1,15 @@
+request:
+  timeout: 8
+
+domains:
+  'https://api.tenor.com':
+    name: 'tenor'
+    paths:
+      - /v1/search
+      - /v1/categories
+
+  'https://gateway.marvel.com':
+    name: 'marvel'
+    paths:
+      - /v1/public/characters
+      - /v1/public/comics
