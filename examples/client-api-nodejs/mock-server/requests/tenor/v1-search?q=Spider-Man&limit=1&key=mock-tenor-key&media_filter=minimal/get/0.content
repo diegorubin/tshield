@@ -1,0 +1,49 @@
+{
+  "weburl": "https://tenor.com/search/spider_man-gifs", 
+  "results": [
+    {
+      "tags": [], 
+      "url": "https://tenor.com/XE21.gif", 
+      "media": [
+        {
+          "tinygif": {
+            "url": "https://media.tenor.com/images/fdc7441131e68b76d9141ebddfb7d7c9/tenor.gif", 
+            "dims": [
+              220, 
+              123
+            ], 
+            "preview": "https://media.tenor.com/images/14b6c966ae4e8ec958a96ee5ee1b56d0/tenor.gif", 
+            "size": 18233
+          }, 
+          "gif": {
+            "url": "https://media.tenor.com/images/837072ca19e3c5cebea76e2693f3100d/tenor.gif", 
+            "dims": [
+              498, 
+              278
+            ], 
+            "preview": "https://media.tenor.com/images/3329f9d88c2205427cefc48fb42fed7f/tenor.png", 
+            "size": 2645922
+          }, 
+          "mp4": {
+            "url": "https://media.tenor.com/videos/a10be1e997ba00c9718baf91ffb4bae4/mp4", 
+            "dims": [
+              640, 
+              358
+            ], 
+            "duration": 2.75, 
+            "preview": "https://media.tenor.com/images/3329f9d88c2205427cefc48fb42fed7f/tenor.png", 
+            "size": 88675
+          }
+        }
+      ], 
+      "created": 1525890586.422246, 
+      "shares": 1, 
+      "itemurl": "https://tenor.com/view/two-spiderman-pointing-meme-gif-11796793", 
+      "composite": null, 
+      "hasaudio": false, 
+      "title": "", 
+      "id": "11796793"
+    }
+  ], 
+  "next": "1"
+}

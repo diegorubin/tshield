@@ -1,0 +1,49 @@
+{
+  "weburl": "https://tenor.com/search/character-not-found-gifs", 
+  "results": [
+    {
+      "tags": [], 
+      "url": "https://tenor.com/I5Ui.gif", 
+      "media": [
+        {
+          "tinygif": {
+            "url": "https://media.tenor.com/images/969e4730c44fc809a358ae9eb12391b5/tenor.gif", 
+            "dims": [
+              220, 
+              161
+            ], 
+            "preview": "https://media.tenor.com/images/cfefeab5826163c9181737576e08a799/tenor.gif", 
+            "size": 4535
+          }, 
+          "gif": {
+            "url": "https://media.tenor.com/images/33d80c2f47424356a5b214ce41527c38/tenor.gif", 
+            "dims": [
+              412, 
+              302
+            ], 
+            "preview": "https://media.tenor.com/images/335b5c0d3e1f5d828a4e744d25bb51b8/raw", 
+            "size": 407681
+          }, 
+          "mp4": {
+            "url": "https://media.tenor.com/videos/c8ea4130d296b275578393cc7fd28eff/mp4", 
+            "dims": [
+              412, 
+              302
+            ], 
+            "duration": 1.4, 
+            "preview": "https://media.tenor.com/images/335b5c0d3e1f5d828a4e744d25bb51b8/raw", 
+            "size": 13613
+          }
+        }
+      ], 
+      "created": 1492626404.31009, 
+      "shares": 1, 
+      "itemurl": "https://tenor.com/view/gif-emotion-not-found-gif-8325120", 
+      "composite": null, 
+      "hasaudio": false, 
+      "title": "", 
+      "id": "8325120"
+    }
+  ], 
+  "next": "1"
+}
