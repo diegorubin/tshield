@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'haml'
 
@@ -9,14 +11,14 @@ require 'tshield/controllers/admin/sessions'
 
 module TShield
   class Server < Sinatra::Base
-
     include TShield::Controllers::Requests::Helpers
     include TShield::Controllers::Admin::Sessions::Helpers
     include TShield::Controllers::Admin::Requests::Helpers
 
-    if File.exists?('controllers')
+    if File.exist?('controllers')
       Dir.entries('controllers').each do |entry|
         next if entry =~ /^\.\.?$/
+
         entry.gsub!('.rb', '')
         require File.join('.', 'controllers', entry)
         controller_name = entry.split('_').collect(&:capitalize).join
@@ -25,7 +27,7 @@ module TShield
       end
     end
 
-    set :protection, :except => [:json_csrf]
+    set :protection, except: [:json_csrf]
     set :public_dir, File.join(File.dirname(__FILE__), 'assets')
     set :views, File.join(File.dirname(__FILE__), 'views')
     set :bind, '0.0.0.0'
@@ -35,7 +37,5 @@ module TShield
 
     register TShield::Controllers::Sessions
     register TShield::Controllers::Requests
-
   end
 end
-

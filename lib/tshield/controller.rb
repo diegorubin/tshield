@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+require 'logger'
 require 'sinatra'
+
+require 'tshield/logger'
 
 module TShield
   # TShield Controller
@@ -18,9 +21,19 @@ module TShield
 
       def registered(app)
         @actions.each do |class_method, options|
-          puts "== registering #{options[:path]} for methods #{options[:methods].join(',')} with action #{class_method}"
-          options[:methods].each do |method|
-            app.send(method, options[:path]) { send(class_method, params, request) }
+          load_action(app, class_method, options)
+        end
+      end
+
+      def load_action(app, class_method, options)
+        msg = "== registering #{options[:path]}"
+        msg << " for methods #{options[:methods].join(',')}"
+        msg << " with action #{class_method}"
+
+        TShield.logger.infod(msg)
+        options[:methods].each do |method|
+          app.send(method, options[:path]) do
+            send(class_method, params, request)
           end
         end
       end

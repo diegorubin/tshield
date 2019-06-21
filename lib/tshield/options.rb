@@ -2,18 +2,20 @@
 
 require 'optparse'
 
+require 'tshield/logger'
 require 'tshield/version'
 
 module TShield
+  # Options for command line
   class Options
     attr_reader :debug
 
     def self.init
-      @@instance = TShield::Options.new
+      @instance = TShield::Options.new
     end
 
-    def self.instance
-      @@instance
+    class << self
+      attr_reader :instance
     end
 
     def initialize
@@ -34,30 +36,42 @@ module TShield
       @options["#{args[:moment]}_pattern".to_sym] =~ args[:path]
     end
 
+    def register_before_pattern(opts)
+      opts.on('-b', '--break-before-request [PATTERN]',
+              'Breakpoint before request') do |pattern|
+        @options[:before_pattern] = Regexp.new(pattern)
+      end
+    end
+
+    def register_after_pattern(opts)
+      opts.on('-a', '--break-after-request [PATTERN]',
+              'Breakpoint after request') do |pattern|
+        @options[:after_pattern] = Regexp.new(pattern)
+      end
+    end
+
+    def register_version(opts)
+      opts.on('-v', '--version', 'Show version') do
+        TShield.logger.info(TShield::Version.to_s)
+        exit
+      end
+    end
+
+    def register_help(opts)
+      opts.on_tail('-h', '--help', 'Show this message') do
+        puts opts
+        exit
+      end
+    end
+
     def parse
       @options = {}
       OptionParser.new do |opts|
         opts.banner = 'Usage: tshield [options]'
-
-        opts.on('-b', '--break-before-request [PATTERN]',
-                'Breakpoint before request') do |pattern|
-          @options[:before_pattern] = Regexp.new(pattern)
-        end
-
-        opts.on('-a', '--break-after-request [PATTERN]',
-                'Breakpoint after request') do |pattern|
-          @options[:after_pattern] = Regexp.new(pattern)
-        end
-
-        opts.on('-v', '--version', 'Show version') do
-          puts TShield::Version
-          exit
-        end
-
-        opts.on_tail('-h', '--help', 'Show this message') do
-          puts opts
-          exit
-        end
+        register_before_pattern(opts)
+        register_after_pattern(opts)
+        register_version(opts)
+        register_help(opts)
       end.parse!
     end
   end
