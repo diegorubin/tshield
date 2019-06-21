@@ -25,7 +25,7 @@ describe TShield::Request do
       writeSpy.should_receive(:write).ordered.with("{\n  \"status\": 200,\n  \"headers\": {\n  }\n}")
       allow(writeSpy).to receive(:close)
 
-      TShield::Request.new '/', {method: 'GET'}
+      TShield::Request.new '/', method: 'GET'
     end
   end
 

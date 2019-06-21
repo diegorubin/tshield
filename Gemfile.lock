@@ -34,7 +34,7 @@ GEM
     rack-protection (1.5.5)
       rack
     rake (10.5.0)
-    rdoc (3.9.5)
+    rdoc (6.1.1)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -69,7 +69,7 @@ PLATFORMS
 
 DEPENDENCIES
   rake (~> 10.0, >= 10.0)
-  rdoc (~> 3.0, >= 3.0)
+  rdoc (~> 6.0, >= 6.0)
   rspec (~> 3.5, >= 3.5.0)
   simplecov (~> 0.12, >= 0.12.0)
   tshield!
