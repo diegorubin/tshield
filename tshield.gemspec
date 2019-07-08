@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.3'
 
-  s.add_dependency('byebug', '~> 9.0', '>= 9.0.0')
+  s.add_dependency('byebug', '~> 11.0', '>= 11.0.1')
   s.add_dependency('haml', '~> 4.0', '>= 4.0.7')
   s.add_dependency('httparty', '~> 0.14', '>= 0.14.0')
   s.add_dependency('json', '~> 2.0', '>= 2.0')

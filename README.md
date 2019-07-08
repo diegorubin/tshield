@@ -107,7 +107,7 @@ domains:
 * **headers**: <<some_description>>
 * **not_save_headers**: <<some_description>>
 * **cache_request**: <<some_description>>
-* **filters**: <<some_description>>
+* **filters**: Implementation of before or after filters used in domain requests
 * **excluded_headers**: <<some_description>>
 * **paths**: Paths list of all services that will be called. Used to filter what domain will "receive the request"
 
@@ -173,7 +173,28 @@ end
 
 ## Setup for local development
 
+First install dependencies.
+_We recommend use of the RVM to manage project dependencies.__
+
+```
+bundle install
+```
+
+### Run server to development
+
+To start server execute:
+
+`rake server`
+
 ### Build
-**[WIP]**
+
+To generate ruby gem execute:
+
+`rake build`
+
 ### Test
-**[WIP]**
+
+To run all tests:
+
+`rake spec`
+

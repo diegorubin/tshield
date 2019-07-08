@@ -4,6 +4,7 @@ require 'yaml'
 
 require 'tshield/after_filter'
 require 'tshield/before_filter'
+require 'tshield/logger'
 
 module TShield
   # Class for read configuration file
@@ -21,14 +22,19 @@ module TShield
       Dir.entries('filters').each do |entry|
         next if entry =~ /^\.\.?$/
 
-        puts "loading filter #{entry}"
+        TShield.logger.info("loading filter #{entry}")
         entry.gsub!('.rb', '')
+
         require File.join('.', 'filters', entry)
       end
     end
 
     def self.singleton
       @singleton ||= load_configuration
+    end
+
+    def self.clear
+      @singleton = nil
     end
 
     def get_domain_for(path)
@@ -92,6 +98,10 @@ module TShield
       file = File.open(config_path)
       configs = YAML.safe_load(file.read)
       Configuration.new(configs)
+    rescue Errno::ENOENT => e
+      TShield.logger.fatal('Load configuration file config/tshield.yml failed!')
+      TShield.logger.fatal(e)
+      exit(-1)
     end
   end
 end
