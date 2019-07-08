@@ -9,14 +9,28 @@ require 'tshield/logger'
 module TShield
   # Class for read configuration file
   class Configuration
-    attr_accessor :request
-    attr_accessor :domains
-    attr_accessor :tcp_servers
-
-    attr_writer :session_path
+    # Configuration file
+    #
+    # Possible attributes
+    # request:
+    #   timeout: wait time for real service in seconds
+    #   verify_ssl: ignores invalid ssl if false
+    # domains:
+    #   'url':
+    #     name: Name to identify the domain in the generated files
+    #     headers: Object to translate received header in tshield to send to
+    #              original service. Sinatra change keys. Example:
+    #                HTTP_AUTHORIZATION should be mapped to Authorization
+    #                (NEED IMPROVEMENT github-issue #https://github.com/diegorubin/tshield/issues/17)
+    #     not_save_headers: List of headers that should be ignored in generated
+    #                       file
+    #
+    attr_reader :request
+    attr_reader :domains
+    attr_reader :tcp_servers
 
     def initialize(attributes)
-      attributes.each { |key, value| send("#{key}=", value) }
+      attributes.each { |key, value| instance_variable_set("@#{key}", value) }
 
       return unless File.exist?('filters')
 

@@ -49,12 +49,6 @@ domains:
       - /users
 ```
 
-#### Admin UI
-
-**[WIP]**
-
-http://localhost:4567/admin/sessions
-
 ## Config options
 ```yaml
 request:
@@ -99,13 +93,13 @@ domains:
 ```
 **request**
 * **timeout**: wait time for real service in seconds
-* **verify_ssl**: <<some_description>>
+* **verify_ssl**: ignores invalid ssl if false
 
 **domain**
 * Define Base URI of service
 * **name**: Name to identify the domain in the generated files
-* **headers**: <<some_description>>
-* **not_save_headers**: <<some_description>>
+* **headers**: github-issue #17
+* **not_save_headers**: List of headers that should be ignored in generated file
 * **cache_request**: <<some_description>>
 * **filters**: Implementation of before or after filters used in domain requests
 * **excluded_headers**: <<some_description>>
