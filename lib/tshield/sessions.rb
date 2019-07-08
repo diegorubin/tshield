@@ -1,10 +1,15 @@
+# frozen_string_literal: true
+
 require 'byebug'
 require 'tshield/counter'
 
 module TShield
+  # Manage sessions
+  #
+  # Start and stop session for ip
   module Sessions
     def self.start(ip, name)
-      sessions[normalize_ip(ip)] = {name: name, counter: TShield::Counter.new}
+      sessions[normalize_ip(ip)] = { name: name, counter: TShield::Counter.new }
     end
 
     def self.stop(ip)
@@ -15,7 +20,6 @@ module TShield
       sessions[normalize_ip(ip)]
     end
 
-    protected 
     def self.sessions
       @sessions ||= {}
     end
@@ -23,7 +27,5 @@ module TShield
     def self.normalize_ip(ip)
       ip == '::1' ? '127.0.0.1' : ip
     end
-
   end
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TShield
   class Response
     attr_accessor :body, :headers, :status, :original

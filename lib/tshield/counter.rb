@@ -1,6 +1,8 @@
-module TShield
-  class Counter
+# frozen_string_literal: true
 
+module TShield
+  # Increment counter for sessions requests
+  class Counter
     def initialize
       @requests = {}
     end
@@ -9,7 +11,7 @@ module TShield
       requests_to_path = @requests.fetch(path, {})
       requests_to_method = requests_to_path.fetch(method, 0)
 
-      requests_to_path[method] = requests_to_method += 1
+      requests_to_path[method] = requests_to_method + 1
       @requests[path] = requests_to_path
     end
 
@@ -18,9 +20,7 @@ module TShield
     end
 
     def to_json(options = {})
-      @requests.to_json
+      @requests.to_json(options)
     end
-
   end
 end
-
