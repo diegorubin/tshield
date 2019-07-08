@@ -12,6 +12,9 @@ module TShield
     attr_accessor :request
     attr_accessor :domains
     attr_accessor :tcp_servers
+
+    attr_reader :admin_request_path
+
     attr_writer :session_path
 
     def initialize(attributes)
@@ -39,7 +42,9 @@ module TShield
 
     def get_domain_for(path)
       domains.each do |url, config|
-        config['paths'].each { |p| return url if path =~ Regexp.new(p) }
+        config['paths'].each do |pattern|
+          return url if path =~ Regexp.new(pattern)
+        end
       end
       nil
     end
@@ -101,7 +106,7 @@ module TShield
     rescue Errno::ENOENT => e
       TShield.logger.fatal('Load configuration file config/tshield.yml failed!')
       TShield.logger.fatal(e)
-      exit(-1)
+      raise 'Startup aborted'
     end
   end
 end

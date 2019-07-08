@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.add_dependency('sinatra', '~> 1.4', '>= 1.4.0')
   s.add_development_dependency('rake', '~> 10.0', '>= 10.0')
   s.add_development_dependency('rdoc', '~> 6.0', '>= 6.0')
+  s.add_development_dependency('reek', '~> 5.4.0', '>= 5.4.0')
   s.add_development_dependency('rspec', '~> 3.5', '>= 3.5.0')
   s.add_development_dependency('simplecov', '~> 0.12', '>= 0.12.0')
   s.add_development_dependency('webmock', '~> 2.1', '>= 2.1.0')

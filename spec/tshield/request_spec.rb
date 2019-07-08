@@ -7,23 +7,26 @@ require 'tshield/request'
 describe TShield::Request do
   before :each do
     @configuration = TShield::Configuration.singleton
-    @configuration.stub(:get_before_filters).and_return([])
-    @configuration.stub(:get_after_filters).and_return([])
-    TShield::Options.stub_chain(:instance, :break?)
+    allow(@configuration).to receive(:get_before_filters).and_return([])
+    allow(@configuration).to receive(:get_after_filters).and_return([])
+    allow(TShield::Options).to receive_message_chain(:instance, :break?)
   end
 
   describe 'when save response' do
     it 'should write response body, request status and headers' do
-      TShield::Request.any_instance.stub(:exists).and_return(false)
-      TShield::Request.any_instance.stub(:destiny)
-      HTTParty.stub(:send).and_return(RawResponse.new)
+      allow_any_instance_of(TShield::Request).to receive(:exists)
+        .and_return(false)
+      allow_any_instance_of(TShield::Request).to receive(:destiny)
+      allow(HTTParty).to receive(:send).and_return(RawResponse.new)
 
-      writeSpy = double
-      File.stub(:open).and_return(writeSpy)
+      write_spy = double
+      allow(File).to receive(:open).and_return(write_spy)
 
-      writeSpy.should_receive(:write).ordered.with('this is the body')
-      writeSpy.should_receive(:write).ordered.with("{\n  \"status\": 200,\n  \"headers\": {\n  }\n}")
-      allow(writeSpy).to receive(:close)
+      expect(write_spy).to receive(:write).ordered.with('this is the body')
+      expect(write_spy).to receive(:write)
+        .ordered
+        .with("{\n  \"status\": 200,\n  \"headers\": {\n  }\n}")
+      allow(write_spy).to receive(:close)
 
       TShield::Request.new '/', method: 'GET'
     end

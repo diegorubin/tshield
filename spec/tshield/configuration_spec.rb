@@ -1,7 +1,6 @@
 # frozen_string_literal: false
 
 require 'tshield/configuration'
-require 'rspec/autorun'
 require 'spec_helper'
 
 describe TShield::Configuration do
@@ -60,7 +59,7 @@ describe TShield::Configuration do
     end
 
     it 'exit with error status' do
-      -> { TShield::Configuration.singleton }.should raise_error SystemExit
+      expect { TShield::Configuration.singleton }.to raise_error SystemExit
     end
   end
 end
