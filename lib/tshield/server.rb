@@ -6,14 +6,9 @@ require 'haml'
 require 'tshield/controllers/requests'
 require 'tshield/controllers/sessions'
 
-require 'tshield/controllers/admin/requests'
-require 'tshield/controllers/admin/sessions'
-
 module TShield
   class Server < Sinatra::Base
     include TShield::Controllers::Requests::Helpers
-    include TShield::Controllers::Admin::Sessions::Helpers
-    include TShield::Controllers::Admin::Requests::Helpers
 
     if File.exist?('controllers')
       Dir.entries('controllers').each do |entry|
@@ -31,9 +26,6 @@ module TShield
     set :public_dir, File.join(File.dirname(__FILE__), 'assets')
     set :views, File.join(File.dirname(__FILE__), 'views')
     set :bind, '0.0.0.0'
-
-    register TShield::Controllers::Admin::Sessions
-    register TShield::Controllers::Admin::Requests
 
     register TShield::Controllers::Sessions
     register TShield::Controllers::Requests

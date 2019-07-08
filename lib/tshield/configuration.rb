@@ -86,14 +86,6 @@ module TShield
       @session_path || '/sessions'
     end
 
-    def admin_session_path
-      @admin_session_path || '/admin/sessions'
-    end
-
-    def admin_request_path
-      @admin_request_path || '/admin/requests'
-    end
-
     def self.load_configuration
       config_path = File.join('config', 'tshield.yml')
       configs = YAML.safe_load(File.open(config_path).read)
