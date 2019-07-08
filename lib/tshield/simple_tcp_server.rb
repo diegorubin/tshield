@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'socket'
 
 module TShield
@@ -6,7 +8,7 @@ module TShield
       @running = true
     end
 
-    def on_connect(client)
+    def on_connect(_client)
       raise 'should implement method on_connect'
     end
 
@@ -24,4 +26,3 @@ module TShield
     end
   end
 end
-

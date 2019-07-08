@@ -24,3 +24,10 @@ desc 'Run all specs in spec directory (excluding plugin specs)'
 RSpec::Core::RakeTask.new
 
 task default: :spec
+
+task :server do
+  $LOAD_PATH.unshift File.dirname('./lib/tshield.rb')
+  require 'tshield'
+
+  exec 'bin/tshield'
+end

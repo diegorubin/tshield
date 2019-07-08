@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'httparty'
 require 'json'
 require 'byebug'
@@ -10,29 +12,27 @@ require 'tshield/response'
 require 'tshield/sessions'
 
 module TShield
-
   class Request
-
     attr_reader :response
 
     def initialize(path, options = {})
       @path = path
-      @options = options 
+      @options = options
       @configuration = TShield::Configuration.singleton
-      @options[:timeout] =  @configuration.request['timeout']
-      @options[:verify] =  @configuration.request['verify_ssl']
+      @options[:timeout] = @configuration.request['timeout']
+      @options[:verify] = @configuration.request['verify_ssl']
       request
     end
 
     def request
-      if not (@options[:raw_query].nil? or @options[:raw_query].empty?)
+      unless @options[:raw_query].nil? || @options[:raw_query].empty?
         @path = "#{@path}?#{@options[:raw_query]}"
       end
 
       @url = "#{domain}#{@path}"
 
       if exists
-        @response = get_current_response  
+        @response = get_current_response
         @response.original = false
       else
         @method = method
@@ -40,7 +40,7 @@ module TShield
           @method, @url, @options = filter.new.filter(@method, @url, @options)
         end
 
-        raw = HTTParty.send("#{@method}", @url, @options)
+        raw = HTTParty.send(@method.to_s, @url, @options)
 
         @configuration.get_after_filters(domain).each do |filter|
           raw = filter.new.filter(raw)
@@ -56,6 +56,7 @@ module TShield
     end
 
     private
+
     def domain
       @domain ||= @configuration.get_domain_for(@path)
     end
@@ -70,14 +71,12 @@ module TShield
 
     def save(raw_response)
       headers = {}
-      raw_response.headers.each do |k,v| 
-        if !@configuration.not_save_headers(domain).include? k
-          headers[k] = v
-        end
+      raw_response.headers.each do |k, v|
+        headers[k] = v unless @configuration.not_save_headers(domain).include? k
       end
 
       content = {
-        body: raw_response.body, 
+        body: raw_response.body,
         status: raw_response.code,
         headers: headers
       }
@@ -102,7 +101,7 @@ module TShield
     def file_exists
       session = current_session
       @content_idx = session ? session[:counter].current(@path, method) : 0
-      File.exists?(destiny)
+      File.exist?(destiny)
     end
 
     def exists
@@ -110,7 +109,7 @@ module TShield
     end
 
     def get_current_response
-      TShield::Response.new(content['body'], content['headers'] || [], content['status'] || 200) 
+      TShield::Response.new(content['body'], content['headers'] || [], content['status'] || 200)
     end
 
     def key
@@ -119,22 +118,23 @@ module TShield
 
     def destiny(iscontent = false)
       request_path = File.join('requests')
-      Dir.mkdir(request_path) unless File.exists?(request_path)
+      Dir.mkdir(request_path) unless File.exist?(request_path)
 
-      if session = current_session
+      session = current_session
+      if session
         request_path = File.join(request_path, session[:name])
-        Dir.mkdir(request_path) unless File.exists?(request_path)
+        Dir.mkdir(request_path) unless File.exist?(request_path)
       end
 
       name_path = File.join(request_path, name)
-      Dir.mkdir(name_path) unless File.exists?(name_path)
+      Dir.mkdir(name_path) unless File.exist?(name_path)
 
       path_path = File.join(name_path, safe_dir(@path))
-      Dir.mkdir(path_path) unless File.exists?(path_path)
+      Dir.mkdir(path_path) unless File.exist?(path_path)
 
       method_path = File.join(path_path, method)
-      Dir.mkdir(method_path) unless File.exists?(method_path)
-      
+      Dir.mkdir(method_path) unless File.exist?(method_path)
+
       destiny_name = iscontent ? "#{@content_idx}.content" : "#{@content_idx}.json"
       File.join(method_path, destiny_name)
     end
@@ -156,14 +156,11 @@ module TShield
     def safe_dir(url)
       if url.size > 225
         path = url.gsub(/(\?.*)/, '')
-        params = Digest::SHA1.hexdigest $1
-        "#{path.gsub(/\//, '-').gsub(/^-/, '')}?#{params}"
+        params = Digest::SHA1.hexdigest Regexp.last_match(1)
+        "#{path.gsub(%r{/}, '-').gsub(/^-/, '')}?#{params}"
       else
-        url.gsub(/\//, '-').gsub(/^-/, '')
+        url.gsub(%r{/}, '-').gsub(/^-/, '')
       end
     end
-
   end
-
 end
-

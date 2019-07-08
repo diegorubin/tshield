@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'logger'
 require 'sinatra'
 
 require 'tshield/logger'
