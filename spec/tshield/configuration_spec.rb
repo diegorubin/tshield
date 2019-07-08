@@ -59,7 +59,7 @@ describe TShield::Configuration do
     end
 
     it 'exit with error status' do
-      expect { TShield::Configuration.singleton }.to raise_error SystemExit
+      expect { TShield::Configuration.singleton }.to raise_error RuntimeError
     end
   end
 end

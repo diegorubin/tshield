@@ -13,8 +13,6 @@ module TShield
     attr_accessor :domains
     attr_accessor :tcp_servers
 
-    attr_reader :admin_request_path
-
     attr_writer :session_path
 
     def initialize(attributes)
@@ -59,23 +57,21 @@ module TShield
 
     def get_before_filters(domain)
       get_filters(domain)
-        .select { |k| k.ancestors.include?(TShield::BeforeFilter) }
+        .select { |klass| klass.ancestors.include?(TShield::BeforeFilter) }
     end
 
     def get_after_filters(domain)
       get_filters(domain)
-        .select { |k| k.ancestors.include?(TShield::AfterFilter) }
+        .select { |klass| klass.ancestors.include?(TShield::AfterFilter) }
     end
 
     def cache_request?(domain)
-      return true unless domains[domain].include?('cache_request')
-
-      domains[domain]['cache_request']
+      domains[domain]['cache_request'] || true
     end
 
     def get_filters(domain)
       (domains[domain]['filters'] || [])
-        .collect { |f| Class.const_get(f) }
+        .collect { |filter| Class.const_get(filter) }
     end
 
     def get_excluded_headers(domain)
@@ -100,8 +96,7 @@ module TShield
 
     def self.load_configuration
       config_path = File.join('config', 'tshield.yml')
-      file = File.open(config_path)
-      configs = YAML.safe_load(file.read)
+      configs = YAML.safe_load(File.open(config_path).read)
       Configuration.new(configs)
     rescue Errno::ENOENT => e
       TShield.logger.fatal('Load configuration file config/tshield.yml failed!')
