@@ -159,6 +159,11 @@ module FooController
 end
 ```
 
+## Features
+
+Description of some tshield features can be found in the features directory.
+This features files are used as base for the component tests.
+
 ## Samples
 #### Basic sample for a client app requesting a server API
 [examples/client-api-nodejs](examples/client-api-nodejs)
@@ -188,7 +193,11 @@ To generate ruby gem execute:
 
 ### Test
 
-To run all tests:
+To run all unit tests:
 
 `rake spec`
+
+To run all component tests:
+
+`rake component__tests`
 

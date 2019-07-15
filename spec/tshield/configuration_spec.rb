@@ -6,8 +6,11 @@ require 'spec_helper'
 describe TShield::Configuration do
   context 'on config exist' do
     before :each do
+      options_instance = double
+      allow(options_instance).to receive(:configuration_file)
+        .and_return('spec/tshield/fixtures/config/tshield.yml')
+      allow(TShield::Options).to receive(:instance).and_return(options_instance)
       allow(File).to receive(:join).and_return(
-        'spec/tshield/fixtures/config/tshield.yml',
         './spec/tshield/fixtures/filters/example_filter.rb'
       )
       allow(File).to receive(:exist?) do
@@ -52,9 +55,10 @@ describe TShield::Configuration do
   end
   context 'on config not exist' do
     before :each do
-      allow(File).to receive(:join).and_return(
-        'not_found/config/tshield.yml'
-      )
+      options_instance = double
+      allow(options_instance).to receive(:configuration_file)
+        .and_return('not_found/config/tshield.yml')
+      allow(TShield::Options).to receive(:instance).and_return(options_instance)
       TShield::Configuration.clear
     end
 

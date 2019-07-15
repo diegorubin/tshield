@@ -1,0 +1,8 @@
+---
+request:
+  timeout: 10
+domains:
+  'http://localhost:9090':
+    name: 'components'
+    paths:
+      - /users

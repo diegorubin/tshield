@@ -15,4 +15,4 @@ notifications:
 gemfile:
   - Gemfile
 
-script: bundle exec rspec
+script: bundle exec rake spec && bundle exec rake component_tests

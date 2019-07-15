@@ -25,9 +25,12 @@ RSpec::Core::RakeTask.new
 
 task default: :spec
 
+task :component_tests do
+  $LOAD_PATH.unshift File.dirname('./lib/tshield.rb')
+  exec 'component_tests/run'
+end
+
 task :server do
   $LOAD_PATH.unshift File.dirname('./lib/tshield.rb')
-  require 'tshield'
-
   exec 'bin/tshield'
 end
