@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency('httparty', '~> 0.14', '>= 0.14.0')
   s.add_dependency('json', '~> 2.0', '>= 2.0')
   s.add_dependency('sinatra', '~> 1.4', '>= 1.4.0')
+  s.add_development_dependency('cucumber', '~> 3.1', '>= 3.1.2')
   s.add_development_dependency('rake', '~> 10.0', '>= 10.0')
   s.add_development_dependency('rdoc', '~> 6.0', '>= 6.0')
   s.add_development_dependency('reek', '~> 5.4.0', '>= 5.4.0')

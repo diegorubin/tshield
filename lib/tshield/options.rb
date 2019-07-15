@@ -14,16 +14,21 @@ module TShield
       @instance = TShield::Options.new
     end
 
-    class << self
-      attr_reader :instance
+    def self.instance
+      @instance || TShield::Options.new
     end
 
     def initialize
+      @options = {}
       parse
     end
 
     def break?(args = {})
       check_breakpoint(args)
+    end
+
+    def configuration_file
+      @options.fetch(:configuration_file, 'config/tshield.yml')
     end
 
     private
@@ -50,6 +55,18 @@ module TShield
       end
     end
 
+    def register_configuration(opts)
+      opts.on('-c', '--configuration [FILE]',
+              'Configuration File') do |file|
+        @options[:configuration_file] = file
+      end
+    end
+
+    def register_patterns(opts)
+      register_before_pattern(opts)
+      register_after_pattern(opts)
+    end
+
     def register_version(opts)
       opts.on('-v', '--version', 'Show version') do
         TShield.logger.info(TShield::Version.to_s)
@@ -65,14 +82,17 @@ module TShield
     end
 
     def parse
-      @options = {}
       OptionParser.new do |opts|
         opts.banner = 'Usage: tshield [options]'
-        register_before_pattern(opts)
-        register_after_pattern(opts)
-        register_version(opts)
-        register_help(opts)
+        register(opts)
       end.parse!
+    end
+
+    def register(opts)
+      register_configuration(opts)
+      register_patterns(opts)
+      register_version(opts)
+      register_help(opts)
     end
   end
 end

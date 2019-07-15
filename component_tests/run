@@ -1,0 +1,16 @@
+#!/bin/bash
+
+cd component_tests
+./server &
+SERVER=$!
+
+../bin/tshield -c config.yml &
+TSHIELD=$!
+
+sleep 20
+
+cd ..
+cucumber
+
+echo "killing server($SERVER) tshield($TSHIELD)"
+kill $SERVER $TSHIELD

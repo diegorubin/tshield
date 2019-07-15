@@ -4,6 +4,7 @@ require 'yaml'
 
 require 'tshield/after_filter'
 require 'tshield/before_filter'
+require 'tshield/options'
 require 'tshield/logger'
 
 module TShield
@@ -100,13 +101,18 @@ module TShield
       @session_path || '/sessions'
     end
 
-    def self.load_configuration
-      config_path = File.join('config', 'tshield.yml')
+    def self.read_configuration_file(config_path)
       configs = YAML.safe_load(File.open(config_path).read)
       Configuration.new(configs)
+    end
+
+    def self.load_configuration
+      configuration_file = TShield::Options.instance.configuration_file
+      read_configuration_file(configuration_file)
     rescue Errno::ENOENT => e
-      TShield.logger.fatal('Load configuration file config/tshield.yml failed!')
-      TShield.logger.fatal(e)
+      TShield.logger.fatal(
+        "Load configuration file #{configuration_file} failed!\n#{e}"
+      )
       raise 'Startup aborted'
     end
   end

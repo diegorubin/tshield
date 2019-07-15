@@ -6,9 +6,13 @@ require 'tshield/request'
 
 describe TShield::Request do
   before :each do
-    @configuration = TShield::Configuration.singleton
-    allow(@configuration).to receive(:get_before_filters).and_return([])
-    allow(@configuration).to receive(:get_after_filters).and_return([])
+    configuration = double
+    allow(TShield::Configuration)
+      .to receive(:singleton).and_return(configuration)
+    allow(configuration).to receive(:get_before_filters).and_return([])
+    allow(configuration).to receive(:get_after_filters).and_return([])
+    allow(configuration).to receive(:request).and_return('timeout' => 10)
+    allow(configuration).to receive(:get_domain_for).and_return('example.org')
     allow(TShield::Options).to receive_message_chain(:instance, :break?)
   end
 

@@ -10,5 +10,7 @@ node_modules
 local-run.sh
 *.iml
 
+component_tests/requests
+
 !examples/**/config
 !examples/**/requests
