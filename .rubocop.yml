@@ -1,0 +1,11 @@
+---
+AllCops:
+  Exclude:
+    - bin/**/*
+    - examples/**/*
+    - Rakefile
+
+  TargetRubyVersion: 2.3
+
+Rails:
+  Enabled: false

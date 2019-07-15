@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module TShield
+  # Control version of gem
   class Version
     MAJOR = 0
     MINOR = 8
