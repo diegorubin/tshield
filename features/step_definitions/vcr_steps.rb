@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-Given('a valid api {string}') do |_string|
-  pending # Write code here that turns the phrase above into concrete actions
+Given('a valid api {string}') do |path|
+  @path = path
 end
 
 When('this api accessed throught tshield') do
-  pending # Write code here that turns the phrase above into concrete actions
+  HTTParty.get(TShieldHelpers.tshield_url(@path))
 end
 
-Then('response should saved in {string}') do |_string|
-  pending # Write code here that turns the phrase above into concrete actions
+Then('response should saved in {string}') do |destiny|
+  content = JSON.parse(RequestsHelpers.content_for(destiny))
+  expect(content).to eq(UsersHelpers.users_content)
 end
