@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 
 require 'sinatra'
 
@@ -29,7 +29,7 @@ module TShield
         msg << " for methods #{options[:methods].join(',')}"
         msg << " with action #{class_method}"
 
-        TShield.logger.infod(msg)
+        TShield.logger.info(msg)
         options[:methods].each do |method|
           app.send(method, options[:path]) do
             send(class_method, params, request)

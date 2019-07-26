@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 
 require 'sinatra'
 require 'haml'
@@ -7,11 +7,27 @@ require 'tshield/controllers/requests'
 require 'tshield/controllers/sessions'
 
 module TShield
+  # Base of TShield Server
   class Server < Sinatra::Base
     include TShield::Controllers::Requests::Helpers
 
-    if File.exist?('controllers')
+    set :protection, except: [:json_csrf]
+    set :public_dir, File.join(File.dirname(__FILE__), 'assets')
+    set :views, File.join(File.dirname(__FILE__), 'views')
+    set :bind, '0.0.0.0'
+
+    def self.register_resources
+      load_controllers
+      register TShield::Controllers::Sessions
+      register TShield::Controllers::Requests
+    end
+
+    def self.load_controllers
+      return unless File.exist?('controllers')
+
       Dir.entries('controllers').each do |entry|
+        require 'byebug'
+        debugger
         next if entry =~ /^\.\.?$/
 
         entry.gsub!('.rb', '')
@@ -22,12 +38,9 @@ module TShield
       end
     end
 
-    set :protection, except: [:json_csrf]
-    set :public_dir, File.join(File.dirname(__FILE__), 'assets')
-    set :views, File.join(File.dirname(__FILE__), 'views')
-    set :bind, '0.0.0.0'
-
-    register TShield::Controllers::Sessions
-    register TShield::Controllers::Requests
+    def self.run!
+      register_resources
+      super.run!
+    end
   end
 end
