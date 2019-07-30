@@ -10,17 +10,17 @@ module TShield
   class Options
     attr_reader :debug
 
-    def self.init
-      @instance = TShield::Options.new
+    def self.init(options = {})
+      @instance = TShield::Options.new(options)
     end
 
     def self.instance
       @instance || TShield::Options.new
     end
 
-    def initialize
+    def initialize(options = {})
       @options = {}
-      parse
+      parse unless options[:skip_parse]
     end
 
     def break?(args = {})
