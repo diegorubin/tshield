@@ -168,3 +168,5 @@ This features files are used as base for the component tests.
 #### Basic sample for a client app requesting a server API
 [examples/client-api-nodejs](examples/client-api-nodejs)
 
+## Contributing
+[Hacking or Contributing to Tshield](CONTRIBUTING.md)
