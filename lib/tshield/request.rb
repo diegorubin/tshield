@@ -26,7 +26,15 @@ module TShield
       Dir.mkdir(request_path) unless File.exist?(request_path)
     end
 
-    def destiny(iscontent = false)
+    def content_destiny
+      "#{destiny}.content"
+    end
+
+    def headers_destiny
+      "#{destiny}.json"
+    end
+
+    def destiny
       request_path = File.join('requests')
       Dir.mkdir(request_path) unless File.exist?(request_path)
 
@@ -43,9 +51,7 @@ module TShield
       method_path = File.join(path_path, method)
       Dir.mkdir(method_path) unless File.exist?(method_path)
 
-      destiny_name = iscontent ? "#{@content_idx}.content" : "#{@content_idx}.json"
-
-      File.join(method_path, destiny_name)
+      File.join(method_path, @content_idx.to_s)
     end
 
     def clear_path(path)

@@ -35,7 +35,7 @@ module TShield
       @url = "#{domain}#{@path}"
 
       if exists
-        @response = get_current_response
+        @response = current_response
         @response.original = false
       else
         @method = method
@@ -89,26 +89,28 @@ module TShield
       TShield::Response.new(raw_response.body, headers, raw_response.code)
     end
 
-    def content
-      return @content if @content
+    def saved_content
+      return @saved_content if @saved_content
 
-      @content = JSON.parse(File.open(destiny).read)
-      @content['body'] = File.open(destiny(true)).read unless @content['body']
-      @content
+      @saved_content = JSON.parse(File.open(headers_destiny).read)
+      @saved_content['body'] = File.open(content_destiny).read unless @saved_content['body']
+      @saved_content
     end
 
     def file_exists
       session = current_session
       @content_idx = session ? session[:counter].current(@path, method) : 0
-      File.exist?(destiny)
+      File.exist?(content_destiny)
     end
 
     def exists
       file_exists && configuration.cache_request?(domain)
     end
 
-    def get_current_response
-      TShield::Response.new(content['body'], content['headers'] || [], content['status'] || 200)
+    def current_response
+      TShield::Response.new(saved_content['body'],
+                            saved_content['headers'] || [],
+                            saved_content['status'] || 200)
     end
 
     def key
@@ -116,15 +118,15 @@ module TShield
     end
 
     def write(content)
-      f = File.open(destiny(true), 'w')
-      f.write(content[:body])
-      f.close
+      content_file = File.open(content_destiny, 'w')
+      content_file.write(content[:body])
+      content_file.close
 
       body = content.delete :body
 
-      f = File.open(destiny, 'w')
-      f.write(JSON.pretty_generate(content))
-      f.close
+      headers_file = File.open(headers_destiny, 'w')
+      headers_file.write(JSON.pretty_generate(content))
+      headers_file.close
 
       content[:body] = body
     end

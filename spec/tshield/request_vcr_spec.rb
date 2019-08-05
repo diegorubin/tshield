@@ -53,11 +53,8 @@ describe TShield::RequestVCR do
           .with('./requests/example.org/?allowed=true', 'get')
           .and_return('./requests/example.org/?allowed=true/get')
         allow(File).to receive(:join)
-          .with('./requests/example.org/?allowed=true/get', '0.json')
-          .and_return('./requests/example.org/?allowed=true/get/0.json')
-        allow(File).to receive(:join)
-          .with('./requests/example.org/?allowed=true/get', '0.content')
-          .and_return('./requests/example.org/?allowed=true/get/0.content')
+          .with('./requests/example.org/?allowed=true/get', '0')
+          .and_return('./requests/example.org/?allowed=true/get/0')
 
         allow(@configuration).to receive(:domains).and_return(
           'example.org' => {
