@@ -9,6 +9,8 @@ domains:
     paths:
       - '/api/one'
       - '/api/two'
+    skip_query_params:
+      - 'a'
   'example.com':
     name: 'example.com'
     paths:

@@ -116,27 +116,47 @@ module TShield
       @key ||= Digest::SHA1.hexdigest "#{@url}|#{method}"
     end
 
+    def session_destiny(request_path)
+      session = current_session
+      return unless session
+
+      request_path = File.join(request_path, session[:name])
+      Dir.mkdir(request_path) unless File.exist?(request_path)
+    end
+
     def destiny(iscontent = false)
       request_path = File.join('requests')
       Dir.mkdir(request_path) unless File.exist?(request_path)
 
-      session = current_session
-      if session
-        request_path = File.join(request_path, session[:name])
-        Dir.mkdir(request_path) unless File.exist?(request_path)
-      end
+      session_destiny(request_path)
 
       name_path = File.join(request_path, name)
       Dir.mkdir(name_path) unless File.exist?(name_path)
 
-      path_path = File.join(name_path, safe_dir(@path))
+      cleared_path = clear_path(@path)
+      path_path = File.join(name_path, safe_dir(cleared_path))
+
       Dir.mkdir(path_path) unless File.exist?(path_path)
 
       method_path = File.join(path_path, method)
       Dir.mkdir(method_path) unless File.exist?(method_path)
 
       destiny_name = iscontent ? "#{@content_idx}.content" : "#{@content_idx}.json"
+
       File.join(method_path, destiny_name)
+    end
+
+    def clear_path(path)
+      skip_query_params = @configuration.domains[@domain]['skip_query_params']
+      url_path, params = path.split('?')
+
+      return path if !skip_query_params || !params
+
+      cleared_params = params.split('&').select do |param|
+        param unless skip_query_params.include?(param.gsub(/=.*?$/, ''))
+      end.join('&')
+
+      [url_path, cleared_params].join('?')
     end
 
     def write(content)

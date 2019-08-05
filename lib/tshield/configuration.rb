@@ -25,6 +25,8 @@ module TShield
     #                (NEED IMPROVEMENT github-issue #https://github.com/diegorubin/tshield/issues/17)
     #     not_save_headers: List of headers that should be ignored in generated
     #                       file
+    #     ignore_query_params: List of params that should be ignored in
+    #                          generated directory
     #
     attr_reader :request
     attr_reader :domains

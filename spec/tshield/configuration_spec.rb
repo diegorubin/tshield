@@ -29,6 +29,12 @@ describe TShield::Configuration do
         )
       end
 
+      it 'recover skip query params' do
+        expect(@configuration.domains['example.org']['skip_query_params']).to(
+          include('a')
+        )
+      end
+
       context 'on load filters' do
         it 'recover filters for a domain' do
           expect(@configuration.get_filters('example.org')).to eq([ExampleFilter])

@@ -7,7 +7,7 @@ SERVER=$!
 ../bin/tshield -c config.yml &
 TSHIELD=$!
 
-sleep 20
+sleep 10
 
 cd ..
 cucumber
