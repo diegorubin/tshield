@@ -4,5 +4,8 @@ request:
 domains:
   'http://localhost:9090':
     name: 'components'
+    skip_query_params:
+      - b
     paths:
       - /users
+      - /resources
