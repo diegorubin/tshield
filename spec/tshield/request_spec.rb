@@ -66,15 +66,20 @@ describe TShield::Request do
         )
 
         allow(HTTParty).to receive(:send).and_return(RawResponse.new)
-        read_double = double
+        file_double = double
 
-        allow(read_double).to receive(:read).and_return('{}')
+        allow(file_double).to receive(:read).and_return('{}')
         expect(File).to receive('open')
-          .with('./requests/example.org/?allowed=true/get/0.json')
-          .and_return(read_double)
+          .with('./requests/example.org/?allowed=true/get/0.json', 'w')
+          .and_return(file_double)
         expect(File).to receive('open')
-          .with('./requests/example.org/?allowed=true/get/0.content')
-          .and_return(read_double)
+          .with('./requests/example.org/?allowed=true/get/0.content', 'w')
+          .and_return(file_double)
+        expect(file_double).to receive(:write).ordered.with('this is the body')
+        expect(file_double).to receive(:write)
+          .with("{\n  \"status\": 200,\n  \"headers\": {\n  }\n}")
+        expect(file_double).to receive(:close)
+        expect(file_double).to receive(:close)
 
         TShield::Request.new '/',
                              raw_query: 'allowed=true&skipped=1',
