@@ -2,7 +2,6 @@
 
 require 'fileutils'
 
-require 'byebug'
 Before do
   # clear requests directory
   FileUtils.rm_rf('./component_tests/requests')
