@@ -81,5 +81,5 @@ While the prerequisites above must be satisfied prior to having your pull reques
 ## Styleguides
 [TBD]
 
-## Basic sample for componente/integration test
+## Basic sample for component/acceptance test
 **[WIP]**
