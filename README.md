@@ -167,37 +167,6 @@ This features files are used as base for the component tests.
 ## Samples
 #### Basic sample for a client app requesting a server API
 [examples/client-api-nodejs](examples/client-api-nodejs)
-#### Basic sample for componente/integration test
-**[WIP]**
 
-## Setup for local development
-
-First install dependencies.
-_We recommend use of the RVM to manage project dependencies.__
-
-```
-bundle install
-```
-
-### Run server to development
-
-To start server execute:
-
-`rake server`
-
-### Build
-
-To generate ruby gem execute:
-
-`rake build`
-
-### Test
-
-To run all unit tests:
-
-`rake spec`
-
-To run all component tests:
-
-`rake component__tests`
-
+## Contributing
+[Hacking or Contributing to Tshield](CONTRIBUTING.md)
