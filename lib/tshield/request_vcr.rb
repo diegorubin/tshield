@@ -68,10 +68,6 @@ module TShield
       @name ||= configuration.get_name(domain)
     end
 
-    def method
-      @options[:method].downcase
-    end
-
     def save(raw_response)
       headers = {}
       raw_response.headers.each do |k, v|

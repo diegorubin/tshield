@@ -66,5 +66,9 @@ module TShield
 
       [url_path, cleared_params].join('?')
     end
+
+    def method
+      @options[:method].downcase
+    end
   end
 end
