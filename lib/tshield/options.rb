@@ -31,6 +31,10 @@ module TShield
       @options.fetch(:configuration_file, 'config/tshield.yml')
     end
 
+    def port
+      @options.fetch(:port, 4567)
+    end
+
     private
 
     def check_breakpoint(args)
@@ -52,6 +56,13 @@ module TShield
       opts.on('-a', '--break-after-request [PATTERN]',
               'Breakpoint after request') do |pattern|
         @options[:after_pattern] = Regexp.new(pattern)
+      end
+    end
+
+    def register_port(opts)
+      opts.on('-p', '--port [PORT]',
+              'Sinatra port') do |port|
+        @options[:port] = port.to_i
       end
     end
 
@@ -92,6 +103,7 @@ module TShield
       register_configuration(opts)
       register_patterns(opts)
       register_version(opts)
+      register_port(opts)
       register_help(opts)
     end
   end

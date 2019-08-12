@@ -9,6 +9,7 @@ requests
 node_modules
 local-run.sh
 *.iml
+.nproject
 
 component_tests/requests
 

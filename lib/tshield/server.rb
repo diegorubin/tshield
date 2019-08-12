@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'haml'
 
+require 'tshield/options'
 require 'tshield/controllers/requests'
 require 'tshield/controllers/sessions'
 
@@ -15,6 +16,7 @@ module TShield
     set :public_dir, File.join(File.dirname(__FILE__), 'assets')
     set :views, File.join(File.dirname(__FILE__), 'views')
     set :bind, '0.0.0.0'
+    set :port, TShield::Options.instance.port
 
     def self.register_resources
       load_controllers
@@ -26,8 +28,6 @@ module TShield
       return unless File.exist?('controllers')
 
       Dir.entries('controllers').each do |entry|
-        require 'byebug'
-        debugger
         next if entry =~ /^\.\.?$/
 
         entry.gsub!('.rb', '')
