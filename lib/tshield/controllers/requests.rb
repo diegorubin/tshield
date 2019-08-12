@@ -6,7 +6,8 @@ require 'byebug'
 
 require 'tshield/options'
 require 'tshield/configuration'
-require 'tshield/request'
+require 'tshield/request_matching'
+require 'tshield/request_vcr'
 require 'tshield/sessions'
 
 module TShield
@@ -76,7 +77,8 @@ module TShield
 
           set_content_type content_type
 
-          api_response = TShield::Request.new(path, options).response
+          api_response = TShield::RequestMatching.new(path, options).response
+          api_response ||= TShield::RequestVCR.new(path, options).response
 
           logger.info(
             "original=#{api_response.original} method=#{method} path=#{path} content-type=#{request_content_type} session=#{current_session_name(request)}"
