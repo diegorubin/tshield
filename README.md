@@ -26,7 +26,7 @@ To run server execute this command
     
 Default port is **4567**
 
-### Command Line Options
+#### Command Line Options
 
 * __-port__: Overwrite default port (4567)
 * __-help__: Show all command line options
