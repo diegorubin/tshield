@@ -42,13 +42,25 @@ describe TShield::RequestMatching do
     context 'on matching request' do
       context 'on match' do
         before :each do
-          @request_matching = TShield::RequestMatching.new('/matching/example')
+          @request_matching = TShield::RequestMatching.new('/matching/example', method: 'GET')
         end
         it 'should return response object' do
           @response = @request_matching.match_request
           expect(@response.body).to eql('body content')
           expect(@response.headers).to eql({})
           expect(@response.status).to eql(200)
+        end
+      end
+      context 'on match by path and method' do
+        before :each do
+          @request_matching = TShield::RequestMatching
+                              .new('/matching/example', method: 'POST')
+        end
+        it 'should return response object' do
+          @response = @request_matching.match_request
+          expect(@response.body).to eql('post content')
+          expect(@response.headers).to eql({})
+          expect(@response.status).to eql(201)
         end
       end
       context 'on not match' do

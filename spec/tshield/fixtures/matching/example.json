@@ -1,9 +1,19 @@
 [{
-  "method": "GET",
-  "path": "/matching/example",
-  "response": {
-    "status": 200,
-    "headers": {},
-    "body": "body content"
+    "method": "GET",
+    "path": "/matching/example",
+    "response": {
+      "status": 200,
+      "headers": {},
+      "body": "body content"
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/matching/example",
+    "response": {
+      "status": 201,
+      "headers": {},
+      "body": "post content"
+    }
   }
-}]
+]

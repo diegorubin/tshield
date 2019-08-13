@@ -25,11 +25,12 @@ module TShield
 
     private
 
-    def find_stub(path, _options)
+    def find_stub(path, options)
       stubs = self.class.stubs[path]
       return unless stubs
 
-      stubs[0]['response']
+      stubs
+        .select { |stub| stub['method'] == options[:method] }[0]['response']
     end
 
     class << self
