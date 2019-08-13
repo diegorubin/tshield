@@ -12,6 +12,7 @@ require 'tshield/sessions'
 
 module TShield
   module Controllers
+    # Generic
     module Requests
       PATHP = %r{([a-zA-Z0-9/\._-]+)}.freeze
 
@@ -77,7 +78,7 @@ module TShield
 
           set_content_type content_type
 
-          api_response = TShield::RequestMatching.new(path, options).response
+          api_response = TShield::RequestMatching.new(path, options).match_request
           api_response ||= TShield::RequestVCR.new(path, options).response
 
           logger.info(
@@ -99,7 +100,7 @@ module TShield
         end
 
         def add_headers(headers, path)
-          configuration.get_headers(domain(path)).each do |source, destiny|
+          (configuration.get_headers(domain(path)) || {}).each do |source, destiny|
             headers[destiny] = request.env[source] unless request.env[source].nil?
           end
         end
