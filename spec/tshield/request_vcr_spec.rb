@@ -2,9 +2,9 @@
 
 require 'spec_helper'
 
-require 'tshield/request'
+require 'tshield/request_vcr'
 
-describe TShield::Request do
+describe TShield::RequestVCR do
   before :each do
     @configuration = double
     allow(TShield::Configuration)
@@ -18,9 +18,9 @@ describe TShield::Request do
 
   describe 'when save response' do
     it 'should write response body, request status and headers' do
-      allow_any_instance_of(TShield::Request).to receive(:exists)
+      allow_any_instance_of(TShield::RequestVCR).to receive(:exists)
         .and_return(false)
-      allow_any_instance_of(TShield::Request).to receive(:destiny)
+      allow_any_instance_of(TShield::RequestVCR).to receive(:destiny)
       allow(HTTParty).to receive(:send).and_return(RawResponse.new)
 
       write_spy = double
@@ -32,7 +32,7 @@ describe TShield::Request do
         .with("{\n  \"status\": 200,\n  \"headers\": {\n  }\n}")
       allow(write_spy).to receive(:close)
 
-      TShield::Request.new '/', method: 'GET'
+      TShield::RequestVCR.new '/', method: 'GET'
     end
 
     describe 'and query params exists in list to skip' do
@@ -53,11 +53,8 @@ describe TShield::Request do
           .with('./requests/example.org/?allowed=true', 'get')
           .and_return('./requests/example.org/?allowed=true/get')
         allow(File).to receive(:join)
-          .with('./requests/example.org/?allowed=true/get', '0.json')
-          .and_return('./requests/example.org/?allowed=true/get/0.json')
-        allow(File).to receive(:join)
-          .with('./requests/example.org/?allowed=true/get', '0.content')
-          .and_return('./requests/example.org/?allowed=true/get/0.content')
+          .with('./requests/example.org/?allowed=true/get', '0')
+          .and_return('./requests/example.org/?allowed=true/get/0')
 
         allow(@configuration).to receive(:domains).and_return(
           'example.org' => {
@@ -81,9 +78,9 @@ describe TShield::Request do
         expect(file_double).to receive(:close)
         expect(file_double).to receive(:close)
 
-        TShield::Request.new '/',
-                             raw_query: 'allowed=true&skipped=1',
-                             method: 'GET'
+        TShield::RequestVCR.new '/',
+                                raw_query: 'allowed=true&skipped=1',
+                                method: 'GET'
       end
     end
   end
