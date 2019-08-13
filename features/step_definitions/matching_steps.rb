@@ -14,6 +14,12 @@ Given('header {string} with value {string}') do |key, value|
   @headers[key] = value
 end
 
+Given('query {string} with value {string}') do |key, value|
+  @query ||= {}
+  @query[key] = value
+end
+
 When('this path {string} is accessed throught tshield via {string}') do |path, method|
-  @response = HTTParty.send(method, TShieldHelpers.tshield_url(path), headers: @headers)
+  @response = HTTParty.send(method, TShieldHelpers.tshield_url(path),
+                            headers: @headers, query: @query)
 end

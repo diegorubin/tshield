@@ -1,6 +1,18 @@
 [{
     "method": "GET",
     "path": "/matching/example",
+    "query": {
+      "query1": "value"
+    },
+    "response": {
+      "status": 200,
+      "headers": {},
+      "body": "query content"
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/matching/example",
     "response": {
       "status": 200,
       "headers": {},

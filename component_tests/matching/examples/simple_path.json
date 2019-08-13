@@ -1,6 +1,18 @@
 [{
     "method": "GET",
     "path": "/matching/example",
+    "query": {
+      "user": 123
+    },
+    "response": {
+      "body": "matching-example-response-with-query",
+      "headers": {},
+      "status": 200
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/matching/example",
     "response": {
       "body": "matching-example-response",
       "headers": {},

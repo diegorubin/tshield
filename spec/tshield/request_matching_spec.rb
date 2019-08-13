@@ -33,7 +33,7 @@ describe TShield::RequestMatching do
             expect(@entry['method']).to include('GET')
           end
           it 'should have response body' do
-            expect(@entry['response']['body']).to include('body content')
+            expect(@entry['response']['body']).to include('query content')
           end
         end
       end
@@ -75,6 +75,20 @@ describe TShield::RequestMatching do
           expect(@response.body).to eql('headers content')
           expect(@response.headers).to eql({})
           expect(@response.status).to eql(201)
+        end
+      end
+      context 'on match by path and method and query' do
+        before :each do
+          @request_matching = TShield::RequestMatching
+                              .new('/matching/example',
+                                   method: 'GET',
+                                   raw_query: 'query1=value')
+        end
+        it 'should return response object' do
+          @response = @request_matching.match_request
+          expect(@response.body).to eql('query content')
+          expect(@response.headers).to eql({})
+          expect(@response.status).to eql(200)
         end
       end
       context 'on not match' do

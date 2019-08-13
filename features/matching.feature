@@ -15,3 +15,9 @@ Feature: Recover response with pattern matching
     And header "user" with value "123"
     When this path "/matching/example" is accessed throught tshield via "post"
     Then response should be equal "matching-example-response-with-headers"
+
+  Scenario: Return response matching path and method and query params
+    Given a file to describe "/matching/example" path only for method "GET"
+    And query "user" with value "123"
+    When this path "/matching/example" is accessed throught tshield via "get"
+    Then response should be equal "matching-example-response-with-query"
