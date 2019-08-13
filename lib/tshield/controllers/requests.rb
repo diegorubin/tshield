@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'sinatra'
-
 require 'byebug'
 
 require 'tshield/options'
@@ -12,7 +11,6 @@ require 'tshield/sessions'
 
 module TShield
   module Controllers
-    # Generic
     module Requests
       PATHP = %r{([a-zA-Z0-9/\._-]+)}.freeze
 
@@ -47,23 +45,21 @@ module TShield
       end
 
       module Helpers
+        def self.build_headers(request)
+          headers = request.env.select { |key, _value| key =~ /HTTP/ }
+          headers['Content-Type'] = request.content_type || 'application/json'
+          headers
+        end
+
         def treat(params, request, _response)
           path = params.fetch('captures', [])[0]
-
-          debugger if TShield::Options.instance.break?(path: path, moment: :before)
 
           method = request.request_method
           request_content_type = request.content_type
 
-          headers = {
-            'Content-Type' => request.content_type || 'application/json'
-          }
-
-          add_headers(headers, path)
-
           options = {
             method: method,
-            headers: headers,
+            headers: Helpers.build_headers(request),
             raw_query: request.env['QUERY_STRING'],
             ip: request.ip
           }
@@ -75,23 +71,23 @@ module TShield
                                               replace: '')
             options[:body] = result
           end
-
-          set_content_type content_type
-
           api_response = TShield::RequestMatching.new(path, options).match_request
-          api_response ||= TShield::RequestVCR.new(path, options).response
+
+          unless api_response
+            add_headers(headers, path)
+
+            api_response ||= TShield::RequestVCR.new(path, options).response
+          end
 
           logger.info(
-            "original=#{api_response.original} method=#{method} path=#{path} content-type=#{request_content_type} session=#{current_session_name(request)}"
+            "original=#{api_response.original} method=#{method} path=#{path}"\
+            "content-type=#{request_content_type}"\
+            "session=#{current_session_name(request)}"
           )
 
           status api_response.status
           headers api_response.headers.reject { |k, _v| configuration.get_excluded_headers(domain(path)).include?(k) }
           body api_response.body
-        end
-
-        def set_content_type(_request_content_type)
-          content_type :json
         end
 
         def current_session_name(request)

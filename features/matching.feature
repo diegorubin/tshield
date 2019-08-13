@@ -9,3 +9,9 @@ Feature: Recover response with pattern matching
     Given a file to describe "/matching/example" path only for method "POST"
     When this path "/matching/example" is accessed throught tshield via "post"
     Then response should be equal "matching-example-response-with-post"
+
+  Scenario: Return response matching path and method and headers
+    Given a file to describe "/matching/example" path only for method "POST"
+    And header "user" with value "123"
+    When this path "/matching/example" is accessed throught tshield via "post"
+    Then response should be equal "matching-example-response-with-headers"

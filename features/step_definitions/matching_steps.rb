@@ -9,6 +9,11 @@ Given('a file to describe {string} path only for method {string}') do |path, met
   @method = method
 end
 
+Given('header {string} with value {string}') do |key, value|
+  @headers ||= {}
+  @headers[key] = value
+end
+
 When('this path {string} is accessed throught tshield via {string}') do |path, method|
-  @response = HTTParty.send(method, TShieldHelpers.tshield_url(path))
+  @response = HTTParty.send(method, TShieldHelpers.tshield_url(path), headers: @headers)
 end

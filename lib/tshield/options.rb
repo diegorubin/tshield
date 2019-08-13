@@ -23,10 +23,6 @@ module TShield
       parse unless options[:skip_parse]
     end
 
-    def break?(args = {})
-      check_breakpoint(args)
-    end
-
     def configuration_file
       @options.fetch(:configuration_file, 'config/tshield.yml')
     end
@@ -36,28 +32,6 @@ module TShield
     end
 
     private
-
-    def check_breakpoint(args)
-      check_breakpoint_moment(args)
-    end
-
-    def check_breakpoint_moment(args)
-      @options["#{args[:moment]}_pattern".to_sym] =~ args[:path]
-    end
-
-    def register_before_pattern(opts)
-      opts.on('-b', '--break-before-request [PATTERN]',
-              'Breakpoint before request') do |pattern|
-        @options[:before_pattern] = Regexp.new(pattern)
-      end
-    end
-
-    def register_after_pattern(opts)
-      opts.on('-a', '--break-after-request [PATTERN]',
-              'Breakpoint after request') do |pattern|
-        @options[:after_pattern] = Regexp.new(pattern)
-      end
-    end
 
     def register_port(opts)
       opts.on('-p', '--port [PORT]',
@@ -71,11 +45,6 @@ module TShield
               'Configuration File') do |file|
         @options[:configuration_file] = file
       end
-    end
-
-    def register_patterns(opts)
-      register_before_pattern(opts)
-      register_after_pattern(opts)
     end
 
     def register_version(opts)
@@ -101,7 +70,6 @@ module TShield
 
     def register(opts)
       register_configuration(opts)
-      register_patterns(opts)
       register_version(opts)
       register_port(opts)
       register_help(opts)

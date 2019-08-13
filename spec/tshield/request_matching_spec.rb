@@ -63,6 +63,20 @@ describe TShield::RequestMatching do
           expect(@response.status).to eql(201)
         end
       end
+      context 'on match by path and method and headers' do
+        before :each do
+          @request_matching = TShield::RequestMatching
+                              .new('/matching/example',
+                                   method: 'POST',
+                                   headers: { 'HTTP_HEADER1' => 'value' })
+        end
+        it 'should return response object' do
+          @response = @request_matching.match_request
+          expect(@response.body).to eql('headers content')
+          expect(@response.headers).to eql({})
+          expect(@response.status).to eql(201)
+        end
+      end
       context 'on not match' do
         before :each do
           @request_matching = TShield::RequestMatching.new('/')

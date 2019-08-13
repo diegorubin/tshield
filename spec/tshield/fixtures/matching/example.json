@@ -10,6 +10,18 @@
   {
     "method": "POST",
     "path": "/matching/example",
+    "headers": {
+      "header1": "value"
+    },
+    "response": {
+      "status": 201,
+      "headers": {},
+      "body": "headers content"
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/matching/example",
     "response": {
       "status": 201,
       "headers": {},

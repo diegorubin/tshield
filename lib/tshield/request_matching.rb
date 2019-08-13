@@ -15,22 +15,28 @@ module TShield
     end
 
     def match_request
-      matched = find_stub(@path, @options)
-      return unless matched
+      @matched = find_stub
+      return unless @matched
 
-      TShield::Response.new(matched['body'],
-                            matched['headers'],
-                            matched['status'])
+      TShield::Response.new(@matched['body'],
+                            @matched['headers'],
+                            @matched['status'])
     end
 
     private
 
-    def find_stub(path, options)
-      stubs = self.class.stubs[path]
+    def find_stub
+      stubs = self.class.stubs[@path]
       return unless stubs
 
-      stubs
-        .select { |stub| stub['method'] == options[:method] }[0]['response']
+      filter_stubs(stubs)
+    end
+
+    def filter_stubs(stubs)
+      result = stubs
+               .select { |stub| stub['method'] == @options[:method] }
+               .select { |stub| self.class.include_headers(stub['headers'], @options[:headers]) }
+      result[0]['response'] unless result.empty?
     end
 
     class << self
@@ -49,6 +55,17 @@ module TShield
           stubs[item['path']] ||= []
           stubs[item['path']] << item
         end
+      end
+
+      def include_headers(stub_headers, request_headers)
+        request_headers ||= {}
+        stub_headers ||= {}
+        result = stub_headers.reject { |key, value| request_headers[to_rack_name(key)] == value }
+        result.empty? || stub_headers.empty?
+      end
+
+      def to_rack_name(key)
+        "HTTP_#{key.upcase.gsub('-', '_')}"
       end
     end
   end

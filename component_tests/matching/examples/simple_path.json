@@ -10,6 +10,18 @@
   {
     "method": "POST",
     "path": "/matching/example",
+    "headers": {
+      "user": "123"
+    },
+    "response": {
+      "body": "matching-example-response-with-headers",
+      "headers": {},
+      "status": 200
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/matching/example",
     "response": {
       "body": "matching-example-response-with-post",
       "headers": {},
