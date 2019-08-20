@@ -1,0 +1,9 @@
+[{
+  "method": "GET",
+  "path": "/conflicts/path",
+  "response": {
+    "body": "matching",
+    "headers": {},
+    "status": 200
+  }
+}]
