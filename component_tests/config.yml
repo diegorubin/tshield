@@ -9,3 +9,4 @@ domains:
     paths:
       - /users
       - /resources
+      - /conflicts/path

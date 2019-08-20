@@ -53,7 +53,35 @@ domains:
       - /users
 ```
 
-## Config options
+## Config options for Pattern Matching
+
+An example of file to create a stub:
+
+All files should be in `matching` directory.
+Each file should be a valid JSON array of objects and each object must contain
+at least the following attributes:
+
+* __method__: a http method.
+* __path__: url path.
+* __response__: object with response data.
+
+Response must be contain the following attributes:
+
+* __headers__: key value object with expected headers to match. In the evaluation process
+  this stub will be returned if all headers are in request. 
+* __status__: integer used http status respose.
+* __body__: content to be returned.
+
+Optional request attributes:
+
+* __headers__: key value object with expected headers to match. In the evaluation process
+  this stub will be returned if all headers are in request. 
+* __query__: works like headers but use query params.
+
+__Important__: If VCR config conflicts with Matching config Matching will be
+used. Matching config have priority.
+
+## Config options for VCR
 ```yaml
 request:
   timeout: 8

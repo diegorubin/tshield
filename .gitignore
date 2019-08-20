@@ -4,6 +4,7 @@
 coverage
 .byebug_history
 config
+matching
 requests
 .idea
 node_modules

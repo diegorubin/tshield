@@ -15,4 +15,8 @@ get '/resources' do
   params.to_json
 end
 
+get '/conflicts/path' do
+  'vcr'
+end
+
 set :port, 9090

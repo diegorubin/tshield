@@ -2,42 +2,42 @@
     "method": "GET",
     "path": "/matching/example",
     "query": {
-      "user": 123
+      "query1": "value"
     },
     "response": {
-      "body": "matching-example-response-with-query",
+      "status": 200,
       "headers": {},
-      "status": 200
+      "body": "query content"
     }
   },
   {
     "method": "GET",
     "path": "/matching/example",
     "response": {
-      "body": "matching-example-response",
+      "status": 200,
       "headers": {},
-      "status": 200
+      "body": "body content"
     }
   },
   {
     "method": "POST",
     "path": "/matching/example",
     "headers": {
-      "user": "123"
+      "header1": "value"
     },
     "response": {
-      "body": "matching-example-response-with-headers",
+      "status": 201,
       "headers": {},
-      "status": 200
+      "body": "headers content"
     }
   },
   {
     "method": "POST",
     "path": "/matching/example",
     "response": {
-      "body": "matching-example-response-with-post",
+      "status": 201,
       "headers": {},
-      "status": 200
+      "body": "post content"
     }
   }
 ]

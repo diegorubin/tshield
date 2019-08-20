@@ -54,7 +54,6 @@ module TShield
         @response.original = true
       end
       current_session[:counter].add(@path, method) if current_session
-      debugger if TShield::Options.instance.break?(path: @path, moment: :after)
       @response
     end
 

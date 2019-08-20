@@ -65,7 +65,7 @@ module TShield
     end
 
     def get_headers(domain)
-      domains[domain]['headers'] || {}
+      (domains[domain] || {})['headers'] || {}
     end
 
     def get_name(domain)
