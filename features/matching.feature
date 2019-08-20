@@ -21,3 +21,8 @@ Feature: Recover response with pattern matching
     And query "user" with value "123"
     When this path "/matching/example" is accessed throught tshield via "get"
     Then response should be equal "matching-example-response-with-query"
+
+  Scenario: In conflicts between vcr config and matching config matching will be used
+    Given a file to describe "/conflicts/path" path only for method "GET"
+    When this path "/conflicts/path" is accessed throught tshield via "get"
+    Then response should be equal "matching"
