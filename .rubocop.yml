@@ -1,9 +1,9 @@
 ---
-require: 'rubocop-rails'
 AllCops:
   Exclude:
     - bin/**/*
     - examples/**/*
+    - Guardfile
     - Rakefile
   TargetRubyVersion: 2.3
 Metrics/LineLength:
@@ -12,5 +12,3 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*_spec.rb'
     - 'tshield.gemspec'
-Rails:
-  Enabled: false

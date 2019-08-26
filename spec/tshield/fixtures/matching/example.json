@@ -39,5 +39,17 @@
       "headers": {},
       "body": "post content"
     }
+  },
+  {
+    "session": "a-session",
+    "stubs": [{
+      "method": "GET",
+      "path": "/matching/example",
+      "response": {
+        "status": 200,
+        "headers": {},
+        "body": "body content in session"
+      }
+    }]
   }
 ]

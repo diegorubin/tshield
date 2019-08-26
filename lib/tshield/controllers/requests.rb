@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'sinatra'
-require 'byebug'
 
+require 'tshield/controllers/helpers/session_helpers'
 require 'tshield/options'
 require 'tshield/configuration'
 require 'tshield/request_matching'
@@ -11,6 +11,7 @@ require 'tshield/sessions'
 
 module TShield
   module Controllers
+    # Requests Handler
     module Requests
       PATHP = %r{([a-zA-Z0-9/\._-]+)}.freeze
 
@@ -44,6 +45,7 @@ module TShield
         end
       end
 
+      # Requests Handler Helpers
       module Helpers
         def self.build_headers(request)
           headers = request.env.select { |key, _value| key =~ /HTTP/ }
@@ -56,11 +58,13 @@ module TShield
 
           method = request.request_method
           request_content_type = request.content_type
+          session_name = TShield::Controllers::Helpers::SessionHelpers.current_session_name(request)
 
           options = {
             method: method,
             headers: Helpers.build_headers(request),
             raw_query: request.env['QUERY_STRING'],
+            session: session_name,
             ip: request.ip
           }
 
@@ -82,17 +86,12 @@ module TShield
           logger.info(
             "original=#{api_response.original} method=#{method} path=#{path}"\
             "content-type=#{request_content_type}"\
-            "session=#{current_session_name(request)}"
+            "session=#{session_name}"
           )
 
           status api_response.status
           headers api_response.headers.reject { |k, _v| configuration.get_excluded_headers(domain(path)).include?(k) }
           body api_response.body
-        end
-
-        def current_session_name(request)
-          session = TShield::Sessions.current(request.ip)
-          session ? session[:name] : 'no-session'
         end
 
         def add_headers(headers, path)

@@ -4,3 +4,7 @@ directories:
     UncommunicativeVariableName:
       accept:
         - "e"
+    DuplicateMethodCall:
+      max_calls: 2
+    LongParameterList:
+      max_params: 4

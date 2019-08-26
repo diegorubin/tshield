@@ -2,7 +2,9 @@
 
 require 'spec_helper'
 
+require 'tshield/configuration'
 require 'tshield/request_matching'
+require 'tshield/response'
 
 describe TShield::RequestMatching do
   before :each do
@@ -23,11 +25,11 @@ describe TShield::RequestMatching do
       end
       context 'for path /matching/example' do
         it 'should map path' do
-          expect(@request_matching.class.stubs).to include('/matching/example')
+          expect(@request_matching.class.stubs[DEFAULT_SESSION]).to include('/matching/example')
         end
         context 'on settings' do
           before :each do
-            @entry = @request_matching.class.stubs['/matching/example'][0]
+            @entry = @request_matching.class.stubs[DEFAULT_SESSION]['/matching/example'][0]
           end
           it 'should answer for the method GET' do
             expect(@entry['method']).to include('GET')
@@ -97,6 +99,37 @@ describe TShield::RequestMatching do
         end
         it 'should return nil' do
           expect(@request_matching.match_request).to be_nil
+        end
+      end
+    end
+    context 'on session' do
+      context 'load session infos' do
+        before :each do
+          @request_matching = TShield::RequestMatching.new('/')
+        end
+
+        it 'should map path' do
+          expect(@request_matching.class.stubs['a-session']).to include('/matching/example')
+        end
+      end
+      context 'on match' do
+        it 'should return response object from session settings' do
+          @request_matching = TShield::RequestMatching.new('/matching/example',
+                                                           method: 'GET',
+                                                           session: 'a-session')
+          @response = @request_matching.match_request
+          expect(@response.body).to eql('body content in session')
+          expect(@response.headers).to eql({})
+          expect(@response.status).to eql(200)
+        end
+        it 'should return response object from default settings' do
+          @request_matching = TShield::RequestMatching.new('/matching/example',
+                                                           method: 'POST',
+                                                           session: 'a-session')
+          @response = @request_matching.match_request
+          expect(@response.body).to eql('post content')
+          expect(@response.headers).to eql({})
+          expect(@response.status).to eql(201)
         end
       end
     end
