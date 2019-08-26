@@ -46,8 +46,9 @@
       "method": "GET",
       "path": "/matching/example",
       "response": {
+        "status": 200,
         "headers": {},
-        "body": "body content"
+        "body": "body content in session"
       }
     }]
   }

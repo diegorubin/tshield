@@ -112,6 +112,26 @@ describe TShield::RequestMatching do
           expect(@request_matching.class.stubs['a-session']).to include('/matching/example')
         end
       end
+      context 'on match' do
+        it 'should return response object from session settings' do
+          @request_matching = TShield::RequestMatching.new('/matching/example',
+                                                           method: 'GET',
+                                                           session: 'a-session')
+          @response = @request_matching.match_request
+          expect(@response.body).to eql('body content in session')
+          expect(@response.headers).to eql({})
+          expect(@response.status).to eql(200)
+        end
+        it 'should return response object from default settings' do
+          @request_matching = TShield::RequestMatching.new('/matching/example',
+                                                           method: 'POST',
+                                                           session: 'a-session')
+          @response = @request_matching.match_request
+          expect(@response.body).to eql('post content')
+          expect(@response.headers).to eql({})
+          expect(@response.status).to eql(201)
+        end
+      end
     end
   end
 end

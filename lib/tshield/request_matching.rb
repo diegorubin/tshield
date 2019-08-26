@@ -2,7 +2,7 @@
 
 require 'tshield/request'
 
-DEFAULT_SESSION = 'default'
+DEFAULT_SESSION = 'no-session'
 
 module TShield
   # Class to check request matching
