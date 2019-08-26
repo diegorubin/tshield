@@ -1,8 +1,0 @@
-[{
-  "method": "GET",
-  "path": "/matching/example",
-  "response": {
-    "headers": {},
-    body: "body content"
-  }
-}]
