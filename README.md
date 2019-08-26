@@ -81,6 +81,73 @@ Optional request attributes:
 __Important__: If VCR config conflicts with Matching config Matching will be
 used. Matching config have priority.
 
+### Session Configuration
+
+To register stub into a session create an object with following attributes:
+
+* __session__: name of session.
+* __stubs__: an array with objects described above.
+
+### Example of matching configuration
+
+```json
+[{
+    "method": "GET",
+    "path": "/matching/example",
+    "query": {
+      "user": 123
+    },
+    "response": {
+      "body": "matching-example-response-with-query",
+      "headers": {},
+      "status": 200
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/matching/example",
+    "response": {
+      "body": "matching-example-response",
+      "headers": {},
+      "status": 200
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/matching/example",
+    "headers": {
+      "user": "123"
+    },
+    "response": {
+      "body": "matching-example-response-with-headers",
+      "headers": {},
+      "status": 200
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/matching/example",
+    "response": {
+      "body": "matching-example-response-with-post",
+      "headers": {},
+      "status": 200
+    }
+  },
+  {
+    "session": "example-session",
+    "stubs": [{
+      "method": "GET",
+      "path": "/matching/example",
+      "response": {
+        "body": "matching-example-response-in-session",
+        "headers": {},
+        "status": 200
+      }
+    }]
+  }
+]
+```
+
 ## Config options for VCR
 ```yaml
 request:
