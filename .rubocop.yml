@@ -1,5 +1,4 @@
 ---
-require: 'rubocop-rails'
 AllCops:
   Exclude:
     - bin/**/*
@@ -12,5 +11,3 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*_spec.rb'
     - 'tshield.gemspec'
-Rails:
-  Enabled: false
