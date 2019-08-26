@@ -3,6 +3,7 @@ AllCops:
   Exclude:
     - bin/**/*
     - examples/**/*
+    - Guardfile
     - Rakefile
   TargetRubyVersion: 2.3
 Metrics/LineLength:
