@@ -2,7 +2,9 @@
 
 require 'spec_helper'
 
+require 'tshield/configuration'
 require 'tshield/request_matching'
+require 'tshield/response'
 
 describe TShield::RequestMatching do
   before :each do

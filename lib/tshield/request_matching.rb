@@ -33,11 +33,20 @@ module TShield
       filter_stubs(stubs)
     end
 
+    def filter_by_method(stubs)
+      stubs.select { |stub| stub['method'] == @options[:method] }
+    end
+
+    def filter_by_headers(stubs)
+      stubs.select { |stub| self.class.include_headers(stub['headers'], @options[:headers]) }
+    end
+
+    def filter_by_query(stubs)
+      stubs.select { |stub| self.class.include_query(stub['query'], @options[:raw_query] || '') }
+    end
+
     def filter_stubs(stubs)
-      result = stubs
-               .select { |stub| stub['method'] == @options[:method] }
-               .select { |stub| self.class.include_headers(stub['headers'], @options[:headers]) }
-               .select { |stub| self.class.include_query(stub['query'], @options[:raw_query]) }
+      result = filter_by_query(filter_by_headers(filter_by_method(stubs)))
       result[0]['response'] unless result.empty?
     end
 
@@ -67,7 +76,7 @@ module TShield
       end
 
       def include_query(stub_query, raw_query)
-        request_query = build_query_hash(raw_query || '')
+        request_query = build_query_hash(raw_query)
         stub_query ||= {}
         result = stub_query.reject { |key, value| request_query[key] == value.to_s }
         result.empty? || stub_query.empty?
