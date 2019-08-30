@@ -9,8 +9,21 @@ require 'tshield/response'
 describe TShield::RequestMatching do
   before :each do
     @configuration = double
+    TShield::RequestMatching.clear_stubs
     allow(TShield::Configuration)
       .to receive(:singleton).and_return(@configuration)
+  end
+
+  context 'on empty matching path' do
+    before :each do
+      allow(Dir).to receive(:glob)
+        .and_return([])
+    end
+
+    it 'should return empty response when called' do
+      request_matching = TShield::RequestMatching.new('/')
+      expect(request_matching.match_request).to be_nil
+    end
   end
 
   context 'matching path' do

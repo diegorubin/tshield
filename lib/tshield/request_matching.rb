@@ -33,7 +33,7 @@ module TShield
 
     def find_stub
       stubs = self.class.stubs
-      result = filter_stubs(stubs[@options[:session]])
+      result = filter_stubs(stubs[@options[:session]] || {})
       return result if result
 
       filter_stubs(stubs[DEFAULT_SESSION]) unless @options[:session] == DEFAULT_SESSION
@@ -58,6 +58,10 @@ module TShield
 
     class << self
       attr_reader :stubs
+
+      def clear_stubs
+        @stubs = nil
+      end
 
       def load_stubs
         @stubs = {}
