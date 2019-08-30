@@ -11,6 +11,9 @@ sleep 10
 
 cd ..
 cucumber
+export STATUS="$?"
 
 echo "killing server($SERVER) tshield($TSHIELD)"
 kill $SERVER $TSHIELD
+
+exit $STATUS
