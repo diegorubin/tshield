@@ -36,7 +36,7 @@ module TShield
       result = filter_stubs(stubs[@options[:session]] || {})
       return result if result
 
-      filter_stubs(stubs[DEFAULT_SESSION]) unless @options[:session] == DEFAULT_SESSION
+      filter_stubs(stubs[DEFAULT_SESSION] || {}) unless @options[:session] == DEFAULT_SESSION
     end
 
     def filter_by_method(stubs)

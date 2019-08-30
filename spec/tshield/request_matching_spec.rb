@@ -24,6 +24,16 @@ describe TShield::RequestMatching do
       request_matching = TShield::RequestMatching.new('/')
       expect(request_matching.match_request).to be_nil
     end
+
+    it 'should return empty response when called via post' do
+      request_matching = TShield::RequestMatching.new('/', method: 'POST')
+      expect(request_matching.match_request).to be_nil
+    end
+
+    it 'should return empty response when called via post and in session' do
+      request_matching = TShield::RequestMatching.new('/', method: 'POST', session: 'session')
+      expect(request_matching.match_request).to be_nil
+    end
   end
 
   context 'matching path' do
