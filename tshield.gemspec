@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email       = 'rubin.diego@gmail.com'
   s.homepage    = 'https://github.com/diegorubin/tshield'
   s.description = 'Proxy for mocks API responses'
-  s.authors     = ['Diego Rubin']
+  s.authors     = ['Diego Rubin', 'Eduardo Garcia']
 
   s.files = Dir['{app,config,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   s.files += %w[Gemfile README.md]
