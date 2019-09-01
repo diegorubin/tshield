@@ -29,6 +29,11 @@ Then('response should be saved in {string}') do |destiny|
   expect(content).to eq(UsersHelpers.users_content)
 end
 
+Then('response should be saved in {string} in session {string}') do |destiny, session|
+  content = JSON.parse(RequestsHelpers.content_for_in_session(destiny, session))
+  expect(content).to eq(UsersHelpers.users_content)
+end
+
 Then('response should be saved in directory {string}') do |directory|
   Dir.entries('./component_tests/requests/components').each do |entry|
     next if entry !~ /resources/

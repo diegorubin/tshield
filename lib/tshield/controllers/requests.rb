@@ -84,8 +84,8 @@ module TShield
           end
 
           logger.info(
-            "original=#{api_response.original} method=#{method} path=#{path}"\
-            "content-type=#{request_content_type}"\
+            "original=#{api_response.original} method=#{method} path=#{path} "\
+            "content-type=#{request_content_type} "\
             "session=#{session_name}"
           )
 

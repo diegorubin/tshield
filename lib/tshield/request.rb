@@ -20,10 +20,11 @@ module TShield
 
     def session_destiny(request_path)
       session = current_session
-      return unless session
+      return request_path unless session
 
       request_path = File.join(request_path, session[:name])
       Dir.mkdir(request_path) unless File.exist?(request_path)
+      request_path
     end
 
     def content_destiny
@@ -38,7 +39,7 @@ module TShield
       request_path = File.join('requests')
       Dir.mkdir(request_path) unless File.exist?(request_path)
 
-      session_destiny(request_path)
+      request_path = session_destiny(request_path)
 
       name_path = File.join(request_path, name)
       Dir.mkdir(name_path) unless File.exist?(name_path)
