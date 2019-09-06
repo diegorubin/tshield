@@ -81,6 +81,9 @@ module TShield
             add_headers(headers, path)
 
             api_response ||= TShield::RequestVCR.new(path, options).response
+            api_response.headers.reject! do |key, _v|
+              configuration.get_excluded_headers(domain(path)).include?(key)
+            end
           end
 
           logger.info(
@@ -90,7 +93,7 @@ module TShield
           )
 
           status api_response.status
-          headers api_response.headers.reject { |k, _v| configuration.get_excluded_headers(domain(path)).include?(k) }
+          headers api_response.headers
           body api_response.body
         end
 

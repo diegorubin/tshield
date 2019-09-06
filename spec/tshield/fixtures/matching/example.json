@@ -20,6 +20,19 @@
     }
   },
   {
+    "method": "GET",
+    "path": "/matching/example.json",
+    "response": {
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "json": "content"
+      }
+    }
+  },
+  {
     "method": "POST",
     "path": "/matching/example",
     "headers": {

@@ -23,3 +23,7 @@ When('this path {string} is accessed throught tshield via {string}') do |path, m
   @response = HTTParty.send(method, TShieldHelpers.tshield_url(path),
                             headers: @headers, query: @query)
 end
+
+Then('response should have header {string} with value {string}') do |key, value|
+  expect(@response.headers[key]).to eql(value)
+end

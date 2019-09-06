@@ -26,3 +26,10 @@ Feature: Recover response with pattern matching
     Given a file to describe "/conflicts/path" path only for method "GET"
     When this path "/conflicts/path" is accessed throught tshield via "get"
     Then response should be equal "matching"
+
+  Scenario: Return response json path
+    Given a file to describe "/matching/example.json" path
+    When this path "/matching/example.json" is accessed throught tshield
+    Then response should be equal "{\"attribute\":\"value\"}"
+    And response should have header "content-type" with value "application/json"
+

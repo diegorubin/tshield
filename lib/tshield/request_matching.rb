@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'tshield/matching/filters'
 require 'tshield/request'
 
 DEFAULT_SESSION = 'no-session'
@@ -7,6 +8,8 @@ DEFAULT_SESSION = 'no-session'
 module TShield
   # Class to check request matching
   class RequestMatching
+    include TShield::Matching::Filters
+
     attr_reader :matched
 
     def initialize(path, options = {})
@@ -21,39 +24,12 @@ module TShield
     end
 
     def match_request
-      @matched = find_stub
+      @matched = find_stub(self.class.stubs)
       return unless matched
 
-      TShield::Response.new(matched['body'],
+      TShield::Response.new(self.class.read_body(matched['body']),
                             matched['headers'],
                             matched['status'])
-    end
-
-    private
-
-    def find_stub
-      stubs = self.class.stubs
-      result = filter_stubs(stubs[@options[:session]] || {})
-      return result if result
-
-      filter_stubs(stubs[DEFAULT_SESSION] || {}) unless @options[:session] == DEFAULT_SESSION
-    end
-
-    def filter_by_method(stubs)
-      stubs.select { |stub| stub['method'] == @options[:method] }
-    end
-
-    def filter_by_headers(stubs)
-      stubs.select { |stub| self.class.include_headers(stub['headers'], @options[:headers]) }
-    end
-
-    def filter_by_query(stubs)
-      stubs.select { |stub| self.class.include_query(stub['query'], @options[:raw_query] || '') }
-    end
-
-    def filter_stubs(stubs)
-      result = filter_by_query(filter_by_headers(filter_by_method(stubs[@path] || [])))
-      result[0]['response'] unless result.empty?
     end
 
     class << self
@@ -98,28 +74,10 @@ module TShield
         stubs[session_name][item['path']] << item
       end
 
-      def include_headers(stub_headers, request_headers)
-        request_headers ||= {}
-        stub_headers ||= {}
-        result = stub_headers.reject { |key, value| request_headers[key.to_rack_name] == value }
-        result.empty? || stub_headers.empty?
-      end
+      def read_body(content)
+        return content.to_json if content.is_a? Hash
 
-      def include_query(stub_query, raw_query)
-        request_query = build_query_hash(raw_query)
-        stub_query ||= {}
-        result = stub_query.reject { |key, value| request_query[key] == value.to_s }
-        result.empty? || stub_query.empty?
-      end
-
-      def build_query_hash(raw_query)
-        params = {}
-        raw_query.split('&').each do |query|
-          key, value = query.split('=')
-          params[key] = value
-        end
-
-        params
+        content
       end
     end
   end

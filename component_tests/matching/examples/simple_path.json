@@ -51,5 +51,18 @@
         "body": "matching-example-response-in-session"
       }
     }]
+  },
+  {
+    "method": "GET",
+    "path": "/matching/example.json",
+    "response": {
+      "body": {
+        "attribute": "value"
+      },
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "status": 200
+    }
   }
 ]

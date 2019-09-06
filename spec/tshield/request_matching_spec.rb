@@ -102,6 +102,18 @@ describe TShield::RequestMatching do
           expect(@response.status).to eql(201)
         end
       end
+      context 'on match by path and returns json' do
+        before :each do
+          @request_matching = TShield::RequestMatching
+                              .new('/matching/example.json', method: 'GET')
+        end
+        it 'should return response object' do
+          @response = @request_matching.match_request
+          expect(@response.body).to eql('{"json":"content"}')
+          expect(@response.headers).to eql('Content-Type' => 'application/json')
+          expect(@response.status).to eql(200)
+        end
+      end
       context 'on match by path and method and query' do
         before :each do
           @request_matching = TShield::RequestMatching
