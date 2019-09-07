@@ -1,5 +1,4 @@
-TShield
-=======
+#TShield
 
 [![Build Status](https://travis-ci.org/diegorubin/tshield.svg)](https://travis-ci.org/diegorubin/tshield)
 [![Coverage Status](https://coveralls.io/repos/github/diegorubin/tshield/badge.svg?branch=master)](https://coveralls.io/github/diegorubin/tshield?branch=master)
@@ -10,22 +9,22 @@ TShield
 ## API mocks for development and testing
 TShield is an open source proxy for mocks API responses.
 
-* REST
-* SOAP
-* Session manager to separate multiple scenarios (success, error, sucess variation, ...)
-* Lightweight
-* MIT license
+*   REST
+*   SOAP
+*   Session manager to separate multiple scenarios (success, error, sucess variation, ...)
+*   Lightweight
+*   MIT license
     
-#### Table of Contents:
+## Table of Contents
 
-* [Basic Usage](#basic-usage)
-* [Config options for Pattern Matching](#config-options-for-pattern-matching)
-* [Config options for VCR](#config-options-for-vcr)
-* [Manage Sessions](#manage-sessions)
-* [Custom controllers](#custom-controllers)
-* [Features](#features)
-* [Examples](#examples)
-* [Contributing](#contributing)
+*   [Basic Usage](#basic-usage)
+*   [Config options for Pattern Matching](#config-options-for-pattern-matching)
+*   [Config options for VCR](#config-options-for-vcr)
+*   [Manage Sessions](#manage-sessions)
+*   [Custom controllers](#custom-controllers)
+*   [Features](#features)
+*   [Examples](#examples)
+*   [Contributing](#contributing)
     
 ## Basic Usage
 ### Install
@@ -42,8 +41,8 @@ Default port is `4567`
 
 #### Command Line Options
 
-* __-port__: Overwrite default port (4567)
-* __-help__: Show all command line options
+*   **-port**: Overwrite default port (4567)
+*   **-help**: Show all command line options
 
 #### Config example
 
@@ -75,37 +74,38 @@ All files should be in `matching` directory.
 Each file should be a valid JSON array of objects and each object must contain
 at least the following attributes:
 
-* __method__: a http method.
-* __path__: url path.
-* __response__: object with response data. Into session can be used an array of objects to return different responses like vcr mode. See example: [multiples_response.json](https://github.com/diegorubin/tshield/blob/master/component_tests/matching/examples/multiple_response.json)
+*   **method**: a http method.
+*   **path**: url path.
+*   **response**: object with response data. Into session can be used an array of objects to return different responses like vcr mode. See example: [multiples_response.json](https://github.com/diegorubin/tshield/blob/master/component_tests/matching/examples/multiple_response.json)
 
 Response must be contain the following attributes:
 
-* __headers__: key value object with expected headers to match. In the evaluation process
-  this stub will be returned if all headers are in request. 
-* __status__: integer used http status respose.
-* __body__: content to be returned.
+*   **headers**: key value object with expected headers to match. In the evaluation process
+this stub will be returned if all headers are in request. 
+*   **status**: integer used http status respose.
+*   **body**: content to be returned.
 
 Optional request attributes:
 
-* __headers__: key value object with expected headers to match. In the evaluation process
-  this stub will be returned if all headers are in request. 
-* __query__: works like headers but use query params.
+*   **headers**: key value object with expected headers to match. In the evaluation process
+this stub will be returned if all headers are in request. 
+*   **query**: works like headers but use query params.
 
-__Important__: If VCR config conflicts with Matching config Matching will be
+**Important**: If VCR config conflicts with Matching config Matching will be
 used. Matching config have priority.
 
 ### Session Configuration
 
 To register stub into a session create an object with following attributes:
 
-* __session__: name of session.
-* __stubs__: an array with objects described above.
+*   **session**: name of session.
+*   **stubs**: an array with objects described above.
 
 ### Example of matching configuration
 
 ```json
-[{
+[
+  {
     "method": "GET",
     "path": "/matching/example",
     "query": {
@@ -205,19 +205,19 @@ domains:
       - /users
 ```
 **request**
-* **timeout**: wait time for real service in seconds
-* **verify_ssl**: ignores invalid ssl if false
+*   **timeout**: wait time for real service in seconds
+*   **verify_ssl**: ignores invalid ssl if false
 
 **domain**
-* Define Base URI of service
-* **name**: Name to identify the domain in the generated files
-* **headers**: github-issue #17
-* **not_save_headers**: List of headers that should be ignored in generated file
-* **skip_query_params**: List of query params that should be ignored in generated file
-* **cache_request**: <<some_description>>
-* **filters**: Implementation of before or after filters used in domain requests
-* **excluded_headers**: <<some_description>>
-* **paths**: Paths list of all services that will be called. Used to filter what domain will "receive the request"
+*   Define Base URI of service
+*   **name**: Name to identify the domain in the generated files
+*   **headers**: github-issue #17
+*   **not_save_headers**: List of headers that should be ignored in generated file
+*   **skip_query_params**: List of query params that should be ignored in generated file
+*   **cache_request**: <<some_description>>
+*   **filters**: Implementation of before or after filters used in domain requests
+*   **excluded_headers**: <<some_description>>
+*   **paths**: Paths list of all services that will be called. Used to filter what domain will "receive the request"
 
 ## Manage Sessions
 
@@ -283,7 +283,7 @@ This features files are used as base for the component tests.
 [examples/client-api-nodejs](examples/client-api-nodejs)
 
 #### Basic example for component/acceptance test
-**[WIP]**
+*   WIP
 
 ## Contributing
 [Hacking or Contributing to TShield](CONTRIBUTING.md)
