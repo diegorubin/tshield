@@ -1,5 +1,8 @@
 # frozen_string_literal: false
 
+require 'coveralls'
+Coveralls.wear!
+
 require 'bundler/setup'
 Bundler.setup
 
