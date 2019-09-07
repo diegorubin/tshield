@@ -31,6 +31,7 @@ module TShield
     attr_reader :request
     attr_reader :domains
     attr_reader :tcp_servers
+    attr_reader :session_path
 
     def initialize(attributes)
       attributes.each { |key, value| instance_variable_set("@#{key}", value) }
@@ -57,9 +58,8 @@ module TShield
 
     def get_domain_for(path)
       domains.each do |url, config|
-        config['paths'].each do |pattern|
-          return url if path =~ Regexp.new(pattern)
-        end
+        result = self.class.get_url_for_domain_by_path(path, config)
+        return url if result
       end
       nil
     end
@@ -99,8 +99,12 @@ module TShield
       domains[domain]['not_save_headers'] || []
     end
 
-    def session_path
-      @session_path || '/sessions'
+    def read_session_path
+      session_path || '/sessions'
+    end
+
+    def self.get_url_for_domain_by_path(path, config)
+      config['paths'].select { |pattern| path =~ Regexp.new(pattern) }[0]
     end
 
     def self.read_configuration_file(config_path)
