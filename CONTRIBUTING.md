@@ -1,8 +1,8 @@
-# Contributing to Tshield
+# Contributing to TShield
 
 First of all, thanks for taking time to contribuite!
 
-The following is a set of guidelines for contributing to Tshield. Feel free to propose changes to this document in a pull request.
+The following is a set of guidelines for contributing to TShield. Feel free to propose changes to this document in a pull request.
 
 #### Table of Contents:
 
@@ -26,9 +26,9 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 * **Use a clear and descriptive title** for the issue to identify the suggestion.
 * **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
 * **Describe the current behavior** and **explain which behavior you expected to see instead** and why.
-* **Explain why this enhancement would be useful** to most Tshield users.
+* **Explain why this enhancement would be useful** to most TShield users.
 * **List some other API mocks or applications where this enhancement exists.**
-* **Specify which version of Tshield you're using.**
+* **Specify which version of TShield you're using.**
 * **Specify the name and version of the OS you're using.**
 
 ## Local development
@@ -66,7 +66,7 @@ To run all component tests:
 
 The process described here has several goals:
 
-- Maintain Tshield quality
+- Maintain TShield quality
 - Fix problems that are important to users
 - Add improvements or new features
 
@@ -80,6 +80,3 @@ While the prerequisites above must be satisfied prior to having your pull reques
 
 ## Styleguides
 [TBD]
-
-## Basic sample for component/acceptance test
-**[WIP]**
