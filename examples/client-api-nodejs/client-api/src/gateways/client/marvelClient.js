@@ -8,7 +8,7 @@ const publicKey = config.marvel.publicKey;
 
 module.exports = {
   getCharacter: (name) => {
-    const ts = config.marvel.useStaticTs ? 12345 : Date.now();
+    const ts = Date.now();
     const hash = md5(ts+privateKey+publicKey);
 
     const data = {

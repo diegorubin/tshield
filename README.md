@@ -15,6 +15,17 @@ TShield is an open source proxy for mocks API responses.
 * Lightweight
 * MIT license
     
+#### Table of Contents:
+
+* [Basic Usage](#basic-usage)
+* [Config options for Pattern Matching](#config-options-for-pattern-matching)
+* [Config options for VCR](#config-options-for-vcr)
+* [Manage Sessions](#manage-sessions)
+* [Custom controllers](#custom-controllers)
+* [Features](#features)
+* [Examples](#examples)
+* [Contributing](#contributing)
+    
 ## Basic Usage
 ### Install
 
@@ -26,7 +37,7 @@ To run server execute this command
 
     tshield
     
-Default port is **4567**
+Default port is `4567`
 
 #### Command Line Options
 
@@ -201,6 +212,7 @@ domains:
 * **name**: Name to identify the domain in the generated files
 * **headers**: github-issue #17
 * **not_save_headers**: List of headers that should be ignored in generated file
+* **skip_query_params**: List of query params that should be ignored in generated file
 * **cache_request**: <<some_description>>
 * **filters**: Implementation of before or after filters used in domain requests
 * **excluded_headers**: <<some_description>>
@@ -265,9 +277,12 @@ end
 Description of some tshield features can be found in the features directory.
 This features files are used as base for the component tests.
 
-## Samples
-#### Basic sample for a client app requesting a server API
+## Examples
+#### Basic example for a client app requesting an API
 [examples/client-api-nodejs](examples/client-api-nodejs)
 
+#### Basic example for component/acceptance test
+**[WIP]**
+
 ## Contributing
-[Hacking or Contributing to Tshield](CONTRIBUTING.md)
+[Hacking or Contributing to TShield](CONTRIBUTING.md)
