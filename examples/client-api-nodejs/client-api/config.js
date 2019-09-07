@@ -2,7 +2,6 @@ const MARVEL_API = process.env.MARVEL_API || 'https://gateway.marvel.com';
 const MARVEL_API_CHARACTERS = process.env.MARVEL_API_CHARACTERS || '/v1/public/characters';
 const MARVEL_API_PRIVATE_KEY = process.env.MARVEL_API_PRIVATE_KEY || 'mock-marvel-private-key';
 const MARVEL_API_PUBLIC_KEY = process.env.MARVEL_API_PUBLIC_KEY || 'mock-marvel-public-key';
-const MARVEL_API_USE_STATIC_TS = process.env.MARVEL_API_USE_STATIC_TS || 'false';
 
 const TENOR_API = process.env.TENOR_API || 'https://api.tenor.com';
 const TENOR_API_SEARCH = process.env.TENOR_API_SEARCH || '/v1/search';
@@ -14,7 +13,6 @@ const applicationConfig = {
     characters: MARVEL_API_CHARACTERS,
     privateKey: MARVEL_API_PRIVATE_KEY,
     publicKey: MARVEL_API_PUBLIC_KEY,
-    useStaticTs: MARVEL_API_USE_STATIC_TS === 'true',
   },
   tenor: {
     url: TENOR_API,

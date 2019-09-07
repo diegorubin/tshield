@@ -4,12 +4,22 @@ request:
 domains:
   'https://api.tenor.com':
     name: 'tenor'
+    not_save_headers:
+      - transfer-encoding
+    skip_query_params:
+      - key
     paths:
       - /v1/search
       - /v1/categories
 
   'https://gateway.marvel.com':
     name: 'marvel'
+    not_save_headers:
+      - transfer-encoding
+    skip_query_params:
+      - apikey
+      - ts
+      - hash
     paths:
       - /v1/public/characters
       - /v1/public/comics

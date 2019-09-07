@@ -5,7 +5,7 @@
   "main": "application.js",
   "scripts": {
     "start": "node application.js",
-    "start-mock": "MARVEL_API=http://localhost:4567 MARVEL_API_USE_STATIC_TS=true TENOR_API=http://localhost:4567 npm run start",
+    "start-mock": "MARVEL_API=http://localhost:4567 TENOR_API=http://localhost:4567 npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "license": "MIT",
