@@ -1,0 +1,13 @@
+{
+  "status": 200,
+  "headers": {
+    "access-control-allow-origin": "*",
+    "content-type": "application/json",
+    "date": "Sun, 08 Sep 2019 20:46:29 GMT",
+    "server": "nginx/1.12.2",
+    "set-cookie": "scookie=; path=/; expires=Thu, 01-Jan-1970 00:00:00 GMT",
+    "x-redux-status": "ZOOL",
+    "content-length": "1467",
+    "connection": "Close"
+  }
+}
