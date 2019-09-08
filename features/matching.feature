@@ -33,3 +33,8 @@ Feature: Recover response with pattern matching
     Then response should be equal "{\"attribute\":\"value\"}"
     And response should have header "content-type" with value "application/json"
 
+  Scenario: Return different answer for same stub
+    Given a file to describe "/matching/twice" path
+    When this path "/matching/twice" is accessed throught tshield twice
+    Then first response should be equal "{\"attribute\":\"value1\"}"
+    Then second response should be equal "{\"attribute\":\"value2\"}"
