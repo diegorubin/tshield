@@ -77,7 +77,7 @@ at least the following attributes:
 
 * __method__: a http method.
 * __path__: url path.
-* __response__: object with response data. Into session can be used an array of objects to return different responses like vcr mode. See example: [multiples_response.json](https://github.com/diegorubin/tshield/blob/master/component_tests/matching/examples/multiples_response.json)
+* __response__: object with response data. Into session can be used an array of objects to return different responses like vcr mode. See example: [multiples_response.json](https://github.com/diegorubin/tshield/blob/master/component_tests/matching/examples/multiple_response.json)
 
 Response must be contain the following attributes:
 
