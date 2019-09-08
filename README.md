@@ -282,7 +282,7 @@ This features files are used as base for the component tests.
 #### Basic example for a client app requesting an API
 [examples/client-api-nodejs](examples/client-api-nodejs)
 
-#### Basic example for component/acceptance test
+#### Basic example for component/acceptance test using tshield sessions
 [examples/component-test](examples/component-test)
 
 ## Contributing
