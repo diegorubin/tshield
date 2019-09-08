@@ -12,19 +12,19 @@
     {{#if result}}
         <div class="card" data-test-card>
             <div class="card-content">
-                <h3><span>Name: </span><strong>{{{result.name}}}</strong></h3>
-                <p><span>First Comic: </span><strong>{{{result.firstComic}}}</strong></p>
+                <h3><span>Name: </span><strong data-test-card-name>{{{result.name}}}</strong></h3>
+                <p><span>First Comic: </span><strong data-test-card-comic>{{{result.firstComic}}}</strong></p>
             </div>
             <div class="card-image">
-                <img src="{{{result.gifUrl}}}" />
+                <img data-test-card-img src="{{{result.gifUrl}}}" />
             </div>
         </div>
     {{/if}}
     {{#if error}}
         <div class="card card-error" data-test-card-error>
             <div class="card-content">
-                <h3>Error on search</h3>
-                <p>{{{error.error.message}}}</p>
+                <h3 data-test-card-error-title>Error on search</h3>
+                <p data-test-card-error-msg>{{{error.error.message}}}</p>
             </div>
         </div>
     {{/if}}
