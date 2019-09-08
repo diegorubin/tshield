@@ -54,6 +54,23 @@
     }
   },
   {
+    "method": "GET",
+    "path": "/matching/twice",
+    "response": [{
+      "status": 200,
+      "headers": {
+        "try": 1
+      },
+      "body": "first call"
+    }, {
+      "status": 201,
+      "headers": {
+        "try": 2
+      },
+      "body": "second call"
+    }]
+  },
+  {
     "session": "a-session",
     "stubs": [{
       "method": "GET",

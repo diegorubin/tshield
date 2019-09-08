@@ -59,12 +59,14 @@ module TShield
           method = request.request_method
           request_content_type = request.content_type
           session_name = TShield::Controllers::Helpers::SessionHelpers.current_session_name(request)
+          session_call = TShield::Controllers::Helpers::SessionHelpers.current_session_call(request, path, method)
 
           options = {
             method: method,
             headers: Helpers.build_headers(request),
             raw_query: request.env['QUERY_STRING'],
             session: session_name,
+            call: session_call,
             ip: request.ip
           }
 
@@ -75,12 +77,12 @@ module TShield
                                               replace: '')
             options[:body] = result
           end
-          api_response = TShield::RequestMatching.new(path, options).match_request
+          api_response = TShield::RequestMatching.new(path, options.clone).match_request
 
           unless api_response
             add_headers(headers, path)
 
-            api_response ||= TShield::RequestVCR.new(path, options).response
+            api_response ||= TShield::RequestVCR.new(path, options.clone).response
             api_response.headers.reject! do |key, _v|
               configuration.get_excluded_headers(domain(path)).include?(key)
             end
@@ -89,8 +91,9 @@ module TShield
           logger.info(
             "original=#{api_response.original} method=#{method} path=#{path} "\
             "content-type=#{request_content_type} "\
-            "session=#{session_name}"
+            "session=#{session_name} call=#{session_call}"
           )
+          TShield::Controllers::Helpers::SessionHelpers.update_session_call(request, path, method)
 
           status api_response.status
           headers api_response.headers

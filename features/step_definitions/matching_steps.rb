@@ -33,11 +33,11 @@ When('this path {string} is accessed throught tshield twice') do |path|
 end
 
 Then('first response should be equal {string}') do |value|
-  expect(@response[0].body).to eql(value)
+  expect(@responses[0].body).to eql(value)
 end
 
 Then('second response should be equal {string}') do |value|
-  expect(@response[1].body).to eql(value)
+  expect(@responses[1].body).to eql(value)
 end
 
 Then('response should have header {string} with value {string}') do |key, value|
