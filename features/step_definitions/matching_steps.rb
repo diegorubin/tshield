@@ -23,21 +23,16 @@ When('this path {string} is accessed throught tshield via {string}') do |path, m
   @response = HTTParty.send(method, TShieldHelpers.tshield_url(path),
                             headers: @headers, query: @query)
 end
-
-When('this path {string} is accessed throught tshield twice') do |path|
+When('this path {string} is accessed throught tshield {int} times') do |path, number_of_calls|
   @responses = []
-  2.times.each do |_time|
+  number_of_calls.times.each do |_time|
     @responses << HTTParty.get(TShieldHelpers.tshield_url(path),
                                headers: @headers, query: @query)
   end
 end
 
-Then('first response should be equal {string}') do |value|
-  expect(@responses[0].body).to eql(value)
-end
-
-Then('second response should be equal {string}') do |value|
-  expect(@responses[1].body).to eql(value)
+Then('call number {int} response should be equal {string}') do |call_number, value|
+  expect(@responses[call_number - 1].body).to eql(value)
 end
 
 Then('response should have header {string} with value {string}') do |key, value|

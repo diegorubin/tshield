@@ -15,6 +15,12 @@ Feature: Group stubs into sessions
   Scenario: Return different answer for same stub
     Given a file to describe "/matching/twice" path
     And in session "multiples-responses"
-    When this path "/matching/twice" is accessed throught tshield twice
-    Then first response should be equal "{\"attribute\":\"value1\"}"
-    Then second response should be equal "{\"attribute\":\"value2\"}"
+    When this path "/matching/twice" is accessed throught tshield 2 times
+    Then call number 1 response should be equal "{\"attribute\":\"value1\"}"
+    And call number 2 response should be equal "{\"attribute\":\"value2\"}"
+
+  Scenario: Return repeat responses after end of array
+    Given a file to describe "/matching/twice" path
+    And in session "multiples-responses"
+    When this path "/matching/twice" is accessed throught tshield 3 times
+    Then call number 3 response should be equal "{\"attribute\":\"value1\"}"

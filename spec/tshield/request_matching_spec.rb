@@ -131,7 +131,7 @@ describe TShield::RequestMatching do
       context 'on match have multiples responses' do
         before :each do
           @responses = []
-          2.times.each do |time|
+          3.times.each do |time|
             @responses << TShield::RequestMatching
                           .new('/matching/twice',
                                method: 'GET',
@@ -151,6 +151,13 @@ describe TShield::RequestMatching do
           expect(response.body).to eql('second call')
           expect(response.headers).to eql('try' => 2)
           expect(response.status).to eql(201)
+        end
+
+        it 'should return first response object in third call' do
+          response = @responses[2]
+          expect(response.body).to eql('first call')
+          expect(response.headers).to eql('try' => 1)
+          expect(response.status).to eql(200)
         end
       end
       context 'on not match' do

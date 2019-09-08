@@ -35,7 +35,10 @@ module TShield
     end
 
     def current_response
-      return matched[@options[:call]] if matched.is_a? Array
+      if matched.is_a? Array
+        index = @options[:call] % matched.size
+        return matched[index]
+      end
 
       matched
     end
