@@ -1,4 +1,5 @@
-#TShield
+TShield
+=======
 
 [![Build Status](https://travis-ci.org/diegorubin/tshield.svg)](https://travis-ci.org/diegorubin/tshield)
 [![Coverage Status](https://coveralls.io/repos/github/diegorubin/tshield/badge.svg?branch=master)](https://coveralls.io/github/diegorubin/tshield?branch=master)
