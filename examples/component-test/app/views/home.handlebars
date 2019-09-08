@@ -1,1 +1,31 @@
-<h1>Example App: Home</h1>
+<div class="wrap">
+    <h1>Example App: Home</h1>
+    <h4>Search by marvel characters</h4>
+    <form method="post">
+        <div class="search">
+            <input type="text" value="{{{search}}}" class="searchTerm" placeholder="What are you looking for?" name="search" data-test-search-input>
+            <button type="submit" class="searchButton" data-test-search-button>
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </form>
+    {{#if result}}
+        <div class="card" data-test-card>
+            <div class="card-content">
+                <h3><span>Name: </span><strong>{{{result.name}}}</strong></h3>
+                <p><span>First Comic: </span><strong>{{{result.firstComic}}}</strong></p>
+            </div>
+            <div class="card-image">
+                <img src="{{{result.gifUrl}}}" />
+            </div>
+        </div>
+    {{/if}}
+    {{#if error}}
+        <div class="card card-error" data-test-card-error>
+            <div class="card-content">
+                <h3>Error on search</h3>
+                <p>{{{error.error.message}}}</p>
+            </div>
+        </div>
+    {{/if}}
+</div>
