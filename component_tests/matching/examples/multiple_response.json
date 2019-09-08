@@ -1,0 +1,20 @@
+[{
+  "session": "multiples-responses",
+  "stubs": [{
+    "method": "GET",
+    "path": "/matching/twice",
+    "response": [{
+      "body": {
+        "attribute": "value1"
+      },
+      "headers": {},
+      "status": 200
+    }, {
+      "body": {
+        "attribute": "value2"
+      },
+      "headers": {},
+      "status": 200
+    }]
+  }]
+}]

@@ -10,7 +10,7 @@ module TShield
     # Actions to handle sessions
     module Sessions
       def self.registered(app)
-        session_path = TShield::Configuration.singleton.session_path
+        session_path = TShield::Configuration.singleton.read_session_path
         register_get(app, session_path)
         register_post(app, session_path)
         register_delete(app, session_path)

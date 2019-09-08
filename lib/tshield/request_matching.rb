@@ -27,9 +27,17 @@ module TShield
       @matched = find_stub(self.class.stubs)
       return unless matched
 
+      @matched = current_response
+
       TShield::Response.new(self.class.read_body(matched['body']),
                             matched['headers'],
                             matched['status'])
+    end
+
+    def current_response
+      return matched[@options[:call]] if matched.is_a? Array
+
+      matched
     end
 
     class << self

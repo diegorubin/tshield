@@ -7,7 +7,17 @@ module TShield
       module SessionHelpers
         def self.current_session_name(request)
           session = TShield::Sessions.current(request.ip)
-          session ? session[:name] : 'no-session'
+          session[:name] if session
+        end
+
+        def self.current_session_call(request, path, method)
+          session = TShield::Sessions.current(request.ip)
+          session ? session[:counter].current(path, method) : 0
+        end
+
+        def self.update_session_call(request, path, method)
+          session = TShield::Sessions.current(request.ip)
+          session[:counter].add(path, method) if session
         end
       end
     end

@@ -6,7 +6,6 @@ module TShield
   # Base of request mock methods
   class Request
     attr_reader :configuration
-    attr_writer :content_idx
 
     def initialize
       @configuration = TShield::Configuration.singleton
@@ -14,15 +13,11 @@ module TShield
 
     protected
 
-    def current_session
-      TShield::Sessions.current(@options[:ip])
-    end
-
     def session_destiny(request_path)
-      session = current_session
+      session = @options[:session]
       return request_path unless session
 
-      request_path = File.join(request_path, session[:name])
+      request_path = File.join(request_path, session)
       Dir.mkdir(request_path) unless File.exist?(request_path)
       request_path
     end
@@ -52,7 +47,7 @@ module TShield
       method_path = File.join(path_path, method)
       Dir.mkdir(method_path) unless File.exist?(method_path)
 
-      File.join(method_path, @content_idx.to_s)
+      File.join(method_path, @options[:call].to_s)
     end
 
     def clear_path(path)
@@ -66,10 +61,6 @@ module TShield
       end.join('&')
 
       [url_path, cleared_params].join('?')
-    end
-
-    def method
-      @options[:method].downcase
     end
   end
 end

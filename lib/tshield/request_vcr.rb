@@ -14,8 +14,6 @@ require 'tshield/response'
 module TShield
   # Module to write and read saved responses
   class RequestVCR < TShield::Request
-    attr_reader :response
-
     def initialize(path, options = {})
       super()
       @path = path
@@ -28,33 +26,35 @@ module TShield
     end
 
     def request
-      unless @options[:raw_query].nil? || @options[:raw_query].empty?
-        @path = "#{@path}?#{@options[:raw_query]}"
-      end
+      raw_query = @options[:raw_query]
+      @path = "#{@path}?#{raw_query}" unless !raw_query || raw_query.empty?
 
       @url = "#{domain}#{@path}"
 
       if exists
-        @response = current_response
-        @response.original = false
+        response.original = false
+        response
       else
-        @method = method
         configuration.get_before_filters(domain).each do |filter|
-          @method, @url, @options = filter.new.filter(@method, @url, @options)
+          _method, @url, @options = filter.new.filter(method, @url, @options)
         end
 
-        raw = HTTParty.send(@method.to_s, @url, @options)
+        raw = HTTParty.send(method.to_s, @url, @options)
 
         configuration.get_after_filters(domain).each do |filter|
           raw = filter.new.filter(raw)
         end
 
-        @response = save(raw)
-
-        @response.original = true
+        original_response = save(raw)
+        original_response.original = true
+        original_response
       end
-      current_session[:counter].add(@path, method) if current_session
-      @response
+    end
+
+    def response
+      @response ||= TShield::Response.new(saved_content['body'],
+                                          saved_content['headers'] || [],
+                                          saved_content['status'] || 200)
     end
 
     private
@@ -65,6 +65,10 @@ module TShield
 
     def name
       @name ||= configuration.get_name(domain)
+    end
+
+    def method
+      @method ||= @options[:method].downcase
     end
 
     def save(raw_response)
@@ -93,19 +97,11 @@ module TShield
     end
 
     def file_exists
-      session = current_session
-      @content_idx = session ? session[:counter].current(@path, method) : 0
       File.exist?(content_destiny)
     end
 
     def exists
       file_exists && configuration.cache_request?(domain)
-    end
-
-    def current_response
-      TShield::Response.new(saved_content['body'],
-                            saved_content['headers'] || [],
-                            saved_content['status'] || 200)
     end
 
     def key

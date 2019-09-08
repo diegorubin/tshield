@@ -80,7 +80,8 @@ describe TShield::RequestVCR do
 
         TShield::RequestVCR.new '/',
                                 raw_query: 'allowed=true&skipped=1',
-                                method: 'GET'
+                                method: 'GET',
+                                call: 0
       end
     end
   end
