@@ -59,7 +59,8 @@ module TShield
           method = request.request_method
           request_content_type = request.content_type
           session_name = TShield::Controllers::Helpers::SessionHelpers.current_session_name(request)
-          session_call = TShield::Controllers::Helpers::SessionHelpers.current_session_call(request, path, method)
+          session_call = TShield::Controllers::Helpers::SessionHelpers
+                         .current_session_call(request, path, method)
 
           options = {
             method: method,
