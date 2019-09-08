@@ -283,7 +283,7 @@ This features files are used as base for the component tests.
 [examples/client-api-nodejs](examples/client-api-nodejs)
 
 #### Basic example for component/acceptance test
-*   WIP
+[examples/component-test](examples/component-test)
 
 ## Contributing
 [Hacking or Contributing to TShield](CONTRIBUTING.md)
