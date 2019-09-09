@@ -33,3 +33,8 @@ Feature: Recover response with pattern matching
     Then response should be equal "{\"attribute\":\"value\"}"
     And response should have header "content-type" with value "application/json"
 
+  Scenario: Return response from file
+    Given a file to describe "/matching/file.txt" path
+    When this path "/matching/file.txt" is accessed throught tshield
+    Then response should be equal "content of file\n"
+

@@ -160,6 +160,29 @@ describe TShield::RequestMatching do
           expect(response.status).to eql(200)
         end
       end
+      context 'on match have file reference' do
+        before :each do
+          request_matching = TShield::RequestMatching
+                             .new('/matching/file.txt',
+                                  method: 'GET')
+
+          file_content_double = double
+          allow(File).to receive(:join).with('matching', 'body.json')
+                                       .and_return('matching/body.json')
+          allow(File).to receive(:open).with('matching/body.json', 'r')
+                                       .and_return(file_content_double)
+
+          allow(file_content_double).to receive(:read).and_return("line1\nline2")
+
+          @response = request_matching.match_request
+        end
+
+        it 'should return content of file' do
+          expect(@response.body).to eql("line1\nline2")
+          expect(@response.headers).to eql({})
+          expect(@response.status).to eql(200)
+        end
+      end
       context 'on not match' do
         before :each do
           @request_matching = TShield::RequestMatching.new('/')
