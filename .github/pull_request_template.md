@@ -9,11 +9,11 @@ Closes # (feature issue)
 
 Please delete options that are not relevant.
 
-- [ ] Bug fix
-- [ ] New feature
-- [ ] This change requires a documentation update
+*   [ ] Bug fix
+*   [ ] New feature
+*   [ ] This change requires a documentation update
 
-## How Has This Been Tested?
+## How Has This Been Tested
 <!--- Please describe in detail how you tested your changes. -->
 <!--- Include details of your testing environment, and the tests you ran to -->
 <!--- see how your change affects other areas of the code, etc. -->
