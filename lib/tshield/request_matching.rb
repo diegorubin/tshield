@@ -87,8 +87,13 @@ module TShield
 
       def read_body(content)
         return content.to_json if content.is_a? Hash
+        return read_file_content(content) if content =~ %r{^FILE://}
 
         content
+      end
+
+      def read_file_content(content)
+        File.open(File.join('matching', content.gsub('FILE://', '')), 'r').read
       end
     end
   end

@@ -43,5 +43,5 @@ Then('response should be saved in directory {string}') do |directory|
 end
 
 Then('response should be equal {string}') do |content|
-  expect(@response.body).to eql(content)
+  expect(@response.body).to eql(content.gsub('\\n', "\n"))
 end

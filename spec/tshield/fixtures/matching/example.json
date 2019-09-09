@@ -55,6 +55,15 @@
   },
   {
     "method": "GET",
+    "path": "/matching/file.txt",
+    "response": {
+      "status": 200,
+      "headers": {},
+      "body": "FILE://body.json"
+    }
+  },
+  {
+    "method": "GET",
     "path": "/matching/twice",
     "response": [{
       "status": 200,
