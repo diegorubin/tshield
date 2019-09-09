@@ -1,0 +1,49 @@
+{
+  "weburl": "https://tenor.com/search/hulk-gifs", 
+  "results": [
+    {
+      "tags": [], 
+      "url": "https://tenor.com/XYY3.gif", 
+      "media": [
+        {
+          "tinygif": {
+            "url": "https://media.tenor.com/images/4ce0f51b15f4f7784e0ac504c2c9324d/tenor.gif", 
+            "dims": [
+              220, 
+              220
+            ], 
+            "preview": "https://media.tenor.com/images/fd73ac6f37d94fd3e285ac6ea3241fbc/tenor.gif", 
+            "size": 488118
+          }, 
+          "gif": {
+            "url": "https://media.tenor.com/images/19d4d328b2c52637286686223d1d6464/tenor.gif", 
+            "dims": [
+              250, 
+              250
+            ], 
+            "preview": "https://media.tenor.com/images/ad880f2d72f514e5c088d28acc1c3bde/tenor.png", 
+            "size": 2063268
+          }, 
+          "mp4": {
+            "url": "https://media.tenor.com/videos/7951a6df6acfc7468e3008cd7a160737/mp4", 
+            "dims": [
+              250, 
+              250
+            ], 
+            "duration": 3.6, 
+            "preview": "https://media.tenor.com/images/ad880f2d72f514e5c088d28acc1c3bde/tenor.png", 
+            "size": 115549
+          }
+        }
+      ], 
+      "created": 1527074440.788363, 
+      "shares": 1, 
+      "itemurl": "https://tenor.com/view/hulk-roar-avengers-infinity-war-angry-gif-11873427", 
+      "composite": null, 
+      "hasaudio": false, 
+      "title": "", 
+      "id": "11873427"
+    }
+  ], 
+  "next": "1"
+}
