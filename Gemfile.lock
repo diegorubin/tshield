@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tshield (0.11.7.0)
+    tshield (0.11.8.0)
       byebug (~> 11.0, >= 11.0.1)
       haml (~> 4.0, >= 4.0.7)
       httparty (~> 0.14, >= 0.14.0)

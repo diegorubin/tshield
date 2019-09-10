@@ -5,5 +5,6 @@ require 'tshield/options'
 require 'tshield/simple_tcp_server'
 require 'tshield/server'
 
+# TShield: API mocks for development and testing
 module TShield
 end
