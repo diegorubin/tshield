@@ -23,8 +23,14 @@ module TShield
         stubs.select { |stub| Filters.include_query(stub['query'], @options[:raw_query] || '') }
       end
 
+      def filter_by_path(stubs)
+        stubs.each do |key, value|
+          return value if @path =~ /^#{key}$/
+        end
+      end
+
       def filter_stubs(stubs)
-        result = filter_by_query(filter_by_headers(filter_by_method(stubs[@path] || [])))
+        result = filter_by_query(filter_by_headers(filter_by_method(filter_by_path(stubs))))
         result[0]['response'] unless result.empty?
       end
 

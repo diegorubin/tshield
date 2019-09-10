@@ -64,6 +64,15 @@
   },
   {
     "method": "GET",
+    "path": "/matching/regex/\\d+",
+    "response": {
+      "status": 200,
+      "headers": {},
+      "body": "stub with regex"
+    }
+  },
+  {
+    "method": "GET",
     "path": "/matching/twice",
     "response": [{
       "status": 200,
