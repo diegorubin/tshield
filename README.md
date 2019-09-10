@@ -76,7 +76,7 @@ Each file should be a valid JSON array of objects and each object must contain
 at least the following attributes:
 
 *   **method**: a http method.
-*   **path**: url path.
+*   **path**: url path. This attribute accept regex, see example in [regex.json](https://github.com/diegorubin/tshield/blob/master/component_tests/matching/examples/regex.json)
 *   **response**: object with response data. Into session can be used an array of objects to return different responses like vcr mode. See example: [multiples_response.json](https://github.com/diegorubin/tshield/blob/master/component_tests/matching/examples/multiple_response.json). External file can be used as body content, see example in [file.json](https://github.com/diegorubin/tshield/blob/master/component_tests/matching/examples/file.json).
 
 Response must be contain the following attributes:

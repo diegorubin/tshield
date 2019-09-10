@@ -183,6 +183,20 @@ describe TShield::RequestMatching do
           expect(@response.status).to eql(200)
         end
       end
+      context 'on match with regex' do
+        before :each do
+          @response = request_matching = TShield::RequestMatching
+                                         .new('/matching/regex/1234',
+                                              method: 'GET').match_request
+        end
+
+        it 'should return content of file' do
+          expect(@response.body).to eql('stub with regex')
+          expect(@response.headers).to eql({})
+          expect(@response.status).to eql(200)
+        end
+      end
+
       context 'on not match' do
         before :each do
           @request_matching = TShield::RequestMatching.new('/')
