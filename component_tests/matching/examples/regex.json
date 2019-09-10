@@ -1,0 +1,9 @@
+[{
+  "method": "GET",
+  "path": "/matching/\\d+",
+  "response": {
+    "body": "matching-with-regex",
+    "headers": {},
+    "status": 200
+  }
+}]
