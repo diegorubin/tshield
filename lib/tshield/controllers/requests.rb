@@ -20,28 +20,10 @@ module TShield
           app.enable :logging
         end
 
-        app.get(PATHP) do
-          treat(params, request, response)
-        end
-
-        app.post(PATHP) do
-          treat(params, request, response)
-        end
-
-        app.put(PATHP) do
-          treat(params, request, response)
-        end
-
-        app.patch(PATHP) do
-          treat(params, request, response)
-        end
-
-        app.head(PATHP) do
-          treat(params, request, response)
-        end
-
-        app.delete(PATHP) do
-          treat(params, request, response)
+        %w[get post put patch head delete].each do |http_method|
+          app.send(http_method, PATHP) do
+            treat(params, request, response)
+          end
         end
       end
 
@@ -103,7 +85,7 @@ module TShield
 
         def add_headers(headers, path)
           (configuration.get_headers(domain(path)) || {}).each do |source, destiny|
-            headers[destiny] = request.env[source] unless request.env[source].nil?
+            headers[destiny] = request.env[source] if request.env[source]
           end
         end
 
