@@ -1,7 +1,6 @@
 # frozen_string_literal: false
 
 require 'sinatra'
-require 'haml'
 
 require 'tshield/options'
 require 'tshield/controllers/requests'
