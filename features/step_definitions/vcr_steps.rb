@@ -20,6 +20,10 @@ When('this api is accessed throught tshield') do
   HTTParty.get(TShieldHelpers.tshield_url(@path))
 end
 
+When('this api is accessed throught tshield with param {string} and value {string}') do |key, value|
+  HTTParty.get(TShieldHelpers.tshield_url(@path), query: { key => value })
+end
+
 When('this path {string} is accessed throught tshield') do |path|
   @response = HTTParty.get(TShieldHelpers.tshield_url(path))
 end

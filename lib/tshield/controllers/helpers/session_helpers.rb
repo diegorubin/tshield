@@ -10,14 +10,14 @@ module TShield
           session[:name] if session
         end
 
-        def self.current_session_call(request, path, method)
+        def self.current_session_call(request, callid, method)
           session = TShield::Sessions.current(request.ip)
-          session ? session[:counter].current(path, method) : 0
+          session ? session[:counter].current(callid, method) : 0
         end
 
-        def self.update_session_call(request, path, method)
+        def self.update_session_call(request, callid, method)
           session = TShield::Sessions.current(request.ip)
-          session[:counter].add(path, method) if session
+          session[:counter].add(callid, method) if session
         end
       end
     end
