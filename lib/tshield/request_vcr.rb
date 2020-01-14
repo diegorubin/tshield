@@ -31,24 +31,25 @@ module TShield
 
       @url = "#{domain}#{@path}"
 
+      configuration.get_before_filters(domain).each do |filter|
+        _method, @url, @options = filter.new.filter(method, @url, @options)
+      end
+
       if exists
         response.original = false
-        response
+        resp = response
       else
-        configuration.get_before_filters(domain).each do |filter|
-          _method, @url, @options = filter.new.filter(method, @url, @options)
-        end
-
         raw = HTTParty.send(method.to_s, @url, @options)
-
-        configuration.get_after_filters(domain).each do |filter|
-          raw = filter.new.filter(raw)
-        end
 
         original_response = save(raw)
         original_response.original = true
-        original_response
+        resp = original_response
       end
+
+      configuration.get_after_filters(domain).each do |filter|
+        resp = filter.new.filter(resp)
+      end
+      resp
     end
 
     def response
