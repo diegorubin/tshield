@@ -1,6 +1,7 @@
 # frozen_string_literal: false
 
 require 'sinatra'
+require 'sinatra/cross_origin'
 
 require 'tshield/options'
 require 'tshield/controllers/requests'
@@ -16,6 +17,22 @@ module TShield
     set :views, File.join(File.dirname(__FILE__), 'views')
     set :bind, '0.0.0.0'
     set :port, TShield::Options.instance.port
+
+    configure do
+      enable :cross_origin
+    end
+
+    before do
+      response.headers['Access-Control-Allow-Origin'] = '*'
+    end
+
+    options '*' do
+      response.headers['Allow'] = 'GET, PUT, POST, DELETE, OPTIONS'
+      response.headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type,
+                                                        Accept, X-User-Email, X-Auth-Token'
+      response.headers['Access-Control-Allow-Origin'] = '*'
+      200
+    end
 
     def self.register_resources
       load_controllers
