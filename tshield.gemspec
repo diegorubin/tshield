@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('cucumber', '~> 3.1', '>= 3.1.2')
   s.add_development_dependency('guard', '~> 2.15', '>= 2.15.0')
   s.add_development_dependency('guard-rspec', '~> 4.7', '>= 4.7.3')
-  s.add_development_dependency('rake', '~> 10.0', '>= 10.0')
+  s.add_development_dependency('rake', '>= 10.0', '~> 13.0')
   s.add_development_dependency('rdoc', '~> 6.0', '>= 6.0')
   s.add_development_dependency('reek', '~> 5.4.0', '>= 5.4.0')
   s.add_development_dependency('rspec', '~> 3.5', '>= 3.5.0')
