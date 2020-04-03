@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency('httparty', '~> 0.14', '>= 0.14.0')
   s.add_dependency('json', '~> 2.0', '>= 2.0')
   s.add_dependency('sinatra', '~> 1.4', '>= 1.4.0')
+  s.add_dependency('sinatra-cross_origin', '~> 0.4.0', '>= 0.4')
   s.add_development_dependency('coveralls')
   s.add_development_dependency('cucumber', '~> 3.1', '>= 3.1.2')
   s.add_development_dependency('guard', '~> 2.15', '>= 2.15.0')

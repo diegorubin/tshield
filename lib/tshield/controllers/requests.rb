@@ -65,7 +65,7 @@ module TShield
           api_response = TShield::RequestMatching.new(path, options.clone).match_request
 
           unless api_response
-            add_headers(headers, path)
+            add_headers(options, path)
 
             api_response ||= TShield::RequestVCR.new(path, options.clone).response
             api_response.headers.reject! do |key, _v|
@@ -85,9 +85,9 @@ module TShield
           body api_response.body
         end
 
-        def add_headers(headers, path)
+        def add_headers(options, path)
           (configuration.get_headers(domain(path)) || {}).each do |source, destiny|
-            headers[destiny] = request.env[source] if request.env[source]
+            options[:headers][destiny] = request.env[source] if request.env[source]
           end
         end
 
