@@ -17,6 +17,7 @@ module TShield
     set :views, File.join(File.dirname(__FILE__), 'views')
     set :bind, '0.0.0.0'
     set :port, TShield::Options.instance.port
+    set :server, :puma
 
     configure do
       enable :cross_origin

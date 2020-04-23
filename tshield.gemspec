@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency('byebug', '~> 11.0', '>= 11.0.1')
   s.add_dependency('httparty', '~> 0.14', '>= 0.14.0')
   s.add_dependency('json', '~> 2.0', '>= 2.0')
+  s.add_dependency('puma', '~> 4.3', '>= 4.3.3')
   s.add_dependency('sinatra', '~> 1.4', '>= 1.4.0')
   s.add_dependency('sinatra-cross_origin', '~> 0.4.0', '>= 0.4')
   s.add_development_dependency('coveralls')
