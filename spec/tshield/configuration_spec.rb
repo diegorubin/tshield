@@ -35,6 +35,12 @@ describe TShield::Configuration do
         )
       end
 
+      context 'on grpc configuration' do
+        it 'recover server port' do
+          expect(@configuration.grpc['port']).to(eq(5678))
+        end
+      end
+
       context 'on load filters' do
         it 'recover filters for a domain' do
           expect(@configuration.get_filters('example.org')).to eq([ExampleFilter])

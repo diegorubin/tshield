@@ -30,6 +30,7 @@ module TShield
     #
     attr_reader :request
     attr_reader :domains
+    attr_reader :grpc
     attr_reader :tcp_servers
     attr_reader :session_path
 

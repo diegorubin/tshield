@@ -25,6 +25,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.3'
 
   s.add_dependency('byebug', '~> 11.0', '>= 11.0.1')
+  s.add_dependency('grpc', '~> 1.28', '>= 1.28.0')
+  s.add_dependency('grpc-tools', '~> 1.28', '>= 1.28.0')
   s.add_dependency('httparty', '~> 0.14', '>= 0.14.0')
   s.add_dependency('json', '~> 2.0', '>= 2.0')
   s.add_dependency('puma', '~> 4.3', '>= 4.3.3')

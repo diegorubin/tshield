@@ -57,7 +57,6 @@ module TShield
 
     def self.run!
       register_resources
-      require 'byebug'
       super
     end
   end

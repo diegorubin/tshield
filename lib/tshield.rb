@@ -2,8 +2,8 @@
 
 require 'tshield/extensions/string_extensions'
 require 'tshield/options'
-require 'tshield/simple_tcp_server'
 require 'tshield/server'
+require 'tshield/grpc'
 
 # TShield: API mocks for development and testing
 module TShield

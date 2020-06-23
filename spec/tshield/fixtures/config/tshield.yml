@@ -1,4 +1,6 @@
 ---
+grpc:
+  port: 5678
 request:
   timeout: 0
 domains:
