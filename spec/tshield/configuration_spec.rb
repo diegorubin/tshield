@@ -78,4 +78,17 @@ describe TShield::Configuration do
       expect { TShield::Configuration.singleton }.to raise_error RuntimeError
     end
   end
+
+  context 'on config exists without grpc entry' do
+    before :each do
+      options_instance = double
+      allow(options_instance).to receive(:configuration_file)
+        .and_return('spec/tshield/fixtures/config/tshield-without-grpc.yml')
+      allow(TShield::Options).to receive(:instance).and_return(options_instance)
+      @configuration = TShield::Configuration.singleton
+    end
+    it 'should set default value for port' do
+      expect(@configuration.grpc).to eql('port' => 5678, 'proto_dir' => 'proto', 'services' => {})
+    end
+  end
 end

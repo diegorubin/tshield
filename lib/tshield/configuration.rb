@@ -30,7 +30,6 @@ module TShield
     #
     attr_reader :request
     attr_reader :domains
-    attr_reader :grpc
     attr_reader :tcp_servers
     attr_reader :session_path
 
@@ -102,6 +101,11 @@ module TShield
 
     def read_session_path
       session_path || '/sessions'
+    end
+
+    def grpc
+      defaults = { 'port' => 5678, 'proto_dir' => 'proto', 'services' => {} }
+      defaults.merge(@grpc || {})
     end
 
     def self.get_url_for_domain_by_path(path, config)
