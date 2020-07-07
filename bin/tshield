@@ -5,7 +5,5 @@ require 'tshield/options'
 TShield::Options.init
 
 require 'tshield'
-tshield = Thread.new { TShield::Server.run! }
+Thread.new { TShield::Server.run! }
 TShield::Grpc.run!
-
-tshield.join

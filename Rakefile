@@ -32,5 +32,5 @@ end
 
 task :server do
   $LOAD_PATH.unshift File.dirname('./lib/tshield.rb')
-  exec 'bin/tshield'
+  Thread.new { exec 'bin/tshield' }
 end

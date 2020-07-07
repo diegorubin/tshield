@@ -263,6 +263,10 @@ present in the gem `grpc-tools`. Example:
 
 `grpc_tools_ruby_protoc -I proto --ruby_out=proto --grpc_out=proto proto/<INPUT>.proto`
 
+Call example in component_tests using [grpcurl](https://github.com/fullstorydev/grpcurl):
+
+`grpcurl -plaintext -import-path component_tests/proto -proto helloworld.proto  -d '{"name": "teste"}' localhost:5678 helloworld.Greeter/SayHello`
+
 ### Using in VCR mode
 
 ## Custom controllers

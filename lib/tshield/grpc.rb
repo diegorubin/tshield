@@ -1,12 +1,20 @@
 # frozen_string_literal: false
 
 require 'grpc'
-require 'byebug'
 
 require 'tshield/configuration'
+require 'tshield/sessions'
+require 'tshield/grpc/vcr'
 
 module TShield
-  class Grpc
+  module Grpc
+    module RequestHandler
+      include TShield::Grpc::VCR
+      def handler(method_name, request)
+        options = self.class.options
+        handler_in_vcr_mode(method_name, request, options)
+      end
+    end
     def self.run!
       @configuration = TShield::Configuration.singleton.grpc
 
@@ -22,36 +30,44 @@ module TShield
 
       services = load_services(@configuration['services'])
       services.each do |class_service|
+        class_service.include RequestHandler
         server.handle(class_service)
       end
 
-      server.run unless services.empty?
+      server.run_till_terminated_or_interrupted([1, 'int', 'SIGQUIT']) unless services.empty?
     end
 
     def self.load_services(services)
-      implementations = []
-      number_of_implementations = 0
+      handlers = []
+      number_of_handlers = 0
       services.each do |file, options|
         require file
 
         base = Object.const_get("#{options['module']}::Service")
-        number_of_implementations += 1
+        number_of_handlers += 1
 
-        implementation = Class.new(base) do
-          base.rpc_descs.each do |method_name, _description|
-            method_name = method_name.to_s.underscore.to_sym
-            define_method(method_name) do |request, _unused_call|
-              client_class = Object.const_get("#{options['module']}::Stub")
-              client_instance = client_class.new(options['hostname'], :this_channel_is_insecure)
-              client_instance.send(method_name, request)
-            end
+        implementation = build_handler(base, base.rpc_descs, number_of_handlers, options)
+        handlers << implementation
+      end
+      handlers
+    end
+
+    def self.build_handler(base, descriptions, number_of_handlers, options)
+      handler = Class.new(base) do
+        class << self
+          attr_writer :options
+          attr_reader :options
+        end
+        descriptions.each do |service_name, description|
+          puts description
+          method_name = service_name.to_s.underscore.to_sym
+          define_method(method_name) do |request, _unused_call|
+            handler(__method__, request)
           end
         end
-        Object.const_set "GrpcService#{number_of_implementations}", implementation
-
-        implementations << implementation
       end
-      implementations
+      handler.options = options
+      TShield::Grpc.const_set "GrpcService#{number_of_handlers}", handler
     end
   end
 end

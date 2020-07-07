@@ -29,7 +29,7 @@ require 'helloworld_services_pb'
 class GreeterServer < Helloworld::Greeter::Service
   # say_hello implements the SayHello rpc method.
   def say_hello(hello_req, _unused_call)
-    Helloworld::HelloReply.new(message: "Hello with message #{hello_req.name}")
+    Helloworld::HelloReply.new(message: "Client send #{hello_req.name}")
   end
 end
 
