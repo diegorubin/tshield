@@ -4,6 +4,7 @@
 coverage
 .byebug_history
 config
+proto
 matching
 requests
 .idea
