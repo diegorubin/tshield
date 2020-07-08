@@ -19,7 +19,7 @@
 #
 # Usage: $ path/to/greeter_server.rb
 
-lib_dir = File.join(__dir__, '..', 'proto')
+lib_dir = File.join(__dir__, 'proto')
 $LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
 
 require 'grpc'

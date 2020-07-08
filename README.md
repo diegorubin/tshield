@@ -13,6 +13,7 @@ TShield is an open source proxy for mocks API responses.
 *   REST
 *   SOAP
 *   Session manager to separate multiple scenarios (success, error, sucess variation, ...)
+    gRPC [EXPERIMENTAL]
 *   Lightweight
 *   MIT license
 
@@ -227,7 +228,7 @@ You can use TShield sessions to separate multiple scenarios for your mocks
 By default TShield save request/response into 
 
     requests/<<domain_name>>/<<resource_with_param>>/<<http_verb>>/<<index_based.content and json>>
-    
+
 If you start a session a folder with de **session_name** will be placed between **"requests/"** and **"<<domain_name>>"**
 
 ### Start TShield session
@@ -251,7 +252,18 @@ curl -X DELETE \
 ```
 ## [Experimental] Config options for gRPC
 
-### TODO
+```yaml
+grpc:
+  port: 5678
+  proto_dir: 'proto'
+  services:
+    'helloworld_services_pb': 
+      module: 'Helloworld::Greeter'
+      hostname: '0.0.0.0:50051'
+```
+
+
+### Not Implemented Yet 
 
 - Sessions
 - Matching
