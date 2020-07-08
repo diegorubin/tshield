@@ -3,10 +3,10 @@
 module TShield
   # Control version of gem
   class Version
-    MAJOR = 1
-    MINOR = 0
-    PATCH = 0
-    PRE = 1
+    MAJOR = 0
+    MINOR = 11
+    PATCH = 15
+    PRE = 0
 
     class << self
       def to_s

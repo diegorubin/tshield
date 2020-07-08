@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tshield (1.0.0.1)
+    tshield (0.11.15.0)
       byebug (~> 11.0, >= 11.0.1)
       grpc (~> 1.28, >= 1.28.0)
       grpc-tools (~> 1.28, >= 1.28.0)
