@@ -13,9 +13,10 @@ TShield is an open source proxy for mocks API responses.
 *   REST
 *   SOAP
 *   Session manager to separate multiple scenarios (success, error, sucess variation, ...)
+    gRPC [EXPERIMENTAL]
 *   Lightweight
 *   MIT license
-    
+
 ## Table of Contents
 
 *   [Basic Usage](#basic-usage)
@@ -26,7 +27,7 @@ TShield is an open source proxy for mocks API responses.
 *   [Features](#features)
 *   [Examples](#examples)
 *   [Contributing](#contributing)
-    
+
 ## Basic Usage
 ### Install
 
@@ -37,7 +38,7 @@ TShield is an open source proxy for mocks API responses.
 To run server execute this command
 
     tshield
-    
+
 Default port is `4567`
 
 #### Command Line Options
@@ -102,7 +103,7 @@ To register stub into a session create an object with following attributes:
 *   **session**: name of session.
 *   **stubs**: an array with objects described above.
 
-### Example of matching configuration
+### Example of HTTP matching configuration
 
 ```json
 [
@@ -163,7 +164,7 @@ To register stub into a session create an object with following attributes:
 ]
 ```
 
-## Config options for VCR
+## Config options for HTTP VCR
 ```yaml
 request:
   timeout: 8
@@ -227,7 +228,7 @@ You can use TShield sessions to separate multiple scenarios for your mocks
 By default TShield save request/response into 
 
     requests/<<domain_name>>/<<resource_with_param>>/<<http_verb>>/<<index_based.content and json>>
-    
+
 If you start a session a folder with de **session_name** will be placed between **"requests/"** and **"<<domain_name>>"**
 
 ### Start TShield session
@@ -249,6 +250,36 @@ _DELETE_ to http://localhost:4567/sessions
 curl -X DELETE \
   http://localhost:4567/sessions
 ```
+## [Experimental] Config options for gRPC
+
+```yaml
+grpc:
+  port: 5678
+  proto_dir: 'proto'
+  services:
+    'helloworld_services_pb': 
+      module: 'Helloworld::Greeter'
+      hostname: '0.0.0.0:50051'
+```
+
+
+### Not Implemented Yet 
+
+- Sessions
+- Matching
+
+### Configuration
+
+First, generate ruby files from proto files. Use `grpc_tools_ruby_protoc`
+present in the gem `grpc-tools`. Example:
+
+`grpc_tools_ruby_protoc -I proto --ruby_out=proto --grpc_out=proto proto/<INPUT>.proto`
+
+Call example in component_tests using [grpcurl](https://github.com/fullstorydev/grpcurl):
+
+`grpcurl -plaintext -import-path component_tests/proto -proto helloworld.proto  -d '{"name": "teste"}' localhost:5678 helloworld.Greeter/SayHello`
+
+### Using in VCR mode
 
 ## Custom controllers
 

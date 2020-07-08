@@ -15,9 +15,4 @@ require 'webmock/rspec'
 require 'tshield/extensions/string_extensions'
 
 RSpec.configure do |config|
-  config.before(:each) do
-    allow(File).to receive(:join).and_return(
-      'spec/tshield/fixtures/config/tshield.yml'
-    )
-  end
 end

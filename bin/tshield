@@ -5,14 +5,5 @@ require 'tshield/options'
 TShield::Options.init
 
 require 'tshield'
-tshield = Thread.new { TShield::Server.run! }
-
-configuration = TShield::Configuration.load_configuration
-(configuration.tcp_servers || []).each do |tcp_server|
-  puts "initializing #{tcp_server['name']}"
-  require "./servers/#{tcp_server['file']}"
-  klass = Object.const_get(tcp_server['name'])
-  Thread.new { klass.new.listen(tcp_server['port']) }
-end
-
-tshield.join
+Thread.new { TShield::Server.run! }
+TShield::Grpc.run!

@@ -31,3 +31,4 @@ exclude_paths:
 - bin
 - examples
 - spec
+- component_tests

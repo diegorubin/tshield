@@ -103,6 +103,11 @@ module TShield
       session_path || '/sessions'
     end
 
+    def grpc
+      defaults = { 'port' => 5678, 'proto_dir' => 'proto', 'services' => {} }
+      defaults.merge(@grpc || {})
+    end
+
     def self.get_url_for_domain_by_path(path, config)
       config['paths'].select { |pattern| path =~ Regexp.new(pattern) }[0]
     end

@@ -35,6 +35,12 @@ describe TShield::Configuration do
         )
       end
 
+      context 'on grpc configuration' do
+        it 'recover server port' do
+          expect(@configuration.grpc['port']).to(eq(5678))
+        end
+      end
+
       context 'on load filters' do
         it 'recover filters for a domain' do
           expect(@configuration.get_filters('example.org')).to eq([ExampleFilter])
@@ -70,6 +76,19 @@ describe TShield::Configuration do
 
     it 'exit with error status' do
       expect { TShield::Configuration.singleton }.to raise_error RuntimeError
+    end
+  end
+
+  context 'on config exists without grpc entry' do
+    before :each do
+      options_instance = double
+      allow(options_instance).to receive(:configuration_file)
+        .and_return('spec/tshield/fixtures/config/tshield-without-grpc.yml')
+      allow(TShield::Options).to receive(:instance).and_return(options_instance)
+      @configuration = TShield::Configuration.singleton
+    end
+    it 'should set default value for port' do
+      expect(@configuration.grpc).to eql('port' => 5678, 'proto_dir' => 'proto', 'services' => {})
     end
   end
 end
