@@ -3,16 +3,15 @@
 require 'grpc'
 
 require 'tshield/configuration'
-require 'tshield/sessions'
 require 'tshield/grpc/vcr'
 
 module TShield
   module Grpc
     module RequestHandler
       include TShield::Grpc::VCR
-      def handler(method_name, request)
+      def handler(method_name, request, parameters)
         options = self.class.options
-        handler_in_vcr_mode(method_name, request, options)
+        handler_in_vcr_mode(method_name, request, parameters, options)
       end
     end
     def self.run!
@@ -62,8 +61,8 @@ module TShield
         descriptions.each do |service_name, description|
           puts description
           method_name = service_name.to_s.underscore.to_sym
-          define_method(method_name) do |request, _unused_call|
-            handler(__method__, request)
+          define_method(method_name) do |request, parameters|
+            handler(__method__, request, parameters)
           end
         end
       end
