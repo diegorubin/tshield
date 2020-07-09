@@ -6,7 +6,7 @@ module TShield
   module Grpc
     module VCR
       def handler_in_vcr_mode(method_name, request, parameters, options)
-        parameters.peer =~ /\[(.+?)\]/
+        parameters.peer =~ /ipv6:\[(.+?)\]|ipv4:(.+?):/
         peer = Regexp.last_match(1)
 
         TShield.logger.info("request from #{parameters.peer}")
