@@ -265,7 +265,6 @@ grpc:
 
 ### Not Implemented Yet 
 
-- Sessions
 - Matching
 
 ### Configuration
