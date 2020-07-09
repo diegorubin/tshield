@@ -13,7 +13,7 @@ TShield is an open source proxy for mocks API responses.
 *   REST
 *   SOAP
 *   Session manager to separate multiple scenarios (success, error, sucess variation, ...)
-    gRPC [EXPERIMENTAL]
+*   gRPC [EXPERIMENTAL]
 *   Lightweight
 *   MIT license
 
