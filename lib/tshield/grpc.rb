@@ -24,6 +24,7 @@ module TShield
       TShield.logger.info("loading proto files from #{lib_dir}")
 
       bind = "0.0.0.0:#{@configuration['port']}"
+      TShield.logger.info("Starting gRPC server in #{bind}")
 
       server = GRPC::RpcServer.new
       server.add_http2_port(bind, :this_port_is_insecure)
