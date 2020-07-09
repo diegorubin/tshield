@@ -9,7 +9,7 @@ module TShield
         parameters.peer =~ /\[(.+?)\]/
         peer = Regexp.last_match(1)
 
-        TShield.logger.info("request from #{peer}")
+        TShield.logger.info("request from #{parameters.peer}")
         @session = TShield::Sessions.current(peer)
 
         TShield.logger.info("grpc using session #{@session || 'default'}")
