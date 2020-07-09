@@ -7,7 +7,7 @@ module TShield
     module VCR
       def handler_in_vcr_mode(method_name, request, parameters, options)
         parameters.peer =~ /ipv6:\[(.+?)\]|ipv4:(.+?):/
-        peer = Regexp.last_match(1)
+        peer = Regexp.last_match(1) || Regexp.last_match(2)
 
         TShield.logger.info("request from #{parameters.peer}")
         @session = TShield::Sessions.current(peer)
