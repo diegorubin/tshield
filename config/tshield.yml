@@ -14,5 +14,6 @@ domains:
     skip_query_params:
       - b
     paths:
+      - /fake
       - /users
       - /resources

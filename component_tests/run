@@ -10,7 +10,7 @@ GRPC_SERVER=$!
 ../bin/tshield -c config.yml &
 TSHIELD=$!
 
-sleep 10
+sleep 5
 
 cd ..
 cucumber
