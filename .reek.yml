@@ -8,3 +8,5 @@ directories:
       max_calls: 2
     LongParameterList:
       max_params: 4
+    ControlParameter:
+      enabled: false

@@ -13,8 +13,8 @@ module TShield
 
     protected
 
-    def session_destiny(request_path)
-      session = @options[:session]
+    def session_destiny(request_path, current_session = nil)
+      session = current_session || @options[:session]
       return request_path unless session
 
       request_path = File.join(request_path, session)
@@ -22,19 +22,19 @@ module TShield
       request_path
     end
 
-    def content_destiny
-      "#{destiny}.content"
+    def content_destiny(current_session = nil)
+      "#{destiny(current_session)}.content"
     end
 
-    def headers_destiny
-      "#{destiny}.json"
+    def headers_destiny(current_session = nil)
+      "#{destiny(current_session)}.json"
     end
 
-    def destiny
+    def destiny(current_session = nil)
       request_path = File.join('requests')
       Dir.mkdir(request_path) unless File.exist?(request_path)
 
-      request_path = session_destiny(request_path)
+      request_path = session_destiny(request_path, current_session)
 
       name_path = File.join(request_path, name)
       Dir.mkdir(name_path) unless File.exist?(name_path)

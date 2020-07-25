@@ -2,11 +2,11 @@
 
 require 'httparty'
 require 'json'
-require 'byebug'
 
 require 'digest/sha1'
 
 require 'tshield/configuration'
+require 'tshield/logger'
 require 'tshield/options'
 require 'tshield/request'
 require 'tshield/response'
@@ -14,6 +14,8 @@ require 'tshield/response'
 module TShield
   # Module to write and read saved responses
   class RequestVCR < TShield::Request
+    attr_reader :vcr_response
+
     def initialize(path, options = {})
       super()
       @path = path
@@ -35,27 +37,31 @@ module TShield
         _method, @url, @options = filter.new.filter(method, @url, @options)
       end
 
-      if exists
-        response.original = false
-        resp = response
+      in_session = find_in_sessions
+      if in_session
+        # TODO: create concept of global session in vcr
+        in_session = nil if in_session == 'global'
+        @vcr_response = response(in_session)
+        @vcr_response.original = false
       else
+        TShield.logger.info("calling original service for request with options #{@options}")
         raw = HTTParty.send(method.to_s, @url, @options)
 
         original_response = save(raw)
         original_response.original = true
-        resp = original_response
+        @vcr_response = original_response
       end
 
       configuration.get_after_filters(domain).each do |filter|
-        resp = filter.new.filter(resp)
+        @vcr_response = filter.new.filter(@vcr_response)
       end
-      resp
     end
 
-    def response
-      @response ||= TShield::Response.new(saved_content['body'],
-                                          saved_content['headers'] || [],
-                                          saved_content['status'] || 200)
+    def response(session)
+      response_content = saved_content(session)
+      TShield::Response.new(response_content['body'],
+                            response_content['headers'] || [],
+                            response_content['status'] || 200)
     end
 
     private
@@ -89,20 +95,27 @@ module TShield
       TShield::Response.new(raw_response.body, headers, raw_response.code)
     end
 
-    def saved_content
-      return @saved_content if @saved_content
-
-      @saved_content = JSON.parse(File.open(headers_destiny).read)
-      @saved_content['body'] = File.open(content_destiny).read unless @saved_content['body']
-      @saved_content
+    def saved_content(session)
+      content = JSON.parse(File.open(headers_destiny(session)).read)
+      content['body'] = File.open(content_destiny(session)).read unless content['body']
+      content
     end
 
-    def file_exists
-      File.exist?(content_destiny)
+    def file_exists(session)
+      File.exist?(content_destiny(session))
     end
 
-    def exists
-      file_exists && configuration.cache_request?(domain)
+    def find_in_sessions
+      in_session = nil
+
+      ([@options[:session]] + (@options[:secundary_sessions] || [])).each do |session|
+        if file_exists(session) && configuration.cache_request?(domain)
+          in_session = (session || 'global')
+          break
+        end
+        TShield.logger.info("saved response not found in #{session}")
+      end
+      in_session
     end
 
     def key
