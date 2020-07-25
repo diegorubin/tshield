@@ -7,7 +7,7 @@ AllCops:
     - Rakefile
   TargetRubyVersion: 2.3
 Metrics/LineLength:
-  Max: 100
+  Max: 120
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*_spec.rb'

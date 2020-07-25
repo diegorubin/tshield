@@ -23,6 +23,9 @@ module TShield
       end
 
       def self.register_post(app, session_path)
+        app.post "#{session_path}/append" do
+          TShield::Sessions.append(request.ip, params[:name]).to_json
+        end
         app.post session_path do
           TShield::Sessions.start(request.ip, params[:name]).to_json
         end

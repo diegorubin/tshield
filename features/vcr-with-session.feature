@@ -30,4 +30,4 @@ Feature: Save request on first call and returns saved on second grouped by sessi
     When start session "main-session"
     And append session "second-session"
     And this api is accessed throught tshield with param "t" and value "saved-in-second-session"
-    Then should get response saved into session "main-session"
+    Then should get response saved into session "second-session"
