@@ -31,3 +31,13 @@ Feature: Save request on first call and returns saved on second grouped by sessi
     And append session "second-session"
     And this api is accessed throught tshield with param "t" and value "saved-in-second-session"
     Then should get response saved into session "second-session"
+
+  Scenario: Not use number of call in secundary sessions
+    Given a valid api "/fake"
+    And saved vcr session called "main-session"
+    And saved vcr session called "second-session"
+    When start session "main-session"
+    And append session "second-session"
+    And this api is accessed throught tshield with param "t" and value "saved-in-main-session"
+    And this api is accessed throught tshield with param "t" and value "saved-in-second-session"
+    Then should get response saved into session "second-session"

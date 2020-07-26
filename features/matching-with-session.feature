@@ -19,8 +19,29 @@ Feature: Group stubs into sessions
     Then call number 1 response should be equal "{\"attribute\":\"value1\"}"
     And call number 2 response should be equal "{\"attribute\":\"value2\"}"
 
-  Scenario: Return repeat responses after end of array
+  Scenario: Repeat responses after end of array
     Given a file to describe "/matching/twice" path
     And in session "multiples-responses"
     When this path "/matching/twice" is accessed throught tshield 3 times
     Then call number 3 response should be equal "{\"attribute\":\"value1\"}"
+
+  Scenario: In a session with a main-session and a secundary-session return main
+    Given a file to describe "/matching/two-sessions" path
+    When start session "main-session"
+    And append session "second-session"
+    And this path "/matching/fake" is accessed throught tshield via "post"
+    Then response should be equal "main-session-fake"
+
+  Scenario: In a session with a main-session and a secundary-session return secundary
+    Given a file to describe "/matching/two-sessions" path
+    When start session "main-session"
+    And append session "second-session"
+    And this path "/matching/second-fake" is accessed throught tshield via "get"
+    Then response should be equal "secundary-session-first-response-fake"
+
+  Scenario: In a session with a main-session and a secundary-session return second call of secundary session
+    Given a file to describe "/matching/two-sessions" path
+    When start session "main-session"
+    And append session "second-session"
+    And this path "/matching/second-fake" is accessed throught tshield 2 times
+    Then call number 2 response should be equal "secundary-session-second-response-fake"
