@@ -8,10 +8,10 @@ module TShield
         result = filter_stubs(stubs[@options[:session]] || {})
         return result if result
 
-        find_in_secundary_sessions(stubs, @options[:secundary_sessions] || [])
+        find_in_secondary_sessions(stubs, @options[:secondary_sessions] || [])
       end
 
-      def find_in_secundary_sessions(stubs, sessions)
+      def find_in_secondary_sessions(stubs, sessions)
         sessions.each do |session|
           result = filter_stubs(stubs[session] || {})
           return result if result

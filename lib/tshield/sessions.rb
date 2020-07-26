@@ -14,7 +14,7 @@ module TShield
       sessions[normalize_ip(ip)] = {
         name: name,
         counter: TShield::Counter.new,
-        secundary_sessions: []
+        secondary_sessions: []
       }
     end
 
@@ -34,7 +34,7 @@ module TShield
       current_session = sessions[normalize_ip(ip)]
       raise AppendSessionWithoutMainSessionError, "not found main session for #{ip}" unless current_session
 
-      current_session[:secundary_sessions] << name
+      current_session[:secondary_sessions] << name
       current_session
     end
 

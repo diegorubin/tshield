@@ -43,7 +43,7 @@ module TShield
           request_content_type = request.content_type
 
           session_name = TShield::Controllers::Helpers::SessionHelpers.current_session_name(request)
-          secundary_sessions = TShield::Controllers::Helpers::SessionHelpers.secundary_sessions(request)
+          secondary_sessions = TShield::Controllers::Helpers::SessionHelpers.secondary_sessions(request)
           session_call = TShield::Controllers::Helpers::SessionHelpers
                          .current_session_call(request, callid, method)
 
@@ -52,7 +52,7 @@ module TShield
             headers: Helpers.build_headers(request),
             raw_query: request.env['QUERY_STRING'],
             session: session_name,
-            secundary_sessions: secundary_sessions,
+            secondary_sessions: secondary_sessions,
             call: session_call,
             ip: request.ip
           }

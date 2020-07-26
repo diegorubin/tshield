@@ -108,7 +108,7 @@ module TShield
     def find_in_sessions
       in_session = nil
 
-      ([@options[:session]] + (@options[:secundary_sessions] || [])).each do |session|
+      ([@options[:session]] + (@options[:secondary_sessions] || [])).each do |session|
         if file_exists(session) && configuration.cache_request?(domain)
           in_session = (session || 'global')
           break

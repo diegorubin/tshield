@@ -235,12 +235,12 @@ describe TShield::RequestMatching do
           expect(@response.headers).to eql({})
           expect(@response.status).to eql(201)
         end
-        context 'with secundary session' do
+        context 'with secondary session' do
           it 'should return response object from session settings' do
             @request_matching = TShield::RequestMatching.new('/matching/second-example',
                                                              method: 'GET',
                                                              session: 'a-session',
-                                                             secundary_sessions: ['second-session'])
+                                                             secondary_sessions: ['second-session'])
             @response = @request_matching.match_request
             expect(@response.body).to eql('body content in second-session')
             expect(@response.headers).to eql({})

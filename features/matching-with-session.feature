@@ -25,23 +25,23 @@ Feature: Group stubs into sessions
     When this path "/matching/twice" is accessed throught tshield 3 times
     Then call number 3 response should be equal "{\"attribute\":\"value1\"}"
 
-  Scenario: In a session with a main-session and a secundary-session return main
+  Scenario: In a session with a main-session and a secondary-session return main
     Given a file to describe "/matching/two-sessions" path
     When start session "main-session"
     And append session "second-session"
     And this path "/matching/fake" is accessed throught tshield via "post"
     Then response should be equal "main-session-fake"
 
-  Scenario: In a session with a main-session and a secundary-session return secundary
+  Scenario: In a session with a main-session and a secondary-session return secondary
     Given a file to describe "/matching/two-sessions" path
     When start session "main-session"
     And append session "second-session"
     And this path "/matching/second-fake" is accessed throught tshield via "get"
-    Then response should be equal "secundary-session-first-response-fake"
+    Then response should be equal "secondary-session-first-response-fake"
 
-  Scenario: In a session with a main-session and a secundary-session return second call of secundary session
+  Scenario: In a session with a main-session and a secondary-session return second call of secondary session
     Given a file to describe "/matching/two-sessions" path
     When start session "main-session"
     And append session "second-session"
     And this path "/matching/second-fake" is accessed throught tshield 2 times
-    Then call number 2 response should be equal "secundary-session-second-response-fake"
+    Then call number 2 response should be equal "secondary-session-second-response-fake"
