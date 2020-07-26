@@ -250,6 +250,16 @@ _DELETE_ to http://localhost:4567/sessions
 curl -X DELETE \
   http://localhost:4567/sessions
 ```
+### Append secondary TShield session
+**Append session. Secondary sessions will used only for read content in VCR mode, writes will be do in the main session. Append only works if exists a current session setted.**
+
+_POST_ to http://localhost:4567/sessions?name=<<same_name>>
+
+```
+curl -X POST \
+  'http://localhost:4567/sessions/append?name=my_valid'
+```
+
 ## [Experimental] Config options for gRPC
 
 ```yaml

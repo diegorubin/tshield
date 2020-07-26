@@ -1,0 +1,29 @@
+[{
+    "session": "main-session",
+    "stubs": [{
+      "method": "POST",
+      "path": "/matching/fake",
+      "response": {
+        "body": "main-session-fake",
+        "headers": {},
+        "status": 200
+      }
+    }]
+  },
+  {
+    "session": "second-session",
+    "stubs": [{
+      "method": "GET",
+      "path": "/matching/second-fake",
+      "response": [{
+        "body": "secondary-session-first-response-fake",
+        "headers": {},
+        "status": 200
+      }, {
+        "body": "secondary-session-second-response-fake",
+        "headers": {},
+        "status": 200
+      }]
+    }]
+  }
+]

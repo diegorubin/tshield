@@ -12,6 +12,10 @@ class TShieldHelpers
     HTTParty.post(TShieldHelpers.tshield_url('/sessions'), query: { name: session })
   end
 
+  def self.append_session(session)
+    HTTParty.post(TShieldHelpers.tshield_url('/sessions/append'), query: { name: session })
+  end
+
   def self.stop_session
     HTTParty.delete(TShieldHelpers.tshield_url('/sessions'))
   end

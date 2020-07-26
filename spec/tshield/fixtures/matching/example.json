@@ -99,5 +99,17 @@
         "body": "body content in session"
       }
     }]
+  },
+  {
+    "session": "second-session",
+    "stubs": [{
+      "method": "GET",
+      "path": "/matching/second-example",
+      "response": {
+        "status": 200,
+        "headers": {},
+        "body": "body content in second-session"
+      }
+    }]
   }
 ]

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+require 'tshield/logger'
 require 'tshield/counter'
+require 'tshield/errors'
 
 module TShield
   # Manage sessions
@@ -9,7 +11,11 @@ module TShield
   module Sessions
     def self.start(ip, name)
       TShield.logger.info("starting session #{name} for ip #{normalize_ip(ip)}")
-      sessions[normalize_ip(ip)] = { name: name, counter: TShield::Counter.new }
+      sessions[normalize_ip(ip)] = {
+        name: name,
+        counter: TShield::Counter.new,
+        secondary_sessions: []
+      }
     end
 
     def self.stop(ip)
@@ -20,6 +26,16 @@ module TShield
     def self.current(ip)
       TShield.logger.info("fetching session for ip #{normalize_ip(ip)}")
       sessions[normalize_ip(ip)]
+    end
+
+    def self.append(ip, name)
+      TShield.logger.info("appeding session #{name} for ip #{normalize_ip(ip)}")
+
+      current_session = sessions[normalize_ip(ip)]
+      raise AppendSessionWithoutMainSessionError, "not found main session for #{ip}" unless current_session
+
+      current_session[:secondary_sessions] << name
+      current_session
     end
 
     def self.sessions

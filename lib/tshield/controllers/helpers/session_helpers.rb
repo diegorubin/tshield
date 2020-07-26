@@ -10,6 +10,11 @@ module TShield
           session[:name] if session
         end
 
+        def self.secondary_sessions(request)
+          session = TShield::Sessions.current(request.ip)
+          session[:secondary_sessions] if session
+        end
+
         def self.current_session_call(request, callid, method)
           session = TShield::Sessions.current(request.ip)
           session ? session[:counter].current(callid, method) : 0
