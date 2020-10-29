@@ -14,3 +14,7 @@ lib_dir = File.join(Dir.pwd, 'component_tests', 'proto')
 $LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
 puts lib_dir
 require 'helloworld_services_pb'
+
+at_exit do
+  system('fuser -k 4567/tcp')
+end

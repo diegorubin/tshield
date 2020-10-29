@@ -64,6 +64,33 @@ describe TShield::Configuration do
         expect(@configuration.get_domain_for('/api/four')).to be_nil
       end
     end
+
+    describe 'SO compatibility' do
+      it 'should be compatible with windows when configuration is true' do
+        allow(YAML).to receive(:safe_load).and_return({:windows_compatibility => true })
+        TShield::Configuration.clear
+        @configuration = TShield::Configuration.singleton
+
+        expect(@configuration.get_questionmark_char).to eq('%3f')
+      end
+
+      it 'should be compatible with Unix when configuration is false' do
+        allow(YAML).to receive(:safe_load).and_return({:windows_compatibility => false })
+        TShield::Configuration.clear
+        @configuration = TShield::Configuration.singleton
+
+        expect(@configuration.get_questionmark_char).to eq('?')
+      end
+
+      it 'should be compatible with Unix when configuration is missing' do
+        allow(YAML).to receive(:safe_load).and_return({})
+        TShield::Configuration.clear
+        @configuration = TShield::Configuration.singleton
+
+        expect(@configuration.get_questionmark_char).to eq('?')
+      end
+
+    end
   end
   context 'on config not exist' do
     before :each do

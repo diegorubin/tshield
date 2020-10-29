@@ -140,9 +140,9 @@ module TShield
       if url.size > 225
         path = url.gsub(/(\?.*)/, '')
         params = Digest::SHA1.hexdigest Regexp.last_match(1)
-        "#{path.gsub(%r{/}, '-').gsub(/^-/, '')}?#{params}"
+        "#{path.gsub(%r{/}, '-').gsub(/^-/, '')}#{configuration.get_questionmark_char}#{params}"
       else
-        url.gsub(%r{/}, '-').gsub(/^-/, '')
+        url.gsub(%r{/}, '-').gsub(/^-/, '').gsub('?', configuration.get_questionmark_char)
       end
     end
   end

@@ -1,0 +1,21 @@
+---
+windows_compatibility: true
+grpc:
+  port: 5678
+  proto_dir: 'proto'
+  services:
+    'helloworld_services_pb': 
+      module: 'Helloworld::Greeter'
+      hostname: '0.0.0.0:50051'
+request:
+  timeout: 10
+domains:
+  'http://localhost:9090':
+    name: 'components'
+    skip_query_params:
+      - b
+    paths:
+      - /fake
+      - /users
+      - /resources
+      - /conflicts/path
