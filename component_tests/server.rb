@@ -3,7 +3,6 @@
 
 require 'json'
 require 'sinatra'
-require 'byebug'
 
 get '/users' do
   [{
