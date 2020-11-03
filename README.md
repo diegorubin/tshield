@@ -68,6 +68,17 @@ domains:
       - /users
 ```
 
+**Windows Compatibility:** If you need to use Tshield in Windows SO, change the config file and set the windows_compatibility to true.
+
+Eg:
+```yaml
+windows_compatibility: true
+request:
+  # wait time for real service
+  timeout: 8
+...
+```
+
 ## Config options for Pattern Matching
 
 An example of file to create a stub:

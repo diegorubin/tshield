@@ -62,6 +62,8 @@ describe TShield::RequestVCR do
           }
         )
 
+        allow(@configuration).to receive(:get_questionmark_char).and_return('?')
+
         allow(HTTParty).to receive(:send).and_return(RawResponse.new)
         file_double = double
 
@@ -83,6 +85,53 @@ describe TShield::RequestVCR do
                                 method: 'GET',
                                 call: 0
       end
+
+      it 'should create response directory in windows standard' do
+
+        allow(@configuration).to receive(:domains).and_return(
+            'example.org' => {
+                'skip_query_params' => []
+            }
+        )
+
+        allow(@configuration).to receive(:get_questionmark_char).and_return('%3f')
+
+        allow(HTTParty).to receive(:send).and_return(RawResponse.new)
+        file_double = double
+
+        allow(File).to receive(:join)
+                           .with('./requests/example.org', '%3fparam=value')
+                           .and_return('./requests/example.org/%3fparam=value')
+        allow(File).to receive(:join)
+                           .with('./requests/example.org/%3fparam=value', 'get')
+                           .and_return('./requests/example.org/%3fparam=value/get')
+        allow(File).to receive(:join)
+                           .with('./requests/example.org/%3fparam=value/get', '0')
+                           .and_return('./requests/example.org/%3fparam=value/get/0')
+
+        allow(file_double).to receive(:read).and_return('{}')
+
+        expect(File).to receive('open')
+                            .with('./requests/example.org/%3fparam=value/get/0.content', 'w')
+                            .and_return(file_double)
+
+        expect(File).to receive('open')
+                            .with('./requests/example.org/%3fparam=value/get/0.json', 'w')
+                            .and_return(file_double)
+
+        expect(file_double).to receive(:write).ordered.with('this is the body')
+        expect(file_double).to receive(:write)
+                                   .with("{\n  \"status\": 200,\n  \"headers\": {\n  }\n}")
+        expect(file_double).to receive(:close)
+        expect(file_double).to receive(:close)
+
+        TShield::RequestVCR.new '/',
+                                raw_query: 'param=value',
+                                method: 'GET',
+                                call: 0
+      end
+
+
     end
   end
 

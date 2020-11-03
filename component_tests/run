@@ -8,7 +8,6 @@ ruby grpc_server.rb &
 GRPC_SERVER=$!
 
 ../bin/tshield -c config.yml &
-TSHIELD=$!
 
 sleep 5
 
@@ -16,7 +15,7 @@ cd ..
 cucumber
 export STATUS="$?"
 
-echo "killing server($SERVER) server($GRPC_SERVER) tshield($TSHIELD)"
-kill $SERVER $GRPC_SERVER $TSHIELD
+echo "killing server($SERVER) server($GRPC_SERVER)"
+kill $SERVER $GRPC_SERVER
 
 exit $STATUS

@@ -32,6 +32,7 @@ module TShield
     attr_reader :domains
     attr_reader :tcp_servers
     attr_reader :session_path
+    attr_reader :windows_compatibility
 
     def initialize(attributes)
       attributes.each { |key, value| instance_variable_set("@#{key}", value) }
@@ -101,6 +102,10 @@ module TShield
 
     def read_session_path
       session_path || '/sessions'
+    end
+
+    def get_questionmark_char
+      windows_compatibility ? '%3f' : '?'
     end
 
     def grpc

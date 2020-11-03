@@ -19,3 +19,10 @@ Feature: Save request on first call and returns saved on second
     Given a valid content saved in "/resources?a=1&c=3" with content "{1: true, 2: false}"
     When this path "/resources?a=1&b=2&c=3" is accessed throught tshield
     Then response should be equal "{1: true, 2: false}"
+
+  @windows
+  Scenario: Save stub files in Windows standard
+    Given a valid api "/resources?b=2&c=3&a=1"
+    And tshield has started with "windows_compatibility.yml" config file
+    When this api is accessed throught tshield
+    Then response should be saved in directory "resources%3fc=3&a=1"
