@@ -10,10 +10,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.19.2",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
-    "md5": "^2.2.1"
+    "md5": "^2.3.0"
   },
   "directories": {
     "test": "tests"
