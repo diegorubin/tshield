@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: ../../../../..
   specs:
     tshield (0.12.0.0)
       grpc (~> 1.28, >= 1.28.0)
@@ -58,10 +58,10 @@ GEM
     ffi (1.13.1)
     formatador (0.2.5)
     gherkin (5.1.0)
-    google-protobuf (3.13.0)
+    google-protobuf (3.13.0-x86_64-linux)
     googleapis-common-protos-types (1.0.5)
       google-protobuf (~> 3.11)
-    grpc (1.32.0)
+    grpc (1.32.0-x86_64-linux)
       google-protobuf (~> 3.13)
       googleapis-common-protos-types (~> 1.0)
     grpc-tools (1.32.0)
