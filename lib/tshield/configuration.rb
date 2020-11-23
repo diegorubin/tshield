@@ -131,5 +131,10 @@ module TShield
       )
       raise 'Startup aborted'
     end
+
+    def get_delay(domain, path)
+      ((domains[domain] || {})['delay'] || {})[path] || 0
+    end
+
   end
 end

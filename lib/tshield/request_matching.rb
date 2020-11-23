@@ -29,6 +29,7 @@ module TShield
 
       @matched = current_response
 
+      sleep matched['delay'] || 0
       TShield::Response.new(self.class.read_body(matched['body']),
                             matched['headers'],
                             matched['status'])

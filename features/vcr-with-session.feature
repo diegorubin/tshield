@@ -41,3 +41,17 @@ Feature: Save request on first call and returns saved on second grouped by sessi
     And this api is accessed throught tshield with param "t" and value "saved-in-main-session"
     And this api is accessed throught tshield with param "t" and value "saved-in-second-session"
     Then should get response saved into session "second-session"
+
+  Scenario: Response with delay when is defined
+    Given a valid api "/delay"
+    And in session "delay-session"
+    When this api is accessed throught tshield
+    Then response should delay "more" than 10 seconds
+    And response should be saved in "delay/get/0.content" in session "delay-session"
+  
+  Scenario: Response without delay when is not defined
+    Given a valid api "/without/delay"
+    And in session "delay-session"
+    When this api is accessed throught tshield
+    Then response should delay "less" than 1 seconds
+    And response should be saved in "without-delay/get/0.content" in session "delay-session"

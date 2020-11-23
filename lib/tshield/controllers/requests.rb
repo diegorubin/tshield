@@ -74,7 +74,7 @@ module TShield
               configuration.get_excluded_headers(domain(path)).include?(key)
             end
           end
-
+          
           logger.info(
             "original=#{api_response.original} method=#{method} path=#{path} "\
             "content-type=#{request_content_type} "\
@@ -82,6 +82,7 @@ module TShield
           )
           TShield::Controllers::Helpers::SessionHelpers.update_session_call(request, callid, method)
 
+          delay(path)
           status api_response.status
           headers api_response.headers
           body api_response.body
@@ -100,6 +101,13 @@ module TShield
         def domain(path)
           @domain ||= configuration.get_domain_for(path)
         end
+
+        def delay(path)
+          delay_in_seconds = configuration.get_delay(domain(path), path) || 0
+          logger.info("Response with delay of #{delay_in_seconds} seconds")
+          sleep delay_in_seconds
+        end
+
       end
     end
   end

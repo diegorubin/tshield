@@ -45,3 +45,17 @@ Feature: Group stubs into sessions
     And append session "second-session"
     And this path "/matching/second-fake" is accessed throught tshield 2 times
     Then call number 2 response should be equal "secondary-session-second-response-fake"
+  
+  Scenario: Return response matching with delay when is defined
+    Given a file to describe "/matching/delay" path
+    And in session "example-session-with-delay"
+    When this path "/matching/delay" is accessed throught tshield
+    Then response should delay "more" than 10 seconds
+    And response should be equal "matching-example-response-in-session-with-delay"
+  
+  Scenario: Return response matching without delay when is not defined
+    Given a file to describe "/matching/without/delay" path
+    And in session "example-session-without-delay"
+    When this path "/matching/without/delay" is accessed throught tshield
+    Then response should delay "less" than 1 seconds
+    And response should be equal "matching-example-response-in-session-without-delay"
