@@ -19,6 +19,3 @@ domains:
       - /users
       - /resources
       - /conflicts/path
-      - /delay
-    delay:
-      '/matching/delay': 10
