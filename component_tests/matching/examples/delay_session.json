@@ -1,0 +1,28 @@
+[
+  {
+    "session": "example-session-with-delay",
+    "stubs": [{
+      "method": "GET",
+      "path": "/matching/delay",
+      "response": {
+        "delay": 10,
+        "status": 200,
+        "headers": {},
+        "body": "matching-example-response-in-session-with-delay"
+      }
+    }]
+  },
+  {
+    "session": "example-session-without-delay",
+    "stubs": [{
+      "method": "GET",
+      "path": "/matching/without/delay",
+      "response": {
+        "delay": 0,
+        "status": 200,
+        "headers": {},
+        "body": "matching-example-response-in-session-without-delay"
+      }
+    }]
+  }
+]
