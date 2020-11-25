@@ -6,6 +6,7 @@ TShield
 [![SourceLevel](https://app.sourcelevel.io/github/diegorubin/tshield.svg)](https://app.sourcelevel.io/github/diegorubin/tshield)
 [![Join the chat at https://gitter.im/diegorubin/tshield](https://badges.gitter.im/diegorubin/tshield.svg)](https://gitter.im/diegorubin/tshield?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Gem Version](https://badge.fury.io/rb/tshield.svg)](https://badge.fury.io/rb/tshield)
+![TShield Publish](https://github.com/diegorubin/tshield/workflows/TShield%20Publish/badge.svg)
 
 ## API mocks for development and testing
 TShield is an open source proxy for mocks API responses.
