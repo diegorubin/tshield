@@ -18,3 +18,7 @@ domains:
       - /users
       - /resources
       - /conflicts/path
+      - /delay
+    delay:
+      '/delay': 10
+    

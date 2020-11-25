@@ -104,6 +104,10 @@ Optional request attributes:
 this stub will be returned if all headers are in request. 
 *   **query**: works like headers but use query params.
 
+Optional response attributes:
+
+*   **delay**: integer that represents time in seconds that the response will be delayed to return
+
 **Important**: If VCR config conflicts with Matching config Matching will be
 used. Matching config have priority.
 
@@ -166,6 +170,7 @@ To register stub into a session create an object with following attributes:
       "method": "GET",
       "path": "/matching/example",
       "response": {
+        "delay": 5,
         "body": "matching-example-response-in-session",
         "headers": {},
         "status": 200
@@ -206,6 +211,8 @@ domains:
       - transfer-encoding
     paths:
       - /secure
+    delay:
+      '/secure': 10
 
   'http://localhost:9092':
     name: 'my-other-service'
@@ -216,6 +223,8 @@ domains:
       - transfer-encoding
     paths:
       - /users
+    delay:
+      '/users': 5
 ```
 **request**
 *   **timeout**: wait time for real service in seconds
@@ -231,6 +240,7 @@ domains:
 *   **filters**: Implementation of before or after filters used in domain requests
 *   **excluded_headers**: <<some_description>>
 *   **paths**: Paths list of all services that will be called. Used to filter what domain will "receive the request"
+*   **delay**: List of times in seconds that the response will be delayed to return for an specific path defined above
 
 ## Manage Sessions
 

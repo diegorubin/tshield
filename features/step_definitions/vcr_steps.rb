@@ -21,6 +21,7 @@ Given('saved vcr session called {string}') do |session_name|
 end
 
 When('this api is accessed throught tshield') do
+  @time = Time.now
   HTTParty.get(TShieldHelpers.tshield_url(@path))
 end
 
@@ -29,6 +30,7 @@ When('this api is accessed throught tshield with param {string} and value {strin
 end
 
 When('this path {string} is accessed throught tshield') do |path|
+  @time = Time.now
   @response = HTTParty.get(TShieldHelpers.tshield_url(path))
 end
 
@@ -47,6 +49,15 @@ Then('response should be saved in directory {string}') do |directory|
     next if entry !~ /resources/
 
     expect(entry).to eql(directory)
+  end
+end
+
+Then('response should delay {string} than {int} seconds') do |operation, content|
+  @time = Time.now - @time
+  if operation == 'more'
+    expect(@time).to be >= content
+  else
+    expect(@time).to be < content
   end
 end
 
