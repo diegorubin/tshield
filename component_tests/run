@@ -4,6 +4,16 @@ cd component_tests
 ruby server.rb &
 SERVER=$!
 
+../bin/tshield -c config.yml &
+
+sleep 5
+
+cd ..
+echo "Runing tests with GRPC Server down"
+cucumber --tags @grpc_service_off
+export STATUS_GRPC_OFF="$?"
+
+cd component_tests
 ruby grpc_server.rb &
 GRPC_SERVER=$!
 
@@ -12,10 +22,14 @@ GRPC_SERVER=$!
 sleep 5
 
 cd ..
-cucumber
-export STATUS="$?"
+cucumber --tags "not @grpc_service_off"
+export STATUS_GRPC_ON="$?"
 
 echo "killing server($SERVER) server($GRPC_SERVER)"
 kill $SERVER $GRPC_SERVER
 
-exit $STATUS
+if [ $STATUS_GRPC_ON = '0' ] && [ $STATUS_GRPC_ON = '0' ]; then
+  exit '0'
+else
+  exit '1'
+fi
