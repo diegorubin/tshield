@@ -10,3 +10,11 @@ Feature: Save response on call real grpc and return on second call
     And in session "vcr-session"
     When this method called throught tshield with request "Helloworld::HelloRequest"
     Then grpc response should be saved in "requests/grpc/vcr-session/Helloworld::Greeter/say_hello/5759534c6594b9eb7a22bbb40ba8d6c887a7e3f0"
+
+@grpc_service_off
+  Scenario: Save only original_request in a session when GRPC service is unavailable
+    Given a valid gRPC method "say_hello" defined in "Helloworld::Greeter"
+    And in session "vcr-session"
+    When this method called throught tshield with request "Helloworld::HelloRequest" expecting an connection error
+    Then grpc original_request file should be saved in "requests/grpc/vcr-session/Helloworld::Greeter/say_hello/5759534c6594b9eb7a22bbb40ba8d6c887a7e3f0"
+    But grpc response file should not be saved in "requests/grpc/vcr-session/Helloworld::Greeter/say_hello/5759534c6594b9eb7a22bbb40ba8d6c887a7e3f0"

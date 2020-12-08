@@ -11,6 +11,15 @@ When('this method called throught tshield with request {string}') do |request_ty
   @service_instance.send(@method.to_sym, request_instance)
 end
 
+When('this method called throught tshield with request {string} expecting an connection error') do |request_type|
+  puts Kernel.const_get(request_type.to_s)
+  request_instance = Kernel.const_get(request_type.to_s).new(GrpcHelpers.example_request)
+
+  expect {
+    require @service_instance.send(@method.to_sym, request_instance)
+  }.to raise_error(/14:failed to connect to all addresses./)
+end
+
 Then('grpc response should be saved in {string}') do |directory|
   directory = File.join './component_tests', directory
   request_file = JSON.parse(File.read(File.join(directory, 'original_request')))
@@ -21,3 +30,17 @@ Then('grpc response should be saved in {string}') do |directory|
   expect(response_class_file).to eql('Helloworld::HelloReply')
   expect(request_file).to eql(GrpcHelpers.example_request)
 end
+
+Then('grpc original_request file should be saved in {string}') do |directory|
+  directory = File.join './component_tests', directory
+  request_file = JSON.parse(File.read(File.join(directory, 'original_request')))
+
+  expect(request_file).to eql(GrpcHelpers.example_request)
+end
+
+Then('grpc response file should not be saved in {string}') do |directory|
+  directory = File.join './component_tests', directory
+  expect {File.read(File.join(directory, 'response'))}.to raise_error(/No such file or directory/)
+  expect {File.read(File.join(directory, 'response_class'))}.to raise_error(/No such file or directory/)
+end
+
