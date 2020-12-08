@@ -28,7 +28,7 @@ export STATUS_GRPC_ON="$?"
 echo "killing server($SERVER) server($GRPC_SERVER)"
 kill $SERVER $GRPC_SERVER
 
-if [ $STATUS_GRPC_ON = '0' ] && [ $STATUS_GRPC_ON = '0' ]; then
+if [ $STATUS_GRPC_ON = '0' ] && [ $STATUS_GRPC_OFF = '0' ]; then
   exit '0'
 else
   exit '1'
