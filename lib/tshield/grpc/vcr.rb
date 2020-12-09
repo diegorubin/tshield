@@ -16,6 +16,7 @@ module TShield
         module_name = options['module']
 
         path = create_destiny(module_name, method_name, request)
+        save_request(path, request)
         response = saved_response(path)
         if response
           TShield.logger.info("returning saved response for request #{request.to_json} saved into #{hexdigest(request)}")
@@ -26,7 +27,7 @@ module TShield
         client_class = Object.const_get("#{module_name}::Stub")
         client_instance = client_class.new(options['hostname'], :this_channel_is_insecure)
         response = client_instance.send(method_name, request)
-        save_request_and_response(path, request, response)
+        save_response(path, response)
         response
       end
 
@@ -37,11 +38,6 @@ module TShield
         content = JSON.parse File.open(response_file).read
         response_class = File.open(File.join(path, 'response_class')).read.strip
         Kernel.const_get(response_class).new(content)
-      end
-
-      def save_request_and_response(path, request, response)
-        save_request(path, request)
-        save_response(path, response)
       end
 
       def save_request(path, request)
