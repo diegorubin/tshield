@@ -3,7 +3,7 @@ TShield
 
 [![Build Status](https://travis-ci.org/diegorubin/tshield.svg)](https://travis-ci.org/diegorubin/tshield)
 [![Coverage Status](https://coveralls.io/repos/github/diegorubin/tshield/badge.svg?branch=master)](https://coveralls.io/github/diegorubin/tshield?branch=master)
-[![SourceLevel](https://app.sourcelevel.io/github/diegorubin/tshield.svg)](https://app.sourcelevel.io/github/diegorubin/tshield)
+[![SourceLevel](https://app.sourcelevel.io/github/diegorubin/-/tshield.svg)](https://app.sourcelevel.io/github/diegorubin/-/tshield)
 [![Join the chat at https://gitter.im/diegorubin/tshield](https://badges.gitter.im/diegorubin/tshield.svg)](https://gitter.im/diegorubin/tshield?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Gem Version](https://badge.fury.io/rb/tshield.svg)](https://badge.fury.io/rb/tshield)
 ![TShield Publish](https://github.com/diegorubin/tshield/workflows/TShield%20Publish/badge.svg)
