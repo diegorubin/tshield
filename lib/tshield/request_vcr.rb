@@ -78,11 +78,30 @@ module TShield
       @method ||= @options[:method].downcase
     end
 
+    def apply_set_cookie_header_values(raw_response, headers = {})
+
+      headers_clone = headers.clone
+
+      field = raw_response.get_fields('Set-Cookie')
+
+      if !field.nil? && !field.empty?
+        cookies_values = []
+        field.each { |value| cookies_values.push(value) }
+        headers_clone['Set-Cookie'] = cookies_values
+      end
+
+      headers_clone
+    end
+
     def save(raw_response)
       headers = {}
+
       raw_response.headers.each do |k, v|
+        next if k == 'set-cookie'
         headers[k] = v unless configuration.not_save_headers(domain).include? k
       end
+
+      headers = apply_set_cookie_header_values(raw_response, headers)
 
       content = {
         body: raw_response.body,

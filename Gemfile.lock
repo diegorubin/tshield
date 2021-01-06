@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tshield (0.13.1.0)
+    tshield (0.13.2.0)
       grpc (~> 1.28, >= 1.28.0)
       grpc-tools (~> 1.28, >= 1.28.0)
       httparty (~> 0.14, >= 0.14.0)
@@ -205,4 +205,4 @@ DEPENDENCIES
   webmock (~> 2.1, >= 2.1.0)
 
 BUNDLED WITH
-   1.17.3
+   2.1.4
