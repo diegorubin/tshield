@@ -26,5 +26,7 @@ jobs:
       run: bundle install
     - name: Run tests
       run: bundle exec rake spec
+      env:
+        COVERALLS_REPO_TOKEN: "${{secrets.COVERALLS_REPO_TOKEN}}"
     - name: Run component tests
       run: bundle exec rake component_tests

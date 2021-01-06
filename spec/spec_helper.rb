@@ -1,7 +1,9 @@
 # frozen_string_literal: false
 
-require 'coveralls'
-Coveralls.wear!
+if ENV['COVERALLS_REPO_TOKEN']
+  require 'coveralls'
+  Coveralls.wear!
+end
 
 require 'bundler/setup'
 Bundler.setup
