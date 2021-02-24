@@ -192,6 +192,7 @@ domains:
     headers:
       HTTP_AUTHORIZATION: Authorization
       HTTP_COOKIE: Cookie
+    send_header_content_type: true  
     not_save_headers:
       - transfer-encoding
     cache_request: <<value>>
@@ -235,6 +236,7 @@ domains:
 *   Define Base URI of service
 *   **name**: Name to identify the domain in the generated files
 *   **headers**: github-issue #17
+*   **send_header_content_type**: Boolean domain config to send header 'Content-Type' when requesting this domain  
 *   **not_save_headers**: List of headers that should be ignored in generated file
 *   **skip_query_params**: List of query params that should be ignored in generated file
 *   **cache_request**: <<some_description>>

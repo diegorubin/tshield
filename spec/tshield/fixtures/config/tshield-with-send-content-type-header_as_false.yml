@@ -1,0 +1,18 @@
+---
+request:
+  timeout: 0
+domains:
+  'example.org':
+    name: 'example.org'
+    send_header_content_type: false
+    filters:
+      - 'ExampleFilter'
+    paths:
+      - '/api/one'
+      - '/api/two'
+    skip_query_params:
+      - 'a'
+  'example.com':
+    name: 'example.com'
+    paths:
+      - '/api/three'

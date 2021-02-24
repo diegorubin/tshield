@@ -108,14 +108,42 @@ describe TShield::Configuration do
 
   context 'on config exists without grpc entry' do
     before :each do
-      options_instance = double
-      allow(options_instance).to receive(:configuration_file)
-        .and_return('spec/tshield/fixtures/config/tshield-without-grpc.yml')
-      allow(TShield::Options).to receive(:instance).and_return(options_instance)
-      @configuration = TShield::Configuration.singleton
+      @configuration = generate_configuration_from_file('spec/tshield/fixtures/config/tshield-without-grpc.yml')
+      TShield::Configuration.clear
     end
     it 'should set default value for port' do
       expect(@configuration.grpc).to eql('port' => 5678, 'proto_dir' => 'proto', 'services' => {})
     end
   end
+
+  context 'on config property request.domains.domain.send_header_content_type does not exists' do
+    before :each do
+      @configuration = generate_configuration_from_file('spec/tshield/fixtures/config/tshield-without-grpc.yml')
+      TShield::Configuration.clear
+    end
+    it 'should return send_header_content_type as true when property is not set' do
+      expect(@configuration.send_header_content_type('example.org')).to be true
+    end
+  end
+
+  context 'on config property request.domains.domain.send_header_content_type does exists' do
+    before :each do
+      TShield::Configuration.clear
+    end
+    it 'should return send_header_content_type as true when property is true' do
+      @configuration = generate_configuration_from_file('spec/tshield/fixtures/config/tshield-with-send-content-type-header.yml')
+      expect(@configuration.send_header_content_type('example.org')).to be true
+    end
+    it 'should return send_header_content_type as false when property is false' do
+      @configuration = generate_configuration_from_file('spec/tshield/fixtures/config/tshield-with-send-content-type-header_as_false.yml')
+      expect(@configuration.send_header_content_type('example.org')).to be false
+    end
+  end
+end
+
+def generate_configuration_from_file(file)
+  options_instance = double
+  allow(options_instance).to receive(:configuration_file).and_return(file)
+  allow(TShield::Options).to receive(:instance).and_return(options_instance)
+  TShield::Configuration.singleton
 end

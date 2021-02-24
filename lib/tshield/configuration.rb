@@ -100,6 +100,11 @@ module TShield
       domains[domain]['not_save_headers'] || []
     end
 
+    def send_header_content_type(domain)
+      return domains[domain]['send_header_content_type'] != false if domains[domain]
+      true
+    end
+
     def read_session_path
       session_path || '/sessions'
     end

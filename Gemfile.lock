@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tshield (0.13.2.0)
+    tshield (0.13.3.0)
       grpc (~> 1.28, >= 1.28.0)
       grpc-tools (~> 1.28, >= 1.28.0)
       httparty (~> 0.14, >= 0.14.0)
@@ -58,10 +58,10 @@ GEM
     ffi (1.13.1)
     formatador (0.2.5)
     gherkin (5.1.0)
-    google-protobuf (3.14.0)
+    google-protobuf (3.14.0-x86_64-linux)
     googleapis-common-protos-types (1.0.5)
       google-protobuf (~> 3.11)
-    grpc (1.34.0)
+    grpc (1.34.0-x86_64-linux)
       google-protobuf (~> 3.13)
       googleapis-common-protos-types (~> 1.0)
     grpc-tools (1.34.0)
@@ -205,4 +205,4 @@ DEPENDENCIES
   webmock (~> 2.1, >= 2.1.0)
 
 BUNDLED WITH
-   2.1.4
+   2.2.11

@@ -57,6 +57,8 @@ module TShield
             ip: request.ip
           }
 
+          treat_headers_by_domain(options, path)
+
           if %w[POST PUT PATCH].include? method
             result = request.body.read.encode('UTF-8',
                                               invalid: :replace,
@@ -74,7 +76,7 @@ module TShield
               configuration.get_excluded_headers(domain(path)).include?(key)
             end
           end
-          
+
           logger.info(
             "original=#{api_response.original} method=#{method} path=#{path} "\
             "content-type=#{request_content_type} "\
@@ -92,6 +94,11 @@ module TShield
           (configuration.get_headers(domain(path)) || {}).each do |source, destiny|
             options[:headers][destiny] = request.env[source] if request.env[source]
           end
+        end
+
+        def treat_headers_by_domain(options, path)
+          @send_header_content_type = configuration.send_header_content_type(domain(path))
+          options[:headers].delete('Content-Type') unless @send_header_content_type
         end
 
         def configuration
