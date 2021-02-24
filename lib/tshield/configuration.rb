@@ -101,10 +101,8 @@ module TShield
     end
 
     def send_header_content_type(domain)
-      if domains[domain]
-        return domains[domain]['send_header_content_type'] != false
-      end
-      return true
+      return domains[domain]['send_header_content_type'] != false if domains[domain]
+      true
     end
 
     def read_session_path

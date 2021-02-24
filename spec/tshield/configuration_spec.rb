@@ -63,7 +63,7 @@ describe TShield::Configuration do
       it 'return nil if domain not found' do
         expect(@configuration.get_domain_for('/api/four')).to be_nil
       end
-    end 
+    end
 
     describe 'SO compatibility' do
       it 'should be compatible with windows when configuration is true' do
@@ -145,5 +145,5 @@ def generate_configuration_from_file(file)
   options_instance = double
   allow(options_instance).to receive(:configuration_file).and_return(file)
   allow(TShield::Options).to receive(:instance).and_return(options_instance)
-  return TShield::Configuration.singleton
+  TShield::Configuration.singleton
 end
