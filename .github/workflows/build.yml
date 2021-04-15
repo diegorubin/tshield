@@ -18,10 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@21351ecc0a7c196081abca5dc55b08f085efe09a
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.4
+        ruby-version: 2.6 # Not needed with a .ruby-version file
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Install dependencies
       run: bundle install
     - name: Run tests
