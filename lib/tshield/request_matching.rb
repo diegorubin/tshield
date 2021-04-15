@@ -60,12 +60,19 @@ module TShield
       end
 
       def load_stub(file)
-        content = JSON.parse File.open(file).read
+        content = read_stub_file(file)
         content.each do |stub|
           next unless valid_stub?(file, stub)
 
           load_valid_stub(stub)
         end
+      end
+
+      def read_stub_file(file)
+        JSON.parse File.open(file).read
+      rescue StandardError
+        TShield.logger.error "error in loading matching file #{file}"
+        []
       end
 
       def valid_stub?(file, stub)
