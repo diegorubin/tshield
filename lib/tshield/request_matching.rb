@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'tshield/logger'
 require 'tshield/matching/filters'
 require 'tshield/request'
 
@@ -59,15 +60,38 @@ module TShield
       end
 
       def load_stub(file)
-        content = JSON.parse File.open(file).read
+        content = read_stub_file(file)
         content.each do |stub|
-          stub_session_name = init_stub_session(stub)
+          next unless valid_stub?(file, stub)
 
-          if stub['stubs']
-            load_items(stub['stubs'] || [], stub_session_name)
-          else
-            load_item(stub, stub_session_name)
-          end
+          load_valid_stub(stub)
+        end
+      end
+
+      def read_stub_file(file)
+        JSON.parse File.open(file).read
+      rescue StandardError
+        TShield.logger.error "error in loading matching file #{file}"
+        []
+      end
+
+      def valid_stub?(file, stub)
+        is_valid = stub.is_a?(Hash) && mandatory_attributes?(stub)
+        TShield.logger.info "loading matching file #{file}" if is_valid
+        is_valid
+      end
+
+      def mandatory_attributes?(stub)
+        (stub['method'] && stub['path'] && stub['response']) || (stub['session'] && stub['stubs'])
+      end
+
+      def load_valid_stub(stub)
+        stub_session_name = init_stub_session(stub)
+
+        if stub['stubs']
+          load_items(stub['stubs'] || [], stub_session_name)
+        else
+          load_item(stub, stub_session_name)
         end
       end
 

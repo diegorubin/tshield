@@ -36,6 +36,38 @@ describe TShield::RequestMatching do
     end
   end
 
+  context 'invalid matching file' do
+    before :each do
+      allow(Dir).to receive(:glob)
+        .and_return(['spec/tshield/fixtures/matching/invalid_matching_file.json'])
+    end
+
+    context 'on loading stubs' do
+      before :each do
+        @request_matching = TShield::RequestMatching.new('/')
+      end
+      it 'should stubs be empty' do
+        expect(@request_matching.class.stubs[DEFAULT_SESSION]).to be_nil
+      end
+    end
+  end
+
+  context 'empty matching file' do
+    before :each do
+      allow(Dir).to receive(:glob)
+        .and_return(['spec/tshield/fixtures/matching/empty.json'])
+    end
+
+    context 'on loading stubs' do
+      before :each do
+        @request_matching = TShield::RequestMatching.new('/')
+      end
+      it 'should stubs be empty' do
+        expect(@request_matching.class.stubs[DEFAULT_SESSION]).to be_nil
+      end
+    end
+  end
+
   context 'matching path' do
     before :each do
       allow(Dir).to receive(:glob)

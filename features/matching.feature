@@ -36,5 +36,5 @@ Feature: Recover response with pattern matching
   Scenario: Return response from file
     Given a file to describe "/matching/file.txt" path
     When this path "/matching/file.txt" is accessed throught tshield
-    Then response should be equal "content of file\n"
+    Then response should be equal "{\n  \"message\": \"content of file\"\n}\n"
 
