@@ -1,9 +1,11 @@
-[{
-  "method": "GET",
-  "path": "/matching/file.txt",
-  "response": {
-    "body": "FILE://examples/content.txt",
-    "headers": {},
-    "status": 200
+[
+  {
+    "method": "GET",
+    "path": "/matching/file.txt",
+    "response": {
+      "body": "FILE://examples/content.json",
+      "headers": {},
+      "status": 200
+    }
   }
-}]
+]
