@@ -81,7 +81,7 @@ describe TShield::RequestVCR do
           }
         )
 
-        allow(@configuration).to receive(:get_questionmark_char).and_return('?')
+        allow(@configuration).to receive(:windows_compatibility?).and_return(false)
 
         allow(HTTParty).to receive(:send).and_return(RawResponse.new)
         file_double = double
@@ -106,14 +106,13 @@ describe TShield::RequestVCR do
       end
 
       it 'should create response directory in windows standard' do
-
         allow(@configuration).to receive(:domains).and_return(
             'example.org' => {
                 'skip_query_params' => []
             }
         )
 
-        allow(@configuration).to receive(:get_questionmark_char).and_return('%3f')
+        allow(@configuration).to receive(:windows_compatibility?).and_return(true)
 
         allow(HTTParty).to receive(:send).and_return(RawResponse.new)
         file_double = double
@@ -149,7 +148,6 @@ describe TShield::RequestVCR do
                                 method: 'GET',
                                 call: 0
       end
-
 
     end
   end

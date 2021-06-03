@@ -71,7 +71,7 @@ describe TShield::Configuration do
         TShield::Configuration.clear
         @configuration = TShield::Configuration.singleton
 
-        expect(@configuration.get_questionmark_char).to eq('%3f')
+        expect(@configuration.windows_compatibility?).to eq(true)
       end
 
       it 'should be compatible with Unix when configuration is false' do
@@ -79,7 +79,7 @@ describe TShield::Configuration do
         TShield::Configuration.clear
         @configuration = TShield::Configuration.singleton
 
-        expect(@configuration.get_questionmark_char).to eq('?')
+        expect(@configuration.windows_compatibility?).to eq(false)
       end
 
       it 'should be compatible with Unix when configuration is missing' do
@@ -87,7 +87,7 @@ describe TShield::Configuration do
         TShield::Configuration.clear
         @configuration = TShield::Configuration.singleton
 
-        expect(@configuration.get_questionmark_char).to eq('?')
+        expect(@configuration.windows_compatibility?).to eq(false)
       end
 
     end

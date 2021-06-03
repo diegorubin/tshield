@@ -155,14 +155,23 @@ module TShield
       content[:body] = body
     end
 
+    def encode_for_windows_dir(directory)
+      replace = [['<','%3c'],['>','%3e'],[':','%3a'],['"','%22'],['?','%3f'],[' ','%20'],['*','%2a'],['/','%2f']]
+      replace.each do |value|
+        directory = directory.gsub(value.first,value.last)
+      end
+      directory
+    end
+
     def safe_dir(url)
       if url.size > 225
         path = url.gsub(/(\?.*)/, '')
         params = Digest::SHA1.hexdigest Regexp.last_match(1)
-        "#{path.gsub(%r{/}, '-').gsub(/^-/, '')}#{configuration.get_questionmark_char}#{params}"
+        directory = "#{path.gsub(%r{/}, '-').gsub(/^-/, '')}?#{params}"
       else
-        url.gsub(%r{/}, '-').gsub(/^-/, '').gsub('?', configuration.get_questionmark_char)
+        directory = url.gsub(%r{/}, '-').gsub(/^-/, '')
       end
+        configuration.windows_compatibility? ? encode_for_windows_dir(directory) : directory
     end
   end
 end

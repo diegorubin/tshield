@@ -65,6 +65,10 @@ module TShield
       nil
     end
 
+    def windows_compatibility?
+      windows_compatibility || false
+    end
+
     def get_headers(domain)
       (domains[domain] || {})['headers'] || {}
     end
@@ -107,10 +111,6 @@ module TShield
 
     def read_session_path
       session_path || '/sessions'
-    end
-
-    def get_questionmark_char
-      windows_compatibility ? '%3f' : '?'
     end
 
     def grpc

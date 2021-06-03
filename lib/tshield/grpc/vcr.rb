@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
+require 'tshield/configuration'
 require 'tshield/sessions'
 
 module TShield
   module Grpc
     module VCR
+      def initialize
+        @configuration = TShield::Configuration.singleton
+      end
       def handler_in_vcr_mode(method_name, request, parameters, options)
         parameters.peer =~ /ipv6:\[(.+?)\]|ipv4:(.+?):/
         peer = Regexp.last_match(1) || Regexp.last_match(2)
@@ -29,6 +33,10 @@ module TShield
         response = client_instance.send(method_name, request)
         save_response(path, response)
         response
+      end
+
+      def encode_colon(value)
+        value.gsub(':','%3a')
       end
 
       def saved_response(path)
@@ -58,6 +66,7 @@ module TShield
 
       def complete_path(module_name, method_name, request)
         @session_name = (@session || {})[:name]
+        module_name = @configuration.windows_compatibility? ? encode_colon(module_name) : module_name
         path = ['requests', 'grpc', @session_name, module_name, method_name.to_s, hexdigest(request)].compact
         path
       end
