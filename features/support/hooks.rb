@@ -13,6 +13,6 @@ end
 After('@windows') do
   # restoring default tshield configuration
   system('fuser -k 4567/tcp')
-  system("cd component_tests && ../bin/tshield -c config.yml & ")
+  system('cd component_tests && ../bin/tshield -c config.yml & ')
   sleep(3)
 end

@@ -29,10 +29,7 @@ module TShield
     #                          generated directory
     #
     attr_reader :request
-    attr_reader :domains
-    attr_reader :tcp_servers
-    attr_reader :session_path
-    attr_reader :windows_compatibility
+    attr_reader :domains, :tcp_servers, :session_path, :windows_compatibility
 
     def initialize(attributes)
       attributes.each { |key, value| instance_variable_set("@#{key}", value) }
@@ -106,6 +103,7 @@ module TShield
 
     def send_header_content_type(domain)
       return domains[domain]['send_header_content_type'] != false if domains[domain]
+
       true
     end
 
@@ -140,6 +138,5 @@ module TShield
     def get_delay(domain, path)
       ((domains[domain] || {})['delay'] || {})[path] || 0
     end
-
   end
 end

@@ -79,7 +79,6 @@ module TShield
     end
 
     def apply_set_cookie_header_values(raw_response, headers = {})
-
       headers_clone = headers.clone
 
       field = raw_response.get_fields('Set-Cookie')
@@ -98,6 +97,7 @@ module TShield
 
       raw_response.headers.each do |k, v|
         next if k == 'set-cookie'
+
         headers[k] = v unless configuration.not_save_headers(domain).include? k
       end
 
@@ -156,9 +156,10 @@ module TShield
     end
 
     def encode_for_windows_dir(directory)
-      replace = [['<','%3c'],['>','%3e'],[':','%3a'],['"','%22'],['?','%3f'],[' ','%20'],['*','%2a'],['/','%2f']]
+      replace = [['<', '%3c'], ['>', '%3e'], [':', '%3a'], ['"', '%22'], ['?', '%3f'], [' ', '%20'], ['*', '%2a'],
+                 ['/', '%2f']]
       replace.each do |value|
-        directory = directory.gsub(value.first,value.last)
+        directory = directory.gsub(value.first, value.last)
       end
       directory
     end
@@ -171,7 +172,7 @@ module TShield
       else
         directory = url.gsub(%r{/}, '-').gsub(/^-/, '')
       end
-        configuration.windows_compatibility? ? encode_for_windows_dir(directory) : directory
+      configuration.windows_compatibility? ? encode_for_windows_dir(directory) : directory
     end
   end
 end

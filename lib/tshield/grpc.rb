@@ -14,6 +14,7 @@ module TShield
         handler_in_vcr_mode(method_name, request, parameters, options)
       end
     end
+
     def self.run!
       @configuration = TShield::Configuration.singleton.grpc
 
@@ -55,8 +56,7 @@ module TShield
     def self.build_handler(base, descriptions, number_of_handlers, options)
       handler = Class.new(base) do
         class << self
-          attr_writer :options
-          attr_reader :options
+          attr_accessor :options
         end
         descriptions.each do |service_name, description|
           puts description

@@ -13,7 +13,7 @@ module TShield
   module Controllers
     # Requests Handler
     module Requests
-      PATHP = %r{([a-zA-Z0-9/\._-]+)}.freeze
+      PATHP = %r{([a-zA-Z0-9/._-]+)}.freeze
 
       def self.registered(app)
         app.configure :production, :development do
@@ -114,7 +114,6 @@ module TShield
           logger.info("Response with delay of #{delay_in_seconds} seconds")
           sleep delay_in_seconds
         end
-
       end
     end
   end

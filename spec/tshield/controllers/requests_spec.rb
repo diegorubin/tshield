@@ -73,7 +73,6 @@ describe TShield::Controllers::Requests do
     allow(@configuration).to receive(:get_domain_for).and_return('example.org')
     allow(@configuration).to receive(:get_delay).and_return(0)
 
-
     allow(TShield::Options).to receive_message_chain(:instance, :break?)
     @mock_logger = double
     @controller = MockController.new(@mock_logger)
@@ -100,15 +99,15 @@ describe TShield::Controllers::Requests do
       allow(matched_response).to receive(:body).and_return('')
       allow(@mock_logger).to receive(:info)
 
-      expect(TShield::RequestVCR).to receive(:new).with("/",{
-        call: 0,
-        headers: {},
-        ip: "0.0.0.0",
-        method: "GET",
-        raw_query: "a=b",
-        secondary_sessions: nil,
-        session: nil
-      })
+      expect(TShield::RequestVCR).to receive(:new).with('/', {
+                                                          call: 0,
+                                                          headers: {},
+                                                          ip: '0.0.0.0',
+                                                          method: 'GET',
+                                                          raw_query: 'a=b',
+                                                          secondary_sessions: nil,
+                                                          session: nil
+                                                        })
       @controller.treat(params, request, nil)
     end
   end
@@ -135,16 +134,15 @@ describe TShield::Controllers::Requests do
       allow(matched_response).to receive(:body).and_return('')
       allow(@mock_logger).to receive(:info)
 
-      expect(TShield::RequestVCR).to receive(:new).with("/",{
-        call: 0,
-        headers: {'Content-Type' => 'application/json'},
-        ip: "0.0.0.0",
-        method: "GET",
-        raw_query: "a=b",
-        secondary_sessions: nil,
-        session: nil
-      })
-
+      expect(TShield::RequestVCR).to receive(:new).with('/', {
+                                                          call: 0,
+                                                          headers: { 'Content-Type' => 'application/json' },
+                                                          ip: '0.0.0.0',
+                                                          method: 'GET',
+                                                          raw_query: 'a=b',
+                                                          secondary_sessions: nil,
+                                                          session: nil
+                                                        })
 
       @controller.treat(params, request, nil)
     end

@@ -15,9 +15,9 @@ When('this method called throught tshield with request {string} expecting an con
   puts Kernel.const_get(request_type.to_s)
   request_instance = Kernel.const_get(request_type.to_s).new(GrpcHelpers.example_request)
 
-  expect {
+  expect do
     require @service_instance.send(@method.to_sym, request_instance)
-  }.to raise_error(/14:failed to connect to all addresses./)
+  end.to raise_error(/14:failed to connect to all addresses./)
 end
 
 Then('grpc response should be saved in {string}') do |directory|
@@ -40,7 +40,6 @@ end
 
 Then('grpc response file should not be saved in {string}') do |directory|
   directory = File.join './component_tests', directory
-  expect {File.read(File.join(directory, 'response'))}.to raise_error(/No such file or directory/)
-  expect {File.read(File.join(directory, 'response_class'))}.to raise_error(/No such file or directory/)
+  expect { File.read(File.join(directory, 'response')) }.to raise_error(/No such file or directory/)
+  expect { File.read(File.join(directory, 'response_class')) }.to raise_error(/No such file or directory/)
 end
-
