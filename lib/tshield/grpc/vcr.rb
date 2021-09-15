@@ -6,6 +6,8 @@ require 'tshield/sessions'
 module TShield
   module Grpc
     module VCR
+      @@counter = -1
+
       def initialize
         @configuration = TShield::Configuration.singleton
       end
@@ -41,26 +43,27 @@ module TShield
       end
 
       def saved_response(path)
-        response_file = File.join(path, 'response')
+        response_file = File.join(path, "#{@@counter}.response")
         return false unless File.exist? response_file
 
         content = JSON.parse File.open(response_file).read
-        response_class = File.open(File.join(path, 'response_class')).read.strip
+        response_class = File.open(File.join(path, "#{@@counter}.response_class")).read.strip
         Kernel.const_get(response_class).new(content)
       end
 
       def save_request(path, request)
-        file = File.open(File.join(path, 'original_request'), 'w')
+        @@counter += 1
+        file = File.open(File.join(path, "#{@@counter}.original_request"), 'w')
         file.puts request.to_json
         file.close
       end
 
       def save_response(path, response)
-        file = File.open(File.join(path, 'response'), 'w')
+        file = File.open(File.join(path, "#{@@counter}.response"), 'w')
         file.puts response.to_json
         file.close
 
-        response_class = File.open(File.join(path, 'response_class'), 'w')
+        response_class = File.open(File.join(path, "#{@@counter}.response_class"), 'w')
         response_class.puts response.class.to_s
         response_class.close
       end
