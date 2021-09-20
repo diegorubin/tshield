@@ -14,6 +14,7 @@ module TShield
         parameters.peer =~ /ipv6:\[(.+?)\]|ipv4:(.+?):/
         peer = Regexp.last_match(1) || Regexp.last_match(2)
 
+        binding.pry
         TShield.logger.info("request from #{parameters.peer}")
         @session = TShield::Sessions.current(peer)
         counter = @session ? @session[:grpc_counter].current(hexdigest(request)) : 0
@@ -23,19 +24,28 @@ module TShield
 
         path = create_destiny(module_name, method_name, request)
         save_request(path, request, counter)
-        response = saved_response(path, counter)
-        if response
-          TShield.logger.info("returning saved rsponse for request #{request.to_json} saved into #{hexdigest(request)}")
-          @session[:grpc_counter].add(hexdigest(request)) if @session
-          return response
-        end
+        response = {}
+        saved_error(path, counter, hexdigest(request))
+        begin
+          response = saved_response(path, counter)
+          if response
+            TShield.logger.info("returning saved rsponse for request #{request.to_json} saved into #{hexdigest(request)}")
+            @session[:grpc_counter].add(hexdigest(request)) if @session
+            return response
+          end
 
-        TShield.logger.info("calling server to get response for #{request.to_json}")
-        client_class = Object.const_get("#{module_name}::Stub")
-        client_instance = client_class.new(options['hostname'], :this_channel_is_insecure)
-        response = client_instance.send(method_name, request)
-        save_response(path, response, counter)
-        @session[:grpc_counter].add(hexdigest(request)) if @session
+          TShield.logger.info("calling server to get response for #{request.to_json}")
+          client_class = Object.const_get("#{module_name}::Stub")
+          client_instance = client_class.new(options['hostname'], :this_channel_is_insecure)
+          response = client_instance.send(method_name, request) # try catch
+          save_response(path, response, counter)
+          @session[:grpc_counter].add(hexdigest(request)) if @session
+        rescue GRPC::BadStatus => e
+          @session[:grpc_counter].add(hexdigest(request)) if @session
+          error = { code: e.code, details: e.details }
+          save_error(path, error, counter)
+          raise e
+        end
         response
       end
 
@@ -52,9 +62,25 @@ module TShield
         Kernel.const_get(response_class).new(content)
       end
 
+      def saved_error(path, counter, hexdigest)
+        error_file = File.join(path, "#{counter}.error")
+        return false unless File.exist? error_file
+
+        @session[:grpc_counter].add(hexdigest) if @session
+        content = JSON.parse File.open(error_file).read
+        grpc_error = GRPC::BadStatus.new(content['code'], content['details'])
+        raise grpc_error
+      end
+
       def save_request(path, request, counter)
         file = File.open(File.join(path, "#{counter}.original_request"), 'w')
         file.puts request.to_json
+        file.close
+      end
+
+      def save_error(path, error, counter)
+        file = File.open(File.join(path, "#{counter}.error"), 'w')
+        file.puts error.to_json
         file.close
       end
 
