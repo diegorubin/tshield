@@ -36,7 +36,7 @@ module TShield
           TShield.logger.info("calling server to get response for #{request.to_json}")
           client_class = Object.const_get("#{module_name}::Stub")
           client_instance = client_class.new(options['hostname'], :this_channel_is_insecure)
-          response = client_instance.send(method_name, request) # try catch
+          response = client_instance.send(method_name, request)
           save_response(path, response, counter)
           @session[:grpc_counter].add(hexdigest(request)) if @session
         rescue GRPC::BadStatus => e
@@ -96,7 +96,7 @@ module TShield
       def complete_path(module_name, method_name, request)
         @session_name = (@session || {})[:name]
         module_name = @configuration.windows_compatibility? ? encode_colon(module_name) : module_name
-        ['requests', 'grpc', @session_name, module_name, method_name.to_s, hexdigest(request)].compact
+        ['requests', @session_name, module_name, method_name.to_s, hexdigest(request)].compact
       end
 
       def create_destiny(module_name, method_name, request)
