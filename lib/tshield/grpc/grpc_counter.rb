@@ -8,10 +8,9 @@ module TShield
     end
 
     def add(hexdigest)
-      requests_to_hexdigest = @requests.fetch(hexdigest, 0)
-
-      requests_to_hexdigest += 1
-      @requests[hexdigest] = requests_to_hexdigest
+      count = @requests.fetch(hexdigest, 0)
+      count += 1
+      @requests[hexdigest] = count
     end
 
     def current(hexdigest)

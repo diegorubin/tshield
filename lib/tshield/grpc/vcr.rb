@@ -6,8 +6,6 @@ require 'tshield/sessions'
 module TShield
   module Grpc
     module VCR
-      @@counter = -1
-
       def initialize
         @configuration = TShield::Configuration.singleton
       end
@@ -18,15 +16,17 @@ module TShield
 
         TShield.logger.info("request from #{parameters.peer}")
         @session = TShield::Sessions.current(peer)
+        counter = @session[:grpc_counter].current(hexdigest(request))
 
         TShield.logger.info("grpc using session #{@session || 'default'}")
         module_name = options['module']
 
         path = create_destiny(module_name, method_name, request)
-        save_request(path, request)
-        response = saved_response(path)
+        save_request(path, request, counter)
+        response = saved_response(path, counter)
         if response
-          TShield.logger.info("returning saved response for request #{request.to_json} saved into #{hexdigest(request)}")
+          TShield.logger.info("returning saved rsponse for request #{request.to_json} saved into #{hexdigest(request)}")
+          @session[:grpc_counter].add(hexdigest(request))
           return response
         end
 
@@ -34,7 +34,8 @@ module TShield
         client_class = Object.const_get("#{module_name}::Stub")
         client_instance = client_class.new(options['hostname'], :this_channel_is_insecure)
         response = client_instance.send(method_name, request)
-        save_response(path, response)
+        save_response(path, response, counter)
+        @session[:grpc_counter].add(hexdigest(request))
         response
       end
 
@@ -42,28 +43,27 @@ module TShield
         value.gsub(':', '%3a')
       end
 
-      def saved_response(path)
-        response_file = File.join(path, "#{@@counter}.response")
+      def saved_response(path, counter)
+        response_file = File.join(path, "#{counter}.response")
         return false unless File.exist? response_file
 
         content = JSON.parse File.open(response_file).read
-        response_class = File.open(File.join(path, "#{@@counter}.response_class")).read.strip
+        response_class = File.open(File.join(path, "#{counter}.response_class")).read.strip
         Kernel.const_get(response_class).new(content)
       end
 
-      def save_request(path, request)
-        @@counter += 1
-        file = File.open(File.join(path, "#{@@counter}.original_request"), 'w')
+      def save_request(path, request, counter)
+        file = File.open(File.join(path, "#{counter}.original_request"), 'w')
         file.puts request.to_json
         file.close
       end
 
-      def save_response(path, response)
-        file = File.open(File.join(path, "#{@@counter}.response"), 'w')
+      def save_response(path, response, counter)
+        file = File.open(File.join(path, "#{counter}.response"), 'w')
         file.puts response.to_json
         file.close
 
-        response_class = File.open(File.join(path, "#{@@counter}.response_class"), 'w')
+        response_class = File.open(File.join(path, "#{counter}.response_class"), 'w')
         response_class.puts response.class.to_s
         response_class.close
       end

@@ -22,9 +22,9 @@ end
 
 Then('grpc response should be saved in {string}') do |directory|
   directory = File.join './component_tests', directory
-  request_file = JSON.parse(File.read(File.join(directory, 'original_request')))
-  response_file = JSON.parse(File.read(File.join(directory, 'response')))
-  response_class_file = File.read(File.join(directory, 'response_class')).strip
+  request_file = JSON.parse(File.read(File.join(directory, '0.original_request')))
+  response_file = JSON.parse(File.read(File.join(directory, '0.response')))
+  response_class_file = File.read(File.join(directory, '0.response_class')).strip
 
   expect(response_file).to eql(GrpcHelpers.example_response)
   expect(response_class_file).to eql('Helloworld::HelloReply')
@@ -33,13 +33,13 @@ end
 
 Then('grpc original_request file should be saved in {string}') do |directory|
   directory = File.join './component_tests', directory
-  request_file = JSON.parse(File.read(File.join(directory, 'original_request')))
+  request_file = JSON.parse(File.read(File.join(directory, '0.original_request')))
 
   expect(request_file).to eql(GrpcHelpers.example_request)
 end
 
 Then('grpc response file should not be saved in {string}') do |directory|
   directory = File.join './component_tests', directory
-  expect { File.read(File.join(directory, 'response')) }.to raise_error(/No such file or directory/)
-  expect { File.read(File.join(directory, 'response_class')) }.to raise_error(/No such file or directory/)
+  expect { File.read(File.join(directory, '0.response')) }.to raise_error(/No such file or directory/)
+  expect { File.read(File.join(directory, '0.response_class')) }.to raise_error(/No such file or directory/)
 end

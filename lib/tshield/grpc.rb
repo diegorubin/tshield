@@ -4,6 +4,7 @@ require 'grpc'
 
 require 'tshield/configuration'
 require 'tshield/grpc/vcr'
+require 'pry-byebug'
 
 module TShield
   module Grpc
@@ -42,6 +43,7 @@ module TShield
       handlers = []
       number_of_handlers = 0
       services.each do |file, options|
+
         require file
 
         base = Object.const_get("#{options['module']}::Service")

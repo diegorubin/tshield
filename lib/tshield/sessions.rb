@@ -2,7 +2,7 @@
 
 require 'tshield/logger'
 require 'tshield/counter'
-# require 'tshield/grpc/grpc_counter'
+require 'tshield/grpc/grpc_counter'
 require 'tshield/errors'
 
 module TShield
@@ -15,7 +15,7 @@ module TShield
       sessions[normalize_ip(ip)] = {
         name: name,
         counter: TShield::Counter.new,
-        # grpc_counter: TShield::GrpcCounter.new,
+        grpc_counter: TShield::GrpcCounter.new,
         secondary_sessions: []
       }
     end
