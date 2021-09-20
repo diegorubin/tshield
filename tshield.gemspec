@@ -43,5 +43,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rubocop-rails', '~> 2.2.0', '>= 2.2.1')
   s.add_development_dependency('simplecov', '~> 0.16', '>= 0.16.1')
   s.add_development_dependency('webmock', '~> 2.1', '>= 2.1.0')
-  s.add_development_dependency('pry-byebug')
 end

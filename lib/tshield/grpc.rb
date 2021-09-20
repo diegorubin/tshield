@@ -4,8 +4,6 @@ require 'grpc'
 
 require 'tshield/configuration'
 require 'tshield/grpc/vcr'
-require 'pry-byebug'
-
 module TShield
   module Grpc
     module RequestHandler
