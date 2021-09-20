@@ -16,7 +16,7 @@ module TShield
 
         TShield.logger.info("request from #{parameters.peer}")
         @session = TShield::Sessions.current(peer)
-        counter = @session[:grpc_counter].current(hexdigest(request))
+        counter = @session ? @session[:grpc_counter].current(hexdigest(request)) : 0
 
         TShield.logger.info("grpc using session #{@session || 'default'}")
         module_name = options['module']
@@ -26,7 +26,7 @@ module TShield
         response = saved_response(path, counter)
         if response
           TShield.logger.info("returning saved rsponse for request #{request.to_json} saved into #{hexdigest(request)}")
-          @session[:grpc_counter].add(hexdigest(request))
+          @session[:grpc_counter].add(hexdigest(request)) if @session
           return response
         end
 
@@ -35,7 +35,7 @@ module TShield
         client_instance = client_class.new(options['hostname'], :this_channel_is_insecure)
         response = client_instance.send(method_name, request)
         save_response(path, response, counter)
-        @session[:grpc_counter].add(hexdigest(request))
+        @session[:grpc_counter].add(hexdigest(request)) if @session
         response
       end
 
