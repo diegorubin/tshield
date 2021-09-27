@@ -13,7 +13,7 @@ module TShield
   module Controllers
     # Requests Handler
     module Requests
-      PATHP = %r{([a-zA-Z0-9/._-]+)}.freeze
+      PATHP = %r{([a-zA-Z0-9/\._-]+)}.freeze
 
       def self.registered(app)
         app.configure :production, :development do
