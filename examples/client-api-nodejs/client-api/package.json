@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "express": "^4.17.1",
     "md5": "^2.2.1",
     "swagger-jsdoc": "^3.2.9",
