@@ -5,7 +5,9 @@ require 'tshield/sessions'
 
 module TShield
   module Grpc
+    # Grpc vcr module
     module VCR
+      # Path file to save grpc request/response
       class FilePath
         attr_reader :path
         attr_reader :count
