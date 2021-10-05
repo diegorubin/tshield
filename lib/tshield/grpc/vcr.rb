@@ -7,10 +7,9 @@ module TShield
   module Grpc
     # Grpc vcr module
     module VCR
-      # Path file to save grpc request/response
+      # Path file to save Grpc request/response
       class FilePath
-        attr_reader :path
-        attr_reader :count
+        attr_reader :path, :count
 
         def initialize(path, count)
           @path = path
