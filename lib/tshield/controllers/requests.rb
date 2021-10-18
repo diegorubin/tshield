@@ -114,7 +114,6 @@ module TShield
           logger.info("Response with delay of #{delay_in_seconds} seconds")
           sleep delay_in_seconds
         end
-
       end
     end
   end

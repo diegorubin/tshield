@@ -4,10 +4,10 @@ require 'httparty'
 require 'rspec'
 require 'grpc'
 
-require_relative './helpers/requests_helpers.rb'
-require_relative './helpers/tshield_helpers.rb'
-require_relative './helpers/users_helpers.rb'
-require_relative './helpers/grpc_helpers.rb'
+require_relative './helpers/requests_helpers'
+require_relative './helpers/tshield_helpers'
+require_relative './helpers/users_helpers'
+require_relative './helpers/grpc_helpers'
 
 # for grpc features
 lib_dir = File.join(Dir.pwd, 'component_tests', 'proto')

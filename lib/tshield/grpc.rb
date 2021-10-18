@@ -4,7 +4,6 @@ require 'grpc'
 
 require 'tshield/configuration'
 require 'tshield/grpc/vcr'
-
 module TShield
   module Grpc
     module RequestHandler
@@ -14,6 +13,7 @@ module TShield
         handler_in_vcr_mode(method_name, request, parameters, options)
       end
     end
+
     def self.run!
       @configuration = TShield::Configuration.singleton.grpc
 
@@ -41,6 +41,7 @@ module TShield
       handlers = []
       number_of_handlers = 0
       services.each do |file, options|
+
         require file
 
         base = Object.const_get("#{options['module']}::Service")
@@ -55,8 +56,7 @@ module TShield
     def self.build_handler(base, descriptions, number_of_handlers, options)
       handler = Class.new(base) do
         class << self
-          attr_writer :options
-          attr_reader :options
+          attr_accessor :options
         end
         descriptions.each do |service_name, description|
           puts description

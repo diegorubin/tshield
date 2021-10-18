@@ -67,7 +67,7 @@ describe TShield::Configuration do
 
     describe 'SO compatibility' do
       it 'should be compatible with windows when configuration is true' do
-        allow(YAML).to receive(:safe_load).and_return({:windows_compatibility => true })
+        allow(YAML).to receive(:safe_load).and_return({ windows_compatibility: true })
         TShield::Configuration.clear
         @configuration = TShield::Configuration.singleton
 
@@ -75,7 +75,7 @@ describe TShield::Configuration do
       end
 
       it 'should be compatible with Unix when configuration is false' do
-        allow(YAML).to receive(:safe_load).and_return({:windows_compatibility => false })
+        allow(YAML).to receive(:safe_load).and_return({ windows_compatibility: false })
         TShield::Configuration.clear
         @configuration = TShield::Configuration.singleton
 
@@ -89,7 +89,6 @@ describe TShield::Configuration do
 
         expect(@configuration.windows_compatibility?).to eq(false)
       end
-
     end
   end
   context 'on config not exist' do
