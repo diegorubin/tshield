@@ -59,7 +59,7 @@ GEM
     ffi (1.15.1)
     formatador (0.2.5)
     gherkin (5.1.0)
-    google-protobuf (3.17.2)
+    google-protobuf (3.19.2)
     googleapis-common-protos-types (1.0.6)
       google-protobuf (~> 3.14)
     grpc (1.38.0)
