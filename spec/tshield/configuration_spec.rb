@@ -61,7 +61,7 @@ describe TShield::Configuration do
       end
 
       it 'return nil if domain not found' do
-        expect(@configuration.get_domain_for('/api/four')).to be_nil
+        expect{@configuration.get_domain_for('/api/four')}.to raise_error(ConfigurationNotFoundError)
       end
     end
 

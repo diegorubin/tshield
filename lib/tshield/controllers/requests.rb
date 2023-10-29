@@ -57,8 +57,6 @@ module TShield
             ip: request.ip
           }
 
-          treat_headers_by_domain(options, path)
-
           if %w[POST PUT PATCH].include? method
             result = request.body.read.encode('UTF-8',
                                               invalid: :replace,
@@ -67,13 +65,21 @@ module TShield
             options[:body] = result
           end
           api_response = TShield::RequestMatching.new(path, options.clone).match_request
-
           unless api_response
-            add_headers(options, path)
+            begin
+              treat_headers_by_domain(options, path)
+              add_headers(options, path)
 
-            api_response ||= TShield::RequestVCR.new(path, options.clone).vcr_response
-            api_response.headers.reject! do |key, _v|
-              configuration.get_excluded_headers(domain(path)).include?(key)
+              api_response ||= TShield::RequestVCR.new(path, options.clone).vcr_response
+              api_response.headers.reject! do |key, _v|
+                configuration.get_excluded_headers(domain(path)).include?(key)
+              end
+            rescue ConfigurationNotFoundError => e
+              logger.error("Error on recover configuration for #{path}")
+
+              status 500
+              body({tshield: e }.to_json)
+              return
             end
           end
 
@@ -110,9 +116,13 @@ module TShield
         end
 
         def delay(path)
-          delay_in_seconds = configuration.get_delay(domain(path), path) || 0
-          logger.info("Response with delay of #{delay_in_seconds} seconds")
-          sleep delay_in_seconds
+          begin
+            delay_in_seconds = configuration.get_delay(domain(path), path) || 0
+            logger.info("Response with delay of #{delay_in_seconds} seconds")
+            sleep delay_in_seconds
+          rescue ConfigurationNotFoundError
+            logger.debug('No delay configured')
+          end
         end
       end
     end

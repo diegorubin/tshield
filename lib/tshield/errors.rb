@@ -2,3 +2,7 @@
 
 class AppendSessionWithoutMainSessionError < RuntimeError
 end
+
+class ConfigurationNotFoundError < RuntimeError
+end
+

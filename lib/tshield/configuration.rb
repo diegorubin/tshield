@@ -2,6 +2,7 @@
 
 require 'yaml'
 
+require 'tshield/errors'
 require 'tshield/after_filter'
 require 'tshield/before_filter'
 require 'tshield/options'
@@ -59,7 +60,7 @@ module TShield
         result = self.class.get_url_for_domain_by_path(path, config)
         return url if result
       end
-      nil
+      raise ConfigurationNotFoundError.new("Domain not found for path #{path}")
     end
 
     def windows_compatibility?
@@ -89,8 +90,12 @@ module TShield
     end
 
     def get_filters(domain)
-      (domains[domain]['filters'] || [])
-        .collect { |filter| Class.const_get(filter) }
+      begin
+        (domains[domain]['filters'] || [])
+          .collect { |filter| Class.const_get(filter) }
+      rescue
+        puts "Error loading filters for domain #{domain}"
+      end
     end
 
     def get_excluded_headers(domain)

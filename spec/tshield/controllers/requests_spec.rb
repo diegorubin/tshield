@@ -47,6 +47,7 @@ describe TShield::Controllers::Requests do
         allow(matched_response).to receive(:headers).and_return({})
         allow(matched_response).to receive(:body).and_return('')
         allow(@mock_logger).to receive(:info)
+        allow(@mock_logger).to receive(:debug)
 
         expect(TShield::Controllers::Helpers::SessionHelpers)
           .to receive(:current_session_call).with(request, '/?a=b', 'GET')
